@@ -1,0 +1,1911 @@
+#+TITLE: Une Configuration Emacs
+
+
+:NOTE:
+;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
+
+Voir le manuel à la section Specifying File Variables pour la définition des variables locales à un buffer sur la première ligne de ce dernier.
+
+Utiliser C-u 1 M-x byte-recompile-directory pour produire des .elc. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
+:END:
+
+#+BEGIN_abstract
+Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[https://julien-montmartin.bitbucket.io/emacs.org][fichier Org]], à partir duquel sont générés une [[https://julien-montmartin.bitbucket.io/index.html][documentation HTML]], ainsi que le [[https://julien-montmartin.bitbucket.io/emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[https://julien-montmartin.bitbucket.io/loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+
+C'est également un essai pour voir ce qu'on peut faire avec [[http://orgmode.org/][Org]]. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à [[http://gongzhitaao.org/orgcss][Zhitao Gong]] pour le CSS qui habille les exports HTML.
+#+END_abstract
+
+#+TOC: headlines 4
+
+* À propos du temps
+
+La fonction ~last-step-duration~, appelée régulièrement, permet de voir comment le temps s'écoule lors du chargement du ~.emacs~. À chaque appel, elle laisse une trace dans le buffer ~*Messages*~ avec le temps écoulé depuis l'appel précédent, ainsi que le temps total écoulé depuis le début du chargement du fichier. Certainement pas un modèle de Lisp, mais remplit son office et aide à comprendre pourquoi Emacs est parfois lent à démarrer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun reset-ts()
+    (setq first-ts (current-time))
+    (setq last-ts first-ts))
+
+  (defun step-duration()
+    (let* ((ts (current-time))
+		   (elapsed (float-time (time-subtract ts last-ts))))
+	  (setq last-ts ts)
+	  elapsed))
+
+  (defun total-duration()
+    (let* ((ts (current-time))
+		   (elapsed (float-time (time-subtract ts first-ts))))
+	  elapsed))
+
+  (defun last-step-duration(title)
+    (message "Τ=%.3fs\tΔ=%.3fs\t%s" (total-duration) (step-duration) title))
+
+  (reset-ts)
+#+END_SRC
+
+Ce code apparait en début de fichier afin d'initialiser une variable globale contenant le /time stamp/ de début de chargement de ce ~.emacs~. Bien que ses appels ne soient pas exportés dans le HTML généré, la fonction ~last-step-duration~ est utilisée régulièrement, à la fin de chaque section. Exemple de trace :
+
+#+BEGIN_EXAMPLE
+Τ=2.516s	Δ=0.016s	Rainbow delimiters
+#+END_EXAMPLE
+
+* Généralités
+
+Désactive l'écran d'accueil, Emacs s'ouvre avec le buffer ~scratch~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq inhibit-startup-screen t)
+#+END_SRC
+
+Affichage du nom du buffer dans la barre de titre
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
+#+END_SRC
+
+Dans le terminal, pas de barre de menu
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless window-system (menu-bar-mode -1))
+#+END_SRC
+
+En mode graphique, cache la barre d'outils
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when window-system (tool-bar-mode -1))
+#+END_SRC
+
+En mode graphique, gouttière réduite à gauche uniquement (nil pour remettre la taille par défaut).
+
+:NOTE:
+Cohabite mal avec ~fill-column-mode~.
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (when window-system (set-fringe-mode '(4 . 0)))
+#+END_SRC
+
+En mode graphique, barre de défilement à droite (-1 pour désactiver)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when window-system (set-scroll-bar-mode 'right))
+#+END_SRC
+
+Un buffer pour lequel Emacs n'a attribué aucun mode majeur s'ouvre en mode texte.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq-default major-mode 'text-mode)
+#+END_SRC
+
+Une ligne de 80 caractères est suffisamment longue. La variable ~default-fill-column~ affecte de nombreuses commandes comme ~fill-paragraph~, ainsi que des modes mineurs comme ~whitespace-mode~. Pour ceux qui le souhaitent, appliquer la règle des 80 colonnes commence par là.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq default-fill-column 80)
+#+END_SRC
+
+Indentation avec des tabulations de 4 caractères
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq-default c-basic-offset 4
+			    tab-width 4
+			    indent-tabs-mode t)
+#+END_SRC
+
+En fin de buffer, les touches flèches ne créent pas une nouvelle ligne
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq-default next-line-add-newlines nil)
+#+END_SRC
+
+Affichage de la ligne et de la colonne du curseur dans la mode line
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (line-number-mode t)
+  (column-number-mode t)
+#+END_SRC
+
+Pour utiliser ~narrow-to-region~ via son raccourci clavier {{{CTRL-(n)}}} {{{KBD-(n)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (put 'narrow-to-region 'disabled nil)
+#+END_SRC
+
+Désactive la transient mark. La région est toujours active, mais pas surlignée. Au besoin, la transient mark est activée le temps d'une commande avec {{{CTRL-(SPC)}}} {{{CTRL-(SPC)}}}. Correspond à l'ancien comportement d'Emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq transient-mark-mode nil)
+#+END_SRC
+
+Dans un environnement graphique, lance Emacs en mode serveur
+
+:NOTE:
+Voir l'opportunité du mode démon si pas d'environnement graphique.
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when window-system (server-start))
+#+END_SRC
+
+Des modules peuvent se trouver dans ~site-lisp~. On ajoute ce répertoire à la variable ~load-path~ afin qu'ils soient trouvés par la commande ~require~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/")
+#+END_SRC
+
+Place les /backups/ (copie d'un fichier avant modifications) et les sauvegardes automatiques (faites périodiquement pendant qu'on édite un fichier) dans un répertoire temporaire, selon la plateforme :
+
+- sur Mac : ~/var/folders/xxx~
+- sur Windows : ~c:/Users/yyy/AppData/Local/Temp~
+- sur Linux : ~/tmp~
+
+L'expression régulière ~".*"~ ci-après indique que la règle concerne tous les fichiers, car on peut faire, par exemple, des règles différentes selon l'extension.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+#+END_SRC
+
+Mise en évidence de la ligne en cours dans Dired
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'dired-mode-hook 'hl-line-mode)
+#+END_SRC
+
+Sur Mac, Dired utilise GNU ~ls~ si disponible
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when (eq system-type 'darwin)
+    (if (file-executable-p "/usr/local/bin/gls")
+	    (setq insert-directory-program "/usr/local/bin/gls")))
+#+END_SRC
+
+Common Lisp, pour ~ignore-errors~ et d'autres
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (require 'cl)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Généralités")
+#+END_SRC
+
+* Raccourcis Fn
+
+Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de Visual Studio ou de Xcode. Lorsqu'il est lancé en mode texte depuis un terminal, Emacs ne voit pas les raccourcis en {{{CTRL-(Fn)}}}. Pour cette raison, ils sont en général doublés sur {{{SHIFT-(Fn)}}}.
+
+- {{{KBD-(F1)}}} pour ~view-mode~, qui permet de passer un buffer qu'on ne veut pas modifier en lecture seule
+- {{{CTRL-(F1)}}} pour ~revert-buffer~, qui permet de revenir à la dernière version sauvegardée du fichier
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; À la place de view-order-manuals qui est normalement sur f1
+  (global-set-key (kbd "<f1>")	'view-mode)
+  (global-set-key (kbd "<C-f1>")	'revert-buffer)
+  (global-set-key (kbd "<S-f1>")	'revert-buffer)
+#+END_SRC
+
+- {{{KBD-(F2)}}} pour ~bm-toggle~, qui insère (ou retire) un marque-page sur la ligne. La ligne marquée est alors surlignée
+- {{{CTRL-(F2)}}} et {{{SHIFT-(F2)}}} pour ~bm-next~ et ~bm-previous~, qui permettent de parcourir les marques-pages
+
+En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pages avec Helm via {{{CTRL-(F2)}}} est plus pratique. Dans tous les cas, ~helm-bm~ est disponible via {{{CTRL-(c)}}} {{{KBD-(b)}}}.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f2>")	'bm-toggle)
+  (global-set-key (kbd "<C-f2>")	'bm-next)
+  (global-set-key (kbd "<S-f2>")	'bm-previous)
+
+  (unless window-system
+    (global-set-key (kbd "<S-f2>")	'helm-bm))
+#+END_SRC
+
+- {{{KBD-(F3)}}} pour ~hl-line-mode~, bien pratique quand on a besoin de se concentrer sur une ligne, ou lorsqu'on doit traiter un buffer une ligne après l'autre.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f3>")	'hl-line-mode)
+#+END_SRC
+
+- {{{KBD-(F4)}}} pour ~projectile-grep~ (ou ~helm-projectile-grep~ si Helm est activé). Si Projectile est disponible pour un projet, permet de chercher interactivement dans les fichiers de ce projet. Vraiment très utile ! Fonctionne particulièrement bien avec {{{CTRL-(c)}}} {{{KBD-(h)}}} {{{KBD-(b)}}}, qui comme toujours avec Helm, permet de ramener les dernières propositions...
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f4>")	'projectile-grep)
+#+END_SRC
+
+- {{{KBD-(F5)}}} pour ~run-compilation~, fonction perso qui sauvegarde l'agencement des buffers affichés avant de lancer une compilation
+- {{{CTRL-(F5)}}} pour ~end-compilation~, qui met fin à une session de compilation et restaure l'affichage
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f5>")	'run-compilation)
+  (global-set-key (kbd "<C-f5>")	'end-compilation)
+  (global-set-key (kbd "<S-f5>")	'end-compilation)
+#+END_SRC
+
+- {{{KBD-(F6)}}} pour ~projectile-multi-occur~, qui lance ~occur~ dans tous les buffers ouverts appartenant au projet du buffer courant
+- {{{CTRL-(F6)}}} pour ~helm-occur~, qui lance une version interactive depuis Helm de ~occur~ : La liste des correspondances est construite dynamiquement lors de la frappe, et à tout moment {{{KBD-(↑)}}} et {{{KBD-(↓)}}} permettent d'en sélectionner une, pour laquelle {{{KBD-(TAB)}}} donnera un aperçu.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f6>")	'projectile-multi-occur)
+  (global-set-key (kbd "<C-f6>")	'helm-occur)
+  (global-set-key (kbd "<S-f6>")	'helm-occur)
+#+END_SRC
+
+- {{{KBD-(F8)}}} pour [[*Fill column indicator]], qui met en évidence la colonne 80 dans les modes de développement.
+- {{{CTRL-(F8)}}} pour désactiver (ou réactiver) [[*Whitespace]] lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "<f8>")	'fci-mode)
+  (global-set-key (kbd "<C-f8>")	'whitespace-mode)
+  (global-set-key (kbd "<S-f8>")	'whitespace-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Raccourcis Fn")
+#+END_SRC
+
+* UTF-8
+
+Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple [[https://stackoverflow.com/a/2903256][cette réponse]] sur Stack Overflow). Mais la simple directive ~set-language-environment~ réalise un paramétrage par défaut satisfaisant.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-language-environment 'utf-8)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "UTF-8")
+#+END_SRC
+
+* Navigation dans les buffers
+
+Lorsqu'on navigue dans les buffers, on préfère sauter les buffers ouverts automatiquement par Dired, Helm, ou autre, comme ~*compilation*~ par exemple. On définit pour cela la fonction ~navigate-nostar-buffer~, qui cherche le prochain buffer ne commençant pas par ~*~ (ou le précédent si appelé avec un argument).
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun navigate-nostar-buffer (&optional previous)
+    "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
+    (let ((start-buffer (buffer-name)))
+	  (cl-flet ((next-f () (if previous (next-buffer) (previous-buffer))))
+	    (next-f)
+	    (while
+		    (and (string-match-p "^\*" (buffer-name))
+			     (not (equal start-buffer (buffer-name))))
+		  (next-f)))))
+
+  (defun navigate-next-nostar-buffer ()
+    "Navigate to next \"no star\" buffer."
+    (interactive)
+    (navigate-nostar-buffer))
+
+  (defun navigate-previous-nostar-buffer ()
+    "Navigate to previous \"no star\" buffer."
+    (interactive)
+    (navigate-nostar-buffer t))
+#+END_SRC
+
+Puis on utilise [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Remapping-Commands.html][~remap~]] pour réaffecter les raccourcis de ~next-buffer~ et ~previous-buffer~, {{{CTRL-(x)}}} {{{KBD-(←)}}} et {{{CTRL-(x)}}} {{{KBD-(→)}}} respectivement.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key [remap next-buffer] 'navigate-next-nostar-buffer)
+  (global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Navigation dans les buffers")
+#+END_SRC
+
+* Compilation
+
+Définit ~run-compilation~ et ~end-compilation~ qui sauvegardent et restaurent l'affichage des buffers lors d'une séance de compilation : Si l'on doit faire plusieurs allers / retours entre le buffer de compilation et les sources, pour comprendre et corriger les erreurs, on peut ensuite restaurer son environnement de travail.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun get-compilation-buffer ()
+    "Get the compilation buffer, or nil if it does not exist."
+    ;; Voir aussi `compilation-buffer-name-function'
+    (car (cl-remove-if-not
+		  (lambda (b)
+		    (equal "*compilation*" (buffer-name b)))
+		  (buffer-list))))
+
+  (defun get-compilation-layout-register ()
+    "Returns the register used to save the layout before compilation,
+  and restore it later."
+    (message "get-compilation-layout-register ()")
+    ;; It seems we can use more than one letter register !
+    'comp-layout-reg)
+
+  (defun start-new-compilation ()
+    "Prompt for command and run a new compilation"
+    ;; Passer en plein écran
+    ;; (let ((current-prefix-arg '(4)))	; C-u
+    ;; (call-interactively 'compile)))
+    (call-interactively 'compile))
+
+  (defun return-to-compilation ()
+    "Get compilation buffer back in full screen"
+    ;; Relancer la compil automatiquement ?
+    (switch-to-buffer (get-compilation-buffer))
+    (delete-other-windows))
+
+  (setq ongoing-compilation-session nil)
+
+  (defun start-compilation-session ()
+    "Save layout and start a new compilation session"
+    (frame-configuration-to-register (get-compilation-layout-register))
+    (start-new-compilation)
+    (setq ongoing-compilation-session t))
+
+  (defun end-compilation-session ()
+    "Restore pre-compilation layout and terminate compilation session"
+    ;; Supprimer le buffer de compil ?
+    (setq ongoing-compilation-session nil)
+    (jump-to-register (get-compilation-layout-register)))
+
+  (defun run-compilation ()
+    "Start new compilation session or restore an old one"
+    (interactive)
+    (if (and ongoing-compilation-session (get-compilation-buffer))
+	    (return-to-compilation)
+	  (start-compilation-session)))
+
+  (defun end-compilation ()
+    "Terminate a compilation session"
+    (interactive)
+    (if ongoing-compilation-session
+	    (end-compilation-session)))
+#+END_SRC
+
+Le buffer ~*compilation*~ défile jusqu'à la première erreur
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq compilation-scroll-output 'first-error)
+#+END_SRC
+
+Dans ce buffer, un clic sur une erreur emmène dans les sources, et {{{KBD-(g)}}} permet de relancer une nouvelle compilation.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Compilation")
+#+END_SRC
+
+* Copier/coller
+
+Le bouton du milieu colle le texte au niveau du point, sans le déplacer
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mouse-yank-at-point t)
+#+END_SRC
+
+Lorsqu'on copie depuis Emacs alors qu'une autre application avait placé du texte dans le presse-papier, ce texte est ajouté au kill ring avant d'être remplacé. Très pratique, car cela évite de perdre du texte copié, par exemple depuis internet, avant d'avoir eu le temps de l'utiliser.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq save-interprogram-paste-before-kill t)
+#+END_SRC
+
+Le texte surligné est automatiquement copié dans le kill ring
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mouse-drag-copy-region t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Copier/coller")
+#+END_SRC
+
+* Parenthèses et Cie
+
+Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière une parenthèse fermante, la paire de parenthèses est surlignée. De même avec les accolades et les crochets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (show-paren-mode 1)
+#+END_SRC
+
+Éventuellement, si on veut surligner également l'expression entre parenthèses
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq show-paren-style 'expression)
+#+END_SRC
+
+Les parenthèses sont surlignées en bleu. Voir aussi [[*Rainbow delimiters]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-face-background 'show-paren-match "#b5d5ff")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Parenthèses et Cie")
+#+END_SRC
+
+* Suggestions
+
+J'ai beaucoup utilisé (et apprécié) ~iswitchb-mode~, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par ~icomplete-mode~, mais ce n'était convaincant, si bien que j'utilise maintenant [[*Helm]]. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à ~iswitchb-mode~.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (icomplete-mode)
+#+END_SRC
+
+Suggère les buffers sur un {{{CTRL-(x)}}} {{{KBD-(b)}}} avant qu'on commence à taper
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq icomplete-show-matches-on-no-input t)
+#+END_SRC
+
+Ignore la casse lorsqu'on demande à compléter avec {{{KBD-(TAB)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq read-buffer-completion-ignore-case t)
+#+END_SRC
+
+Met en évidence dans le minibuffer le candidat qui pourrait être sélectionné
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (copy-face 'minibuffer-prompt 'icomplete-first-match)
+#+END_SRC
+
+Contourne les problèmes liés au buffer par défaut. En particulier, prend le premier élément de la liste, sélectionné avec {{{CTRL-(s)}}} et {{{CTRL-(r)}}}, sans qu'on ait commencé à saisir le nom d'un buffer. Voir réouverture du bug [[http://lists.gnu.org/archive/html/emacs-devel/2015-05/msg00473.html][#17545]].
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defun my-icomplete-forward-completions ()
+    "Step forward completions by one entry."
+    (interactive)
+    (progn (setq minibuffer-default nil)
+           (icomplete-forward-completions)))
+
+  (defun my-icomplete-backward-completions ()
+    "Step backward completions by one entry."
+    (interactive)
+    (progn (setq minibuffer-default nil)
+		   (icomplete-backward-completions)))
+
+  (defun my-minibuffer-force-complete-and-exit ()
+    "Select the current completion."
+    (interactive)
+    (progn (setq minibuffer-default nil)
+		   (minibuffer-force-complete-and-exit)))
+
+  ;;Configure des raccourcis ressemblant à ceux de iswitchb
+  (when (boundp 'icomplete-minibuffer-map)
+    (let ((map icomplete-minibuffer-map))
+	  (define-key map (kbd "C-s") 'my-icomplete-forward-completions)
+	  (define-key map (kbd "C-r") 'my-icomplete-backward-completions)
+	  (define-key map (kbd "<C-j>") 'my-minibuffer-force-complete-and-exit)
+	  (define-key map (kbd "<C-return>") 'my-minibuffer-force-complete-and-exit)
+	  ))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  (last-step-duration "Suggestions")
+#+END_SRC
+
+* Mise à jour du path
+
+C'est parfois utile d'enrichir un peu le path utilisé par Emacs. Il y a en fait plusieurs chemins, dont ces deux variables :
+
+- ~exec-path~, qui est le path utilisé par Emacs pour chercher les binaires
+- ~PATH~, qui est le path transmis aux commandes lancées par Emacs
+
+Pour ma part je les traite ensembles, avec la fonction ~add-to-exec-paths~, qui
+ajoute (s'il existe) à la fin des deux paths le répertoire passé en argument :
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; TODO - Filtrer les doublons
+  (defun add-to-exec-paths(some-folder)
+    (interactive)
+    (cond
+     ((file-exists-p some-folder)
+	  (add-to-list 'exec-path some-folder)
+	  ;;(message "exec-path=%s" exec-path)
+	  (setenv "PATH" (concat (getenv "PATH") ":" some-folder))
+	  ;;(message "PATH=%s" (getenv "PATH"))
+	  (message "Added '%s' to PATH and exec-path" some-folder))))
+#+END_SRC
+
+Reste à ajouter quelques répertoires, selon ses habitudes...
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-exec-paths "~/scripts")
+  (add-to-exec-paths "~/local/bin")
+  (add-to-exec-paths "/usr/bin")
+  (add-to-exec-paths "/usr/local/bin")
+  (add-to-exec-paths "/opt/local/bin")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Maj du path")
+#+END_SRC
+
+* Valorisation du proxy
+
+On cherche d'abord le proxy dans le fichier de configuration ~~/.emacs.d/proxy.el~ :
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq my-proxy ())
+
+  (if (file-exists-p "~/.emacs.d/proxy.el")
+	  (progn
+	    (load-file "~/.emacs.d/proxy.el")))
+#+END_SRC
+
+Si ce fichier existe, il contient une simple ligne, telle que :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq my-proxy 'proxy.mon.domaine.fr:80)
+#+END_SRC
+
+Si l'on ne l'a pas trouvé, on cherche dans l'environnement la variable ~http_proxy~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless my-proxy (setq my-proxy (getenv "http_proxy")))
+#+END_SRC
+
+On valorise correctement ~url-proxy-services~ et on affiche le proxy utilisé
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (if my-proxy
+	  (progn
+	    (setq url-proxy-services (list (cons "http" (symbol-name my-proxy))))
+	    (message "Set HTTP proxy to '%s'" my-proxy)))
+#+END_SRC
+
+Voir la doc d'[[http://www.emacswiki.org/emacs/UrlPackage#toc6][Url Package]] sur EmacsWiki pour plus d'infos sur les proxys.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Valorisation du proxy")
+#+END_SRC
+
+* Ajustements à l'OS
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (cond
+#+END_SRC
+
+Selon la plateforme, on effectue quelques ajustements, en particulier sur les polices de caractères.
+
+** Sous Linux
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  ((string-match "linux" system-configuration)
+   (progn
+     (message "Tweak Emacs for Linux")
+#+END_SRC
+
+Fonte du terminal Xfce
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-default-font "Liberation Mono 10")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  ))
+#+END_SRC
+
+** Sous Mac
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  ((string-match "apple" system-configuration)
+   (progn
+     (message "Tweak Emacs for Mac")
+#+END_SRC
+
+Réaffectation des touches à problèmes sur Mac :
+- {{{KBD-(cmd)}}} devient {{{KBD-(meta)}}}
+- {{{KBD-(alt)}}} permet les raccourcis pour {{{KBD-(|)}}}, {{{KBD-(~)}}} et cie.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mac-option-key-is-meta nil)
+  (setq mac-command-key-is-meta t)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil)
+#+END_SRC
+
+Fonte Xcode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-face-font
+   'menu "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
+  (set-face-font
+   'default "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Ajustements à l'OS")
+#+END_SRC
+
+* Require
+
+Un wrapper pour ~require~, qui n'empêche pas le chargement du ~.emacs~ lorsqu'un module n'est pas disponible, et génère des traces dans ~*Messages*~, avec en cas de succès, le temps passé par Emacs pour charger le module.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun my-require(feature)
+    (condition-case nil
+	    (let ((ts (current-time)))
+		  (progn
+		    (require feature)
+		    (let ((elapsed (float-time (time-subtract (current-time) ts))))
+			  (message "Successfully load '%s' in %.3fs" feature elapsed))))
+	  (file-error
+	   (progn (message "Fail to load required feature '%s'" feature) nil))))
+#+END_SRC
+
+Il s'utilise ainsi :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (when (my-require 'package-xxx)
+    (message "Do foo")
+    (message "Do bar")
+    (message "Do baz"))
+#+END_SRC
+
+~my-require~ est largement utilisé dans la suite de ce fichier, mais afin de ne pas avoir partout un niveau d'indentation, le ~when~ est sous-entendu, et n'est pas exporté dans le HTML. Le code apparait donc ainsi :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (my-require 'package-xxx)
+  (message "Do foo")
+  (message "Do bar")
+  (message "Do baz")
+#+END_SRC
+
+C'est-à-dire comme avec un ~require~ classique. Exemple de traces :
+
+#+BEGIN_EXAMPLE
+Fail to load required feature ’p4’
+Successfully load ’rainbow-mode’ in 0.031s
+#+END_EXAMPLE
+
+On peut aussi utiliser le /soft require/, qui ne génère pas d'erreur quand le module n'est pas trouvé :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (require 'package-foobar nil t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Require")
+#+END_SRC
+
+* Gestionnaire de paquets
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Charge le gestionnaire de paquets
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'package)
+#+END_SRC
+
+On peut ensuite ajouter des sources de paquets, qui viendront alimenter la liste affichée par ~package-list-packages~.
+
+Milkypostman’s Emacs Lisp Package Archive ([[http://melpa.org][MELPA]]), une source de paquets à avoir, la seule que j'ajoute systématiquement.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'package-archives
+               '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+#+END_SRC
+
+En cas de problème avec les paquets, on peut supprimer le répertoire où tout est installé : ~~/.emacs.d/elpa/archives/melpa/archive-contents~.
+
+[[https://marmalade-repo.org][Marmelade]] une autre source de paquets intéressante, moins dynamique que Melpa ces derniers temps, mais avec avec un système de validation différent.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'package-archives
+               '("Marmalade" . "http://marmalade-repo.org/packages/") t)
+#+END_SRC
+
+GNU Emacs Lisp Package Archive ([[http://elpa.gnu.org][ELPA]]) est la source de paquets officielle d'Emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'package-archives
+               '("GNU" . "http://elpa.gnu.org/packages/") t)
+#+END_SRC
+
+[[http://orgmode.org][Org]] dispose également de sa propre source, pour ceux qui veulent garder très à jour ce paquet majeur.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-to-list 'package-archives
+               '("Org" . "http://orgmode.org/elpa/") t)
+#+END_SRC
+
+Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser ~helm-list-elisp-packages~ via {{{CTRL-(c)}}} {{{KBD-(h)}}} {{{KBD-(@)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (package-initialize)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Gestionnaire de paquets")
+#+END_SRC
+
+* TabTab minor mode
+
+Une tentative pour changer le comportement de la touche {{{KBD-(TAB)}}} dans les fichiers CMake :
+- {{{KBD-(TAB)}}} ne sert plus à indenter la ligne, mais aligne le texte sur le prochain arrêt de tabulation
+- {{{SHIFT-(TAB)}}} remplit la fonction opposée, et aligne le texte sur l'arrêt de tabulation précédent
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun prev-tab-to-tab-stop ()
+    "Remove spaces or tabs to next defined tab-stop column."
+    (interactive)
+    (and abbrev-mode (= (char-syntax (preceding-char)) ?w)
+	     (expand-abbrev))
+    (let ((nexttab (indent-next-tab-stop (current-column) t)))
+	  (delete-horizontal-space t)
+	  (indent-to nexttab)))
+
+  (define-minor-mode tab-tab-mode
+    "Tab-to-tab in both directions"
+    :lighter " TTm"
+    :keymap (let ((map (make-sparse-keymap)))
+			  (define-key map (kbd "<tab>") 'tab-to-tab-stop)
+			  (define-key map (kbd "<S-tab>") 'prev-tab-to-tab-stop)
+			  map))
+
+  (add-hook 'cmake-mode-hook 'tab-tab-mode)
+#+END_SRC
+
+Cependant ça ne fonctionne pas très bien, car ~cmake-mode~ n'a pas l'air de prendre en compte la /key-map/. Et d'ailleurs si l'on tente d'installer les raccourcis avec un hook, ça ne fonctionne pas non plus...
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-hook 'cmake-mode-hook (local-set-key (kbd "<tab>") 'tab-to-tab-stop))
+#+END_SRC
+
+À creuser donc. Voir [[http://nullprogram.com/blog/2013/02/06][How to Make an Emacs Minor Mode]] pour un tutoriel clair et bien fait.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "TabTab minor mode")
+#+END_SRC
+
+* Auto Complete
+
+:NOTE:
+Voir intégration ou remplacement par Helm
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Auto Complete présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'auto-complete-config)
+#+END_SRC
+
+Les choix proposés proviennent d'un certain nombre de sources ; on utilise les sources par défaut, vérifiables avec {{{META-(:)}}} ~ac-sources~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (ac-config-default)
+#+END_SRC
+
+Auto Complete ne s'active pas automatiquement dans tous les modes, mais seulement dans ceux listés dans ~ac-modes~. Cette liste contient par défaut la majorité des modes où Auto Complete est intéressant, mais on peut quand même rajouter quelques uns :
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'ac-modes 'cmake-mode)
+  (add-to-list 'ac-modes 'org-mode)
+  (add-to-list 'ac-modes 'text-mode)
+#+END_SRC
+
+Active Auto Complete dans tous les modes sélectionnés
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-auto-complete-mode t)
+#+END_SRC
+
+Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habituel {{{META-(/)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq ac-auto-start nil)
+  (global-set-key "\M-/" 'auto-complete))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Auto Complete")
+#+END_SRC
+
+* Bookmarks
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Marque-pages à la Visual Studio : la ligne marquée est surlignée, et l'on peut ensuite naviguer d'un marque-page à l'autre. Beaucoup d'autres fonctionnalités très pratiques comme mettre les marque-pages automatiquement avec une expression régulière, par exemple pour explorer des logs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'bm)
+#+END_SRC
+
+On parcourt avec ~bm-next~ et ~bm-previous~ l'ensemble des marque-pages de tous les buffers, et pas juste ceux du buffer courant.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq bm-cycle-all-buffers t)
+#+END_SRC
+
+On surligne les lignes marquées en fuchsia, comme avec un coup de Stabilo !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (custom-set-faces
+   '(bm-face ((t (:background "#ffafff")))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Bookmarks")
+#+END_SRC
+
+* C & C++
+
+Accolades ouvrantes alignées sous le mot clé
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (c-set-offset (quote substatement-open) 0)
+#+END_SRC
+
+Ouvre les .h comme du C++, et non comme du C
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "C & C++")
+#+END_SRC
+
+* Column Marker
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  (when
+#+END_SRC
+
+Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que [[* Fill column indicator]], mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (my-require 'column-marker)
+#+END_SRC
+
+Si l'on est dans un mode de programmation, surligne le caractère tombant après la 80^e colonne.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (require 'column-marker)
+  (add-hook 'prog-mode-hook
+			(lambda () (interactive) (column-marker-1 80)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Column Marker")
+#+END_SRC
+
+* CMake
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Le mode majeur pour éditer les fichiers CMake. Perfectible à mon avis, mais utile quand même. Plus d'informations sur le [[http://www.cmake.org/Wiki/CMake/Editors/Emacs][wiki]] de Kitware dédié à CMake.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'cmake-mode)
+#+END_SRC
+
+Les fichiers CMake habituels s'ouvrent avec ~cmake-mode~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq auto-mode-alist
+        (append '(("CMakeLists\\.txt\\'" . cmake-mode))
+                '(("\\.cmake\\'" . cmake-mode))
+                auto-mode-alist))
+#+END_SRC
+
+Pas d'indentation automatique, en particulier après {{{KBD-(Enter)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "CMake")
+#+END_SRC
+
+* DTrace
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Un mode majeur pour DTrace, très bel outil d'instrumentation et d'analyse issu de Sun, à l'avenir bien incertain. Il reste utile sur macOS puisqu'il est derrière [[https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide][Instruments]]. Plus d'infos sur le [[http://dtrace.org/blogs/ahl/tag/dtrace][blog]] de l'un de ses auteurs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'dtrace-script-mode)
+#+END_SRC
+
+Les fichiers ~.d~ sont des scripts DTrace et s'ouvrent avec ~dtrace-script-mode~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq auto-mode-alist
+        (append '(("\\.d\\'" . dtrace-script-mode))
+                auto-mode-alist))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "DTrace")
+#+END_SRC
+
+* EasyPG Assistant
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Une interface à GnuPG pour Emacs, qui permet entre autres de manipuler des fichiers cryptés. GnuPG doit être installé et configuré sur la machine.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'epa-file)
+#+END_SRC
+
+Rend transparent la lecture et l'écriture des fichiers ~.gpg~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (epa-file-enable)
+#+END_SRC
+
+Indique à EasyPG une clé par défaut, afin qu'il ne pose pas la question à chaque sauvegarde d'un fichier. Je vous laisse mettre la vôtre !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq epa-file-encrypt-to "julien.montmartin@fastmail.fm")
+#+END_SRC
+
+Fonctionne bien aussi dans une variable en début de fichier :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  -*- epa-file-encrypt-to: ("julien.montmartin@fastmail.fm") -*-
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "EasyPG Assistant")
+#+END_SRC
+
+* Ediff
+
+Un mode très pratique pour gérer les diffs.
+
+Les fichiers à comparer sont ouverts cote à cote, et non pas l'un en dessous de l'autre. On aurait presque envie de dire que la fenêtre est partagée verticalement, mais pour une obscure raison, la fonction concernée s'appelle au contraire ~split-window-horizontally~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq ediff-split-window-function 'split-window-horizontally)
+#+END_SRC
+
+Ediff n'ouvre pas de nouvelle fenêtre, tout se passe dans la fenêtre courante, en mode graphique comme en mode texte.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Ediff")
+#+END_SRC
+
+* Find File At Point
+
+Sur un {{{CTRL-(x)}}} {{{CTRL-(f)}}} FFAP essaie de deviner le fichier à ouvrir en fonction du texte sous le curseur, ce qui fonctionne avec les includes par exemple.
+
+Active FFAP et remplace quelques raccourcis comme {{{CTRL-(x)}}} {{{CTRL-(f)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (ffap-bindings)
+#+END_SRC
+
+Avant [[*Projectile]], FFAP était très pratique pour passer d'un ~.h~ à un ~.cpp~. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
+
+J'utilisais {{{CTRL-(t)}}} (avec un 't' comme /toggle/) pour basculer entre source et entête, mais je réserve maintenant ce raccourci pour ~'projectile-find-other-file~, plus efficace dès lors qu'on a un dépôt qui puisse faire office de projet.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (global-set-key (kbd "C-t") (quote ff-find-other-file))
+#+END_SRC
+
+Ajoute quelques chemins usuels pour trouver les sources et les entêtes
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq ff-search-directories
+        '("." ".."
+          "./src" "./include"
+          "../src" "../include"
+          "../src/*"  "../include/*"
+          "../../src" "../../include"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Find File At Point")
+#+END_SRC
+
+* Fill column indicator
+
+Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés :
+
+- casse les menus d'~auto-complete~
+- casse l'export HTML des fichiers Org
+- copie-colle des pipes depuis le terminal
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  (when
+#+END_SRC
+
+Avoir besoin de ~fci-mode~, c'est devoir choisir entre la peste et le choléra (n'ayons pas peur des mots !).
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'fill-column-indicator)
+#+END_SRC
+
+Matérialise la colonne 80
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq-default fci-rule-column 80)
+#+END_SRC
+
+Active FCI dans tous les modes de développement
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-hook 'prog-mode-hook 'fci-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no :exports none
+  (last-step-duration "Fill column indicator")
+#+END_SRC
+
+* Global
+
+Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (autoload 'gtags-mode "gtags" "" t)
+#+END_SRC
+
+Reprend les raccourcis usuels d'Etags:
+
+- {{{META-(.)}}} pour aller à la définition d'un symbole
+- {{{META-(*)}}} pour revenir d'où on vient
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key "\M-." 'gtags-find-tag)
+  (global-set-key "\M-*" 'gtags-pop-stack)
+#+END_SRC
+
+Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très bien avec C++, et nécessite en plus d'être configuré et périodiquement relancé... Il se trouve que ~helm-projectile-grep~ fonctionne tellement bien, que je n'utilise presque plus que ça pour naviguer dans les projets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Global")
+#+END_SRC
+
+* Graphviz
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à [[*Org]], ce qui ne gâche rien !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'graphviz-dot-mode)
+#+END_SRC
+
+Pour effectuer un rendu depuis Emacs avec {{{CTRL-(c)}}} {{{KBD-(v)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (define-key graphviz-dot-mode-map (kbd "C-c v") 'graphviz-dot-preview)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Graphviz")
+#+END_SRC
+
+* Helm
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+[[https://github.com/emacs-helm/helm/wiki][Helm]] - Un framework plus qu'un simple module, de suggestion et d'aide à la sélection. S'appliquera bientôt à tous les aspects d'Emacs. Beaucoup plus intrusif que son principal concurrent, [[https://www.emacswiki.org/emacs/InteractivelyDoThings][Ido]], il change radicalement l'expérience utilisateur, et j'ai mis du temps à sauter le pas. Si ce n'est pas déjà fait, je vous encourage à faire de même ! En plus du nombre incroyable de fonctionnalités simplifiées et enrichies, Helm favorise la découverte et l'exploration d'Emacs. Que du bon en fin de compte !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'helm)
+#+END_SRC
+
+Pas nécessaire d'après la doc, mais certaines versions fonctionnent mieux avec !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (require 'helm-config)
+#+END_SRC
+
+Préfixe pour les commandes Helm, remplace {{{CTRL-(x)}}} {{{KBD-(c)}}} (à faire avant que Helm ne soit chargé)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (global-unset-key (kbd "C-x c"))
+#+END_SRC
+
+Le traditionnel {{{META-(x)}}} appelle la version Helm de ~execute-extended-command~. Beaucoup de raccourcis appellent des commandes ainsi redéfinies. En particulier :
+
+- {{{CTRL-(x)}}} {{{CTRL-(f)}}} permet parcourir et sélectionner les fichiers avec ~helm-find-files~
+- {{{CTRL-(x)}}} {{{KBD-(r)}}} {{{KBD-(b)}}} permet de parcourir et sélectionner ses marque-pages avec ~helm-filtered-bookmarks~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+#+END_SRC
+
+Dans un buffer Helm, {{{KBD-(TAB)}}} essaye de compléter ce qui peut l'être
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+#+END_SRC
+
+Pour lister les actions, à la place de {{{KBD-(TAB)}}}
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (define-key helm-map (kbd "C-z")  'helm-select-action)
+#+END_SRC
+
+Dans un chemin, sélectionne immédiatement un répertoire dès lors qu'il est le seul à correspondre à la saisie
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq helm-ff-auto-update-initial-value t)
+#+END_SRC
+
+S'il est disponible, on utilise cURL pour télécharger des données
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when (executable-find "curl")
+    (setq helm-net-prefer-curl t))
+#+END_SRC
+
+Ouvre le buffer Helm en partageant le buffer courant (partage horizontal)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq helm-split-window-in-side-p t)
+#+END_SRC
+
+Quand on arrive à la fin des candidats, on boucle et on retourne au début
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq helm-move-to-line-cycle-in-source t)
+#+END_SRC
+
+:NOTE:
+Garder ça ?
+(setq helm-ff-search-library-in-sexp t)
+(setq helm-scroll-amount 8)
+(setq helm-ff-file-name-history-use-recentf t)
+
+Essayer ça ?
+ - helm-ls-git
+ - helm-ls-hg
+ - helm-descbinds
+ - helm-firefox
+:END:
+
+Une couleur plus discrète pour les répertoires ~.~ et ~..~. La couleur par défaut est trop foncée : Elle donne l'impression qu'ils sont toujours sélectionnés quand on préfèrerait au contraire moins les voir.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (custom-set-faces
+   '(helm-ff-dotted-directory ((t (:foreground "DimGrey")))))
+#+END_SRC
+
+Finalement, on active Helm
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (helm-mode t)
+#+END_SRC
+
+Pour plus de lecture, voir cette introduction à Helm : [[http://tuhdo.github.io/helm-intro.html][A Package in a league of its own]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Helm")
+#+END_SRC
+
+* Htmlize
+
+Ce paquet définit ~htmlize-buffer~, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si [[*Org]], avec ses blocs ~#+BEGIN_SRC~ et ~#+END_SRC~, offre souvent une bonne alternative.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'htmlize)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Htmlize")
+#+END_SRC
+
+* Idle HighLight Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Après un petit temps d'inactivité, surligne toutes les occurrences du mot se trouvant sous le curseur. Notepad++ fait cela par défaut. Très pratique pour voir où un symbole est utilisé, et repérer les fautes de frappe.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'idle-highlight-mode)
+#+END_SRC
+
+Ce mode mineur est activé dans tous les modes de développement.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook (lambda () (idle-highlight-mode t)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Idle HighLight Mode")
+#+END_SRC
+
+* Emacs Lisp
+
+Dans les contextes où il y a du Lisp, on affiche les éventuelles informations disponibles sur une fonction ou une variable dans la zone d'écho, c.à.d à l'emplacement du minibuffer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+  (add-hook 'ielm-mode-hook 'eldoc-mode)
+#+END_SRC
+
+IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'un Read-Eval-Print-Loop comme en ont la plupart des langages interprétés. Une très courte introduction dans ce billet [[http://emacs-fu.blogspot.fr/2011/03/ielm-repl-for-emacs.html][IELM: a REPL for emacs]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Lisp")
+#+END_SRC
+
+* Magit
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'magit)
+#+END_SRC
+
+La plupart des opérations dans Magit commencent par le buffer ~status~ accessible par le raccourci {{{CTRL-(x)}}} {{{KBD-(g)}}}.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Magit")
+#+END_SRC
+
+* MMM Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Permet de faire cohabiter plusieurs modes majeurs dans un même buffer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'mmm-auto)
+#+END_SRC
+
+Reparse un buffer qui a été modifié dès qu'Emacs a un peu de temps
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mmm-parse-when-idle t)
+#+END_SRC
+
+Ce mode n'est pas activé automatiquement, mais uniquement dans les buffer pour lesquels on va définir une règle de sous mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mmm-global-mode 'sometimes)
+#+END_SRC
+
+Définit la règle here-doc qui active le mode ~shell-script-mode~ entre les motifs ~<<EOF~ et ~^EOF~, qui délimitent habituellement un /here document/
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (mmm-add-classes
+   '((here-doc
+      :submode shell-script-mode
+      :front "<<EOF"
+      :back "^EOF")))
+#+END_SRC
+
+La règle here-doc est activée dans les buffers qui sont dans le très élémentaire mode ~text-mode~ (sans critère d'extension)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (mmm-add-mode-ext-class 'text-mode nil 'here-doc)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "MMM Mode")
+#+END_SRC
+
+* Org
+
+Un autre mode exceptionnel. Au départ un /outliner/, puis un outil de publication avec environnement de /literate programming/, mais aussi de GTD, de suivi de temps, un agenda, etc.
+
+Les lignes ne sont pas tronquées. Plus pratique comme ça, tant pis pour les tableaux !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-startup-truncated nil)
+#+END_SRC
+
+Les lignes sont indentées selon leur profondeur dans l'arborescence
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-startup-indented t)
+#+END_SRC
+
+On veut la mise en évidence de syntaxe dans les blocs de code
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-src-fontify-natively t)
+#+END_SRC
+
+Les blocs de code sont évalués sans demande de confirmation, ainsi que les liens spéciaux qui exécutent du shell ou du Lisp
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-confirm-babel-evaluate nil)
+(setq org-confirm-shell-link-function nil)
+(setq org-confirm-elisp-link-function nil)
+#+END_SRC
+
+Sauf indication contraire, les éléments de texte générés par Org sont en français
+
+#+Begin_SRC emacs-lisp :tangle yes
+  (setq org-export-default-language "fr")
+#+END_SRC
+
+À l'export, on se contente de trois niveaux de titres, et au-delà, on fait des listes
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-export-headline-levels 3)
+#+END_SRC
+
+À l'export, on ne veut pas qu'Org ajoute un auteur (valorisé avec le nom de l'utilisateur)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-export-with-author nil)
+#+END_SRC
+
+À l'export, on ne veut pas que les titres des sections soient numérotés
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-export-with-section-numbers nil)
+#+END_SRC
+
+** Mise à jour
+
+La dernière version d'Org n'est en général pas celle qui est livrée avec Emacs. Il faut la mettre à jour avec le gestionnaire de paquets. Pour une raison que j'ignore, Org n'est pas listé comme /built-in/, mais quand on l'installe manuellement, le gestionnaire de paquet indique bien "shadowing a built-in package".
+
+Ensuite, en cas de bug suspect, il se peut qu'il faille supprimer les fichiers lisp précompilés se trouvant dans ~~/.emacs.d/elpa/org-x.y.z~, relancer Emacs, puis les générer à nouveau avec ~byte-recompile-directory~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Org Mode")
+#+END_SRC
+
+* Perforce
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Permet d'utiliser Perforce depuis Emacs, principalement pour sortir des fichiers. Conventionnellement, les fichiers sont en lecture seule. Lorsqu'il les sort, Perforce les passe en lecture / écriture.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'p4)
+#+END_SRC
+
+Le client Perforce en ligne de commande doit être correctement configuré. Le fichier caché ~.P4CONFIG~ contient les informations de connexion.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setenv "P4CONFIG" ".P4CONFIG")
+#+END_SRC
+
+Lorsqu'elle doit sortir un fichier, la commande Perforce cherche les informations de connexion dans le répertoire du fichier, puis dans son répertoire parent, etc. Jusqu'à la racine. Un bon endroit pour placer le fichier ~.P4CONFIG~ est donc la racine du dépôt Perforce.
+
+Ce fichier contient par exemple les informations de connexion suivantes :
+
+#+BEGIN_EXAMPLE
+P4PASSWD=xxxxxxxx
+P4CLIENT=precise-dell-jmo
+P4USER=julien.montmartin
+P4PORT=srv-sources:1666
+#+END_EXAMPLE
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Perforce")
+#+END_SRC
+
+* Projectile
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Un module qui fournit une fonctionnalité bien pratique : regrouper les fichiers d'un même projet. Lorsqu'on ouvre un fichier, Projectile cherche un dépôt (via la présence d'un ~.git~ ou autre) dans le répertoire du fichier ouvert, puis dans ses répertoires parents.
+
+S'il identifie un dépôt, Projectile considère que tous les fichiers du dépôt font partie d'un même projet, et fournit des fonctions pour les traiter ensemble.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'projectile)
+#+END_SRC
+
+Active Projectile dans tous les modes le supportant
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (projectile-global-mode)
+#+END_SRC
+
+Raccourci {{{CTRL-(t)}}} pour ~projectile-find-other-file~ qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant ~foo.h~, Projectile cherche dans le projet ~foo.c~, et l'ouvre s'il le trouve. J'utilisais avant [[*Find File At Point]] pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
+
+:NOTE:
+- ne fonctionne pas sous Windows entre foo.org et foo.el ?
+- est-ce à cause de (projectile-indexing-method 'alien) ?
+- faut-il passer 't' à la fin pour le flex matching ?
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-t") 'projectile-find-other-file)
+#+END_SRC
+
+Projectile utilise Helm pour l'aide à la sélection
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq projectile-completion-system 'helm)
+#+END_SRC
+
+Active les raccourcis Helm pour les fonctions Projectile
+
+:NOTE:
+Il semblerait qu'il faille installer le paquet helm-projectile, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus...
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (helm-projectile-on)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Projectile")
+#+END_SRC
+
+* Qt
+
+Pour ceux qui développent avec Qt, la fonction ~generate-qt-includes~ appelle un petit morceau de shell qui essaie de générer la liste des entêtes nécessaires aux types Qt utilisés. Sans doute pas parfait (tente régulièrement d'inclure QStringLiteral), mais mieux que rien !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun generate-qt-includes ()
+      "Insert a list of Qt includes matching Qt types found in this buffer"
+	  (interactive)
+	  (shell-command-on-region
+	   (point-min) (point-max)
+	   ;; Pourquoi ne peut-on pas mettre le pipe en début de ligne ?
+	   "sed 's/\#.*include.*<.*>/#include <header>/' |
+  sed 's://.*:// comment:' |
+  sed -n 's/.*\\(Q[A-Z][a-zA-Z]*\\).*/#include <\\1>/p' |
+  sort | uniq" )
+    (insert-buffer "*Shell Command Output*"))
+#+END_SRC
+
+Le raccourci {{{META-(#)}}} appelle ~generate-qt-includes~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "M-#") 'generate-qt-includes)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Qt")
+#+END_SRC
+
+* Rainbow delimiters
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Met en évidence les symboles ouvrants et fermants, comme les parenthèses, les accolades ou les crochets, avec des couleurs appariées. Raffiné et élégant !
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'rainbow-delimiters)
+#+END_SRC
+
+Exemple avec des parenthèses :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (when (foo (bar (baz t))))
+#+END_SRC
+
+Active cette fonctionnalité dans tous les modes de développement
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Rainbow delimiters")
+#+END_SRC
+
+* Rainbow mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Cherche dans un buffer les chaines représentant une couleur, et les surligne avec cette couleur. Quelquefois il devine mal et surligne des couleurs qui n'en sont pas, mais ça reste très pratique, et joli, ce qui ne gâche rien ! L'essayer c'est l'adopter.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'rainbow-mode)
+#+END_SRC
+
+Quelques exemples de couleurs reconnues :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (message "De la couleur ! #ffafff #F5DEB3 #def DeepPink")
+#+END_SRC
+
+Active cette fonctionnalité dans tous les modes de développement
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook 'rainbow-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Rainbow mode")
+#+END_SRC
+
+* Related
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
+
+- {{{CTRL-(x)}}} {{{KBD-(↑)}}} appelle ~related-switch-forward~ et passe au prochain buffer du groupe
+- {{{CTRL-(x)}}} {{{KBD-(↓)}}} appelle ~related-switch-backward~ et revient au précédent buffer du groupe
+
+Related permet de naviguer facilement parmi des buffers qui vont ensemble. Par exemple si les trois fichiers suivants sont ouverts :
+
+- ~/path/to/include/foo.h~
+- ~/path/to/source/foo.c~
+- ~/path/to/doc/foo.org~
+
+On peut passer de l'un à l'autre avec {{{CTRL-(x)}}} {{{KBD-(↑)}}} : ~foo.h~ → ~foo.c~ → ~foo.org~ → ~foo.h~ etc.
+
+:NOTE:
+Faire fonctionner le SVG, réussir à ce que les caractères ne soient pas énormes, et correspondent au reste du document
+
+#+BEGIN_SRC dot :file RelatedFooForward.png :cmdline -Kdot -Tpng
+digraph RelatedFooForward {
+	rankdir=LR;
+	node [shape=box];
+  graph [fontname="Courrier new" fontsize=8];
+  node [fontname="Courrier new" fontsize=8];
+  edge [fontname="Courrier new" fontsize=8];
+
+	"foo.h" -> "foo.c" [label="C-x ↑"];
+	"foo.c" -> "foo.org" [label="C-x ↑"];
+	"foo.org" -> "foo.h" [label="C-x ↑"];
+}
+#+END_SRC
+:END:
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'related)
+#+END_SRC
+
+Active Related, qui est un mode mineur global
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (related-mode)
+#+END_SRC
+
+{{{CTRL-(x)}}} {{{KBD-(END)}}} propose de choisir un buffer du groupe, en utilisant Helm, s'il est activé
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "C-x <end>") 'related-switch-buffer )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Related")
+#+END_SRC
+
+* Shell scripts
+
+Les fichiers en .sh s'ouvrent avec ~shell-script-mode~, indépendamment de leur /shebang/. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Shell scripts")
+#+END_SRC
+
+* Souris
+
+La molette de la souris fait défiler les lignes deux par deux
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mouse-wheel-scroll-amount '(2))
+#+END_SRC
+
+Le défilement à l'écran suit la molette, et le pas reste constant quand elle accélère
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq mouse-wheel-progressive-speed nil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Souris")
+#+END_SRC
+
+* Tramp
+
+Transfère les fichiers en utilisant ssh, plutôt que ftp
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq tramp-default-method "ssh")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Tramp")
+#+END_SRC
+
+* Uniquify
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Génère des libellés plus pertinents pour les buffers de mêmes noms
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'uniquify)
+#+END_SRC
+
+Soit les fichiers ~xxx/yyy/foo.txt~ et ~zzz/ttt/foo.txt~ tous les deux ouverts dans des buffers. Plutôt que d'avoir deux buffers affichant ~foo.txt~, on aura avec la méthode ~post-forward~ les libellés ~foo.txt|xxx/yyy~ et ~foo.txt|zzz/ttt~
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq uniquify-buffer-name-style 'post-forward)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Uniquify")
+#+END_SRC
+
+* Whitespace
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+Un mode mineur qui permet de visualiser les espaces, de nettoyer les lignes blanches, ou encore de visualiser les lignes trop longues. Très paramétrable.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'whitespace)
+#+END_SRC
+
+La variable ~whitespace-style~ contrôle les types d'espaces qui seront affichés. La première valeur, ~face~, est particulière et active la mise en évidence des espaces en changeant leur couleur de fond. Viennent ensuite :
+
+- ~trailing~, qui met en évidence les espaces inutiles en fin de ligne
+- ~lines~, qui met en évidence les lignes, essentiellement vides, ne contenant que des espaces, ainsi que les lignes trop longues (voir ~whitespace-line-column~)
+- ~empty~, qui met en évidence les lignes vides en début et fin de fichier
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq whitespace-style '(face trailing lines empty))
+#+END_SRC
+
+{{{CTRL-(h)}}} {{{KBD-(o)}}} avec le curseur sur ~whitespace-style~ vous emmènera vers la doc qui énumère toutes les catégories d'espaces. À noter que les espaces ne sont pas nécessairement mis en évidence en surlignant leur couleur de fond : on peut également les remplacer et afficher par exemple "›" à la place d'une tabulation.
+
+Lorsqu'on sauvegarde un fichier, on veut que les espaces soient automatiquement remis en ordre : Suppression des lignes vides en début ou fin de fichier, des espaces qui ne servent à rien, application des politiques de tabulation vs espace, etc. Attention au diff la première fois qu'on fait ça sur un fichier.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+#+END_SRC
+
+Active whitespace-mode dans tous les modes de développement
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook 'whitespace-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Whitespace")
+#+END_SRC
+
+* XML
+
+Une fonction pour remettre en forme du XML. Prise sur le site de [[http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html][Benjamin Ferrari]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun pretty-print-xml-region (begin end)
+    "Pretty format XML markup in region. You need to have nxml-mode
+  http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
+  this.  The function inserts linebreaks to separate tags that have
+  nothing but whitespace between them.  It then indents the markup
+  by using nxml's indentation rules."
+    (interactive "r")
+    (save-excursion
+	  (nxml-mode)
+	  (goto-char begin)
+	  ;; split <foo><foo> or </foo><foo>, but not <foo></foo>
+	  (while (search-forward-regexp ">[ \t]*<[^/]" end t)
+	    (backward-char 2) (insert "\n") (incf end))
+	  ;; split <foo/></foo> and </foo></foo>
+	  (goto-char begin)
+	  (while (search-forward-regexp "<.*?/.*?>[ \t]*<" end t)
+	    (backward-char) (insert "\n") (incf end))
+	  (indent-region begin end nil)
+	  (normal-mode))
+    (message "All indented!"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "XML")
+#+END_SRC
+
+* Installation automatique
+
+Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de [[https://stackoverflow.com/a/10093312][cette réponse]] sur Stack Overflow.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defun my-setup()
+  (unless package-archive-contents
+	(package-refresh-contents))
+  (dolist (package '(auto-complete-config
+					 bm
+					 column-marker
+					 cmake-mode
+					 epa-file
+					 fill-column-indicator
+					 graphviz-dot-mode
+					 helm
+					 htmlize
+					 idle-highlight-mode
+					 magit
+					 mmm-auto
+					 projectile
+					 helm-projectile
+					 rainbow-delimiters
+					 rainbow-mode
+					 related
+					 uniquify
+					 whitespace))
+	(message "---> %s" package)
+	(unless (package-installed-p package)
+	  (ignore-errors
+		(package-install package)))))
+#+END_SRC
+
+* Générer les fichiers :noexport:
+
+- Générer [[elisp:(org-babel-tangle)][emacs.el]]
+- Générer [[elisp:(org-html-export-to-html)][emacs.html]]
+
+
+#+OPTIONS: toc:nil d:(not "NOTE") html-postamble:nil
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD: /*Style 'touche de clavier'*/
+#+HTML_HEAD:
+#+HTML_HEAD: kbd {
+#+HTML_HEAD:	background-color:#f0f0f0;
+#+HTML_HEAD:	border-radius:4px;
+#+HTML_HEAD:	border:solid 1px #c2c2c2;
+#+HTML_HEAD:	box-shadow:1px 1px silver;
+#+HTML_HEAD:	font-family:monospace, sans-serif;
+#+HTML_HEAD:	padding-left:2pt;
+#+HTML_HEAD:	padding-right:2pt;
+#+HTML_HEAD: }
+#+HTML_HEAD: #text-table-of-contents {
+#+HTML_HEAD:	padding: 1em;
+#+HTML_HEAD:	column-count: 3;
+#+HTML_HEAD:	column-gap: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD: /*Corrige le pb des liens qui sautent dans la tdm*/
+#+HTML_HEAD: #text-table-of-contents a {
+#+HTML_HEAD:	border-bottom: 1px dotted;
+#+HTML_HEAD:	border-bottom-color: transparent;
+#+HTML_HEAD: }
+#+HTML_HEAD: #text-table-of-contents a:hover {
+#+HTML_HEAD:	border-bottom-color: #035;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+#+MACRO: KBD- @@html:<kbd>$1</kbd>@@@@ascii:$1​@@
+#+MACRO: CTRL- @@html:<kbd>C</kbd>-<kbd>$1</kbd>@@@@ascii:C-$1​@@
+#+MACRO: SHIFT- @@html:<kbd>S</kbd>-<kbd>$1</kbd>@@@@ascii:S-$1​@@
+#+MACRO: META- @@html:<kbd>M</kbd>-<kbd>$1</kbd>@@@@ascii:M-$1​@@
