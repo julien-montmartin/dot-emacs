@@ -1399,18 +1399,19 @@ Les lignes sont indentées selon leur profondeur dans l'arborescence
   (setq org-startup-indented t)
 #+END_SRC
 
-On veut la mise en évidence de syntaxe dans les blocs de code
+Dans les blocs de code, on veut la mise en évidence de syntaxe, et l'on utilise la touche {{{KBD-(TAB)}}} pour indenter (et non pour insérer une tabulation)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
 #+END_SRC
 
 Les blocs de code sont évalués sans demande de confirmation, ainsi que les liens spéciaux qui exécutent du shell ou du Lisp
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(setq org-confirm-babel-evaluate nil)
-(setq org-confirm-shell-link-function nil)
-(setq org-confirm-elisp-link-function nil)
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-confirm-shell-link-function nil)
+  (setq org-confirm-elisp-link-function nil)
 #+END_SRC
 
 Sauf indication contraire, les éléments de texte générés par Org sont en français
@@ -1419,21 +1420,15 @@ Sauf indication contraire, les éléments de texte générés par Org sont en fr
   (setq org-export-default-language "fr")
 #+END_SRC
 
-À l'export, on se contente de trois niveaux de titres, et au-delà, on fait des listes
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-export-headline-levels 3)
-#+END_SRC
-
-À l'export, on ne veut pas qu'Org ajoute un auteur (valorisé avec le nom de l'utilisateur)
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq org-export-with-author nil)
-#+END_SRC
-
-À l'export, on ne veut pas que les titres des sections soient numérotés
+Concernant l'export (en HTML par exemple) :
+- On ne veut pas que les titres des sections soient numérotés
+- Au-delà de trois niveaux de titres, on préfère des listes
+- On ne veut pas d'auteur (valorisé par Org avec le nom de l'utilisateur)
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-export-with-section-numbers nil)
+  (setq org-export-headline-levels 3)
+  (setq org-export-with-author nil)
 #+END_SRC
 
 ** Mise à jour
@@ -1874,7 +1869,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 - Générer [[elisp:(org-html-export-to-html)][emacs.html]]
 
 
-#+OPTIONS: toc:nil d:(not "NOTE") html-postamble:nil
+#+OPTIONS: ^:nil toc:nil d:(not "NOTE") html-postamble:nil
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
 
@@ -1890,6 +1885,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 #+HTML_HEAD:	padding-left:2pt;
 #+HTML_HEAD:	padding-right:2pt;
 #+HTML_HEAD: }
+#+HTML_HEAD: /*Tdm sur 3 colonnes*/
 #+HTML_HEAD: #text-table-of-contents {
 #+HTML_HEAD:	padding: 1em;
 #+HTML_HEAD:	column-count: 3;
