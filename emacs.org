@@ -865,7 +865,7 @@ Accolades ouvrantes alignées sous le mot clé
   (c-set-offset (quote substatement-open) 0)
 #+END_SRC
 
-Ouvre les .h comme du C++, et non comme du C
+Ouvre les ~.h~ comme du C++, et non comme du C
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
@@ -1059,7 +1059,7 @@ Ajoute quelques chemins usuels pour trouver les sources et les entêtes
 
 * Fill column indicator
 
-Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés :
+Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <<fci-sucks>>
 
 - casse les menus d'~auto-complete~
 - casse l'export HTML des fichiers Org
@@ -1478,6 +1478,55 @@ P4PORT=srv-sources:1666
   (last-step-duration "Perforce")
 #+END_SRC
 
+* Prettify Symbols
+
+~prettify-symbols-mode~ permet de remplacer certaines séquences par un caractère composé (ou de faire des ligatures, pour reprendre la terminologie d'autres éditeurs). Par exemple, lorsqu'on écrit ~a<=b~, Emacs affiche ~a≤b~. Les séquences à /enjoliver/ sont définies par la liste ~prettify-symbols-alist~, que chaque mode majeur est susceptible d'enrichir. Dans la pratique toutefois, elle semble vide la plupart du temps. Voici donc quelques ajouts  faits au niveau de ~prog-mode~, dont tous les modes de développement dérivés profiteront.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (push '("/=" . ?≠) prettify-symbols-alist)
+              (push '("!=" . ?≠) prettify-symbols-alist)
+              (push '("==" . ?⩵) prettify-symbols-alist)
+              (push '("&&" . ?∧) prettify-symbols-alist)
+              (push '("||" . ?∨) prettify-symbols-alist)
+              (push '("<=" . ?≤) prettify-symbols-alist)
+              (push '(">=" . ?≥) prettify-symbols-alist)
+              (push '("<<" . ?«) prettify-symbols-alist)
+              (push '(">>" . ?») prettify-symbols-alist)
+              (push '("::" . ?∷) prettify-symbols-alist)
+              (push '("->" . ?→) prettify-symbols-alist)
+              (push '("=>" . ?⇒) prettify-symbols-alist)
+              (push '("and" . ?∧) prettify-symbols-alist)
+              (push '("not" . ?¬) prettify-symbols-alist)
+              (push '("or" . ?∨) prettify-symbols-alist)
+              ))
+#+END_SRC
+
+Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
+
+#+BEGIN_SRC C++ :tangle no
+  void foo(std∷pair<int, int>* p)
+  {
+      //Print something if first != second
+      if(p ≠ nullptr ∧ (p→first ≠ p→second))
+          std∷cout « p→first « "!=" « p→second « std∷endl;
+  }
+#+END_SRC
+
+On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par Org (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui /facilite/ la cohabitation avec les paquets comme ~fci-mode~. Il reste quelques petits problèmes, comme une petite /marche/ sur la limite pour les lignes trop longues, mais avec ~fci-mode~, il faut savoir faire des [[fci-sucks][compromis]]...
+
+J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de test. Pour l'instant, on l'active dans tous les modes qui le supportent.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-prettify-symbols-mode t)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Prettify Symbols")
+#+END_SRC
+
 * Projectile
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
@@ -1715,6 +1764,14 @@ Le défilement à l'écran suit la molette, et le pas reste constant quand elle 
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Souris")
+#+END_SRC
+
+* Tcl
+
+Ouvre les ~.tm~ comme des modules Tcl
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq auto-mode-alist (append '(("\.tm$" . tcl-mode)) auto-mode-alist))
 #+END_SRC
 
 * Tramp

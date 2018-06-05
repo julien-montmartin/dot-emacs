@@ -507,6 +507,7 @@ and restore it later."
 (setq org-startup-indented t)
 
 (setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 
 (setq org-confirm-babel-evaluate nil)
 (setq org-confirm-shell-link-function nil)
@@ -514,11 +515,9 @@ and restore it later."
 
 (setq org-export-default-language "fr")
 
-(setq org-export-headline-levels 3)
-
-(setq org-export-with-author nil)
-
 (setq org-export-with-section-numbers nil)
+(setq org-export-headline-levels 3)
+(setq org-export-with-author nil)
 
 (last-step-duration "Org Mode")
 
@@ -531,6 +530,29 @@ and restore it later."
 )
 
 (last-step-duration "Perforce")
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (push '("/=" . ?≠) prettify-symbols-alist)
+            (push '("!=" . ?≠) prettify-symbols-alist)
+            (push '("==" . ?⩵) prettify-symbols-alist)
+            (push '("&&" . ?∧) prettify-symbols-alist)
+            (push '("||" . ?∨) prettify-symbols-alist)
+            (push '("<=" . ?≤) prettify-symbols-alist)
+            (push '(">=" . ?≥) prettify-symbols-alist)
+            (push '("<<" . ?«) prettify-symbols-alist)
+            (push '(">>" . ?») prettify-symbols-alist)
+            (push '("::" . ?∷) prettify-symbols-alist)
+            (push '("->" . ?→) prettify-symbols-alist)
+            (push '("=>" . ?⇒) prettify-symbols-alist)
+            (push '("and" . ?∧) prettify-symbols-alist)
+            (push '("not" . ?¬) prettify-symbols-alist)
+            (push '("or" . ?∨) prettify-symbols-alist)
+            ))
+
+(global-prettify-symbols-mode t)
+
+(last-step-duration "Prettify Symbols")
 
 (when
 
@@ -605,6 +627,8 @@ sort | uniq" )
 (setq mouse-wheel-progressive-speed nil)
 
 (last-step-duration "Souris")
+
+(setq auto-mode-alist (append '(("\.tm$" . tcl-mode)) auto-mode-alist))
 
 (setq tramp-default-method "ssh")
 
