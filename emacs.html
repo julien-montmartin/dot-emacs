@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<!-- 2018-06-05 mar. 12:54 -->
+<!-- 2018-06-05 mar. 13:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Une Configuration Emacs</title>
@@ -271,71 +271,71 @@ C'est également un essai pour voir ce qu'on peut faire avec <a href="http://org
 <h2>Table des matières</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org667f830">À propos du temps</a></li>
-<li><a href="#org12bef98">Généralités</a></li>
-<li><a href="#org86094b6">Raccourcis Fn</a></li>
-<li><a href="#org7abd2ef">UTF-8</a></li>
-<li><a href="#orgede9d6d">Navigation dans les buffers</a></li>
-<li><a href="#orgdab15b7">Compilation</a></li>
-<li><a href="#org9b6eb7c">Copier/coller</a></li>
-<li><a href="#org4609348">Parenthèses et Cie</a></li>
-<li><a href="#orge2eddb9">Suggestions</a></li>
-<li><a href="#org4fff841">Mise à jour du path</a></li>
-<li><a href="#org0a17553">Valorisation du proxy</a></li>
-<li><a href="#orgf392f7b">Ajustements à l'OS</a>
+<li><a href="#org986e6b5">À propos du temps</a></li>
+<li><a href="#org846b175">Généralités</a></li>
+<li><a href="#org013cf3b">Raccourcis Fn</a></li>
+<li><a href="#orga810b0f">UTF-8</a></li>
+<li><a href="#org1af8061">Navigation dans les buffers</a></li>
+<li><a href="#org1715a7c">Compilation</a></li>
+<li><a href="#org6bdb4f4">Copier/coller</a></li>
+<li><a href="#org07e8479">Parenthèses et Cie</a></li>
+<li><a href="#orga69b6b5">Suggestions</a></li>
+<li><a href="#orgd77aab1">Mise à jour du path</a></li>
+<li><a href="#org93baa3f">Valorisation du proxy</a></li>
+<li><a href="#orgad5a1e5">Ajustements à l'OS</a>
 <ul>
-<li><a href="#org08e855a">Sous Linux</a></li>
-<li><a href="#orgc605510">Sous Mac</a></li>
+<li><a href="#orgf55c2aa">Sous Linux</a></li>
+<li><a href="#org3785581">Sous Mac</a></li>
 </ul>
 </li>
-<li><a href="#org6803868">Require</a></li>
-<li><a href="#org26f90dc">Gestionnaire de paquets</a></li>
-<li><a href="#orge5ff8ce">TabTab minor mode</a></li>
-<li><a href="#org8f62479">Auto Complete</a></li>
-<li><a href="#org4149468">Bookmarks</a></li>
-<li><a href="#org7743c91">C &amp; C++</a></li>
-<li><a href="#org6493b01">Column Marker</a></li>
-<li><a href="#org74c3127">CMake</a></li>
-<li><a href="#org76dd7ea">DTrace</a></li>
-<li><a href="#orgd397773">EasyPG Assistant</a></li>
-<li><a href="#org8c2b481">Ediff</a></li>
-<li><a href="#orgc76e374">Find File At Point</a></li>
-<li><a href="#org1700756">Fill column indicator</a></li>
-<li><a href="#orgb86dc97">Global</a></li>
-<li><a href="#org7857b45">Graphviz</a></li>
-<li><a href="#org88f12e0">Helm</a></li>
-<li><a href="#org37421aa">Htmlize</a></li>
-<li><a href="#orgda7908e">Idle HighLight Mode</a></li>
-<li><a href="#orge65b281">Emacs Lisp</a></li>
-<li><a href="#orgb1644b0">Magit</a></li>
-<li><a href="#orgc752ee4">MMM Mode</a></li>
-<li><a href="#orgc973b9c">Org</a>
+<li><a href="#orgedde326">Require</a></li>
+<li><a href="#orgfedcdc8">Gestionnaire de paquets</a></li>
+<li><a href="#orgd8fede4">TabTab minor mode</a></li>
+<li><a href="#org53ab8c2">Auto Complete</a></li>
+<li><a href="#org1492dfa">Bookmarks</a></li>
+<li><a href="#org3014f45">C &amp; C++</a></li>
+<li><a href="#org05b9493">Column Marker</a></li>
+<li><a href="#orgcc1361d">CMake</a></li>
+<li><a href="#org6f7a03e">DTrace</a></li>
+<li><a href="#org5b269af">EasyPG Assistant</a></li>
+<li><a href="#orgd37047d">Ediff</a></li>
+<li><a href="#org793e5f7">Find File At Point</a></li>
+<li><a href="#org43578a3">Fill column indicator</a></li>
+<li><a href="#org806efbe">Global</a></li>
+<li><a href="#org9a91c49">Graphviz</a></li>
+<li><a href="#org1347faf">Helm</a></li>
+<li><a href="#org8953151">Htmlize</a></li>
+<li><a href="#org54b9028">Idle HighLight Mode</a></li>
+<li><a href="#org50c6a2b">Emacs Lisp</a></li>
+<li><a href="#org5a95d05">Magit</a></li>
+<li><a href="#org37fdcbd">MMM Mode</a></li>
+<li><a href="#org6328416">Org</a>
 <ul>
-<li><a href="#orge538845">Mise à jour</a></li>
+<li><a href="#org4c7e1ed">Mise à jour</a></li>
 </ul>
 </li>
-<li><a href="#org0deb341">Perforce</a></li>
-<li><a href="#orgf96bc9b">Prettify Symbols</a></li>
-<li><a href="#orgb59a5a8">Projectile</a></li>
-<li><a href="#orge5db465">Qt</a></li>
-<li><a href="#orgb7032c3">Rainbow delimiters</a></li>
-<li><a href="#orga8cc096">Rainbow mode</a></li>
-<li><a href="#org2d0f240">Related</a></li>
-<li><a href="#orga34ad44">Shell scripts</a></li>
-<li><a href="#org10b0db5">Souris</a></li>
-<li><a href="#org2472d5c">Tcl</a></li>
-<li><a href="#org28161e6">Tramp</a></li>
-<li><a href="#orgc305190">Uniquify</a></li>
-<li><a href="#org934bbb6">Whitespace</a></li>
-<li><a href="#org979cf77">XML</a></li>
-<li><a href="#org2628759">Installation automatique</a></li>
+<li><a href="#orgff53105">Perforce</a></li>
+<li><a href="#org44b5c5c">Prettify Symbols</a></li>
+<li><a href="#org2d9bdd5">Projectile</a></li>
+<li><a href="#org5c5478a">Qt</a></li>
+<li><a href="#org371aa5c">Rainbow delimiters</a></li>
+<li><a href="#org7e0a734">Rainbow mode</a></li>
+<li><a href="#orge2f96ea">Related</a></li>
+<li><a href="#org2ad9fa1">Shell scripts</a></li>
+<li><a href="#orga631c8d">Souris</a></li>
+<li><a href="#org12b51e8">Tcl</a></li>
+<li><a href="#org8ec8cea">Tramp</a></li>
+<li><a href="#org027bd2c">Uniquify</a></li>
+<li><a href="#org8fa09a6">Whitespace</a></li>
+<li><a href="#org40e3b31">XML</a></li>
+<li><a href="#orgb2ba0a9">Installation automatique</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org667f830" class="outline-2">
-<h2 id="org667f830">À propos du temps</h2>
-<div class="outline-text-2" id="text-org667f830">
+<div id="outline-container-org986e6b5" class="outline-2">
+<h2 id="org986e6b5">À propos du temps</h2>
+<div class="outline-text-2" id="text-org986e6b5">
 <p>
 La fonction <code>last-step-duration</code>, appelée régulièrement, permet de voir comment le temps s'écoule lors du chargement du <code>.emacs</code>. À chaque appel, elle laisse une trace dans le buffer <code>*Messages*</code> avec le temps écoulé depuis l'appel précédent, ainsi que le temps total écoulé depuis le début du chargement du fichier. Certainement pas un modèle de Lisp, mais remplit son office et aide à comprendre pourquoi Emacs est parfois lent à démarrer.
 </p>
@@ -373,9 +373,9 @@ Ce code apparait en début de fichier afin d'initialiser une variable globale co
 </div>
 </div>
 
-<div id="outline-container-org12bef98" class="outline-2">
-<h2 id="org12bef98">Généralités</h2>
-<div class="outline-text-2" id="text-org12bef98">
+<div id="outline-container-org846b175" class="outline-2">
+<h2 id="org846b175">Généralités</h2>
+<div class="outline-text-2" id="text-org846b175">
 <p>
 Désactive l'écran d'accueil, Emacs s'ouvre avec le buffer <code>scratch</code>
 </p>
@@ -565,9 +565,9 @@ Common Lisp, pour <code>ignore-errors</code> et d'autres
 </div>
 </div>
 
-<div id="outline-container-org86094b6" class="outline-2">
-<h2 id="org86094b6">Raccourcis Fn</h2>
-<div class="outline-text-2" id="text-org86094b6">
+<div id="outline-container-org013cf3b" class="outline-2">
+<h2 id="org013cf3b">Raccourcis Fn</h2>
+<div class="outline-text-2" id="text-org013cf3b">
 <p>
 Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de Visual Studio ou de Xcode. Lorsqu'il est lancé en mode texte depuis un terminal, Emacs ne voit pas les raccourcis en <kbd>C</kbd>-<kbd>Fn</kbd>. Pour cette raison, ils sont en général doublés sur <kbd>S</kbd>-<kbd>Fn</kbd>.
 </p>
@@ -647,8 +647,8 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </div>
 
 <ul class="org-ul">
-<li><kbd>F8</kbd> pour <a href="#org1700756">Fill column indicator</a>, qui met en évidence la colonne 80 dans les modes de développement.</li>
-<li><kbd>C</kbd>-<kbd>F8</kbd> pour désactiver (ou réactiver) <a href="#org934bbb6">Whitespace</a> lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.</li>
+<li><kbd>F8</kbd> pour <a href="#org43578a3">Fill column indicator</a>, qui met en évidence la colonne 80 dans les modes de développement.</li>
+<li><kbd>C</kbd>-<kbd>F8</kbd> pour désactiver (ou réactiver) <a href="#org8fa09a6">Whitespace</a> lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.</li>
 </ul>
 
 <div class="org-src-container">
@@ -660,9 +660,9 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </div>
 </div>
 
-<div id="outline-container-org7abd2ef" class="outline-2">
-<h2 id="org7abd2ef">UTF-8</h2>
-<div class="outline-text-2" id="text-org7abd2ef">
+<div id="outline-container-orga810b0f" class="outline-2">
+<h2 id="orga810b0f">UTF-8</h2>
+<div class="outline-text-2" id="text-orga810b0f">
 <p>
 Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple <a href="https://stackoverflow.com/a/2903256">cette réponse</a> sur Stack Overflow). Mais la simple directive <code>set-language-environment</code> réalise un paramétrage par défaut satisfaisant.
 </p>
@@ -674,9 +674,9 @@ Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de c
 </div>
 </div>
 
-<div id="outline-container-orgede9d6d" class="outline-2">
-<h2 id="orgede9d6d">Navigation dans les buffers</h2>
-<div class="outline-text-2" id="text-orgede9d6d">
+<div id="outline-container-org1af8061" class="outline-2">
+<h2 id="org1af8061">Navigation dans les buffers</h2>
+<div class="outline-text-2" id="text-org1af8061">
 <p>
 Lorsqu'on navigue dans les buffers, on préfère sauter les buffers ouverts automatiquement par Dired, Helm, ou autre, comme <code>*compilation*</code> par exemple. On définit pour cela la fonction <code>navigate-nostar-buffer</code>, qui cherche le prochain buffer ne commençant pas par <code>*</code> (ou le précédent si appelé avec un argument).
 </p>
@@ -716,9 +716,9 @@ Puis on utilise <a href="https://www.gnu.org/software/emacs/manual/html_node/eli
 </div>
 </div>
 
-<div id="outline-container-orgdab15b7" class="outline-2">
-<h2 id="orgdab15b7">Compilation</h2>
-<div class="outline-text-2" id="text-orgdab15b7">
+<div id="outline-container-org1715a7c" class="outline-2">
+<h2 id="org1715a7c">Compilation</h2>
+<div class="outline-text-2" id="text-org1715a7c">
 <p>
 Définit <code>run-compilation</code> et <code>end-compilation</code> qui sauvegardent et restaurent l'affichage des buffers lors d'une séance de compilation : Si l'on doit faire plusieurs allers / retours entre le buffer de compilation et les sources, pour comprendre et corriger les erreurs, on peut ensuite restaurer son environnement de travail.
 </p>
@@ -796,9 +796,9 @@ Dans ce buffer, un clic sur une erreur emmène dans les sources, et <kbd>g</kbd>
 </div>
 </div>
 
-<div id="outline-container-org9b6eb7c" class="outline-2">
-<h2 id="org9b6eb7c">Copier/coller</h2>
-<div class="outline-text-2" id="text-org9b6eb7c">
+<div id="outline-container-org6bdb4f4" class="outline-2">
+<h2 id="org6bdb4f4">Copier/coller</h2>
+<div class="outline-text-2" id="text-org6bdb4f4">
 <p>
 Le bouton du milieu colle le texte au niveau du point, sans le déplacer
 </p>
@@ -828,9 +828,9 @@ Le texte surligné est automatiquement copié dans le kill ring
 </div>
 </div>
 
-<div id="outline-container-org4609348" class="outline-2">
-<h2 id="org4609348">Parenthèses et Cie</h2>
-<div class="outline-text-2" id="text-org4609348">
+<div id="outline-container-org07e8479" class="outline-2">
+<h2 id="org07e8479">Parenthèses et Cie</h2>
+<div class="outline-text-2" id="text-org07e8479">
 <p>
 Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière une parenthèse fermante, la paire de parenthèses est surlignée. De même avec les accolades et les crochets.
 </p>
@@ -850,7 +850,7 @@ Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière
 </div>
 
 <p>
-Les parenthèses sont surlignées en bleu. Voir aussi <a href="#orgb7032c3">Rainbow delimiters</a>.
+Les parenthèses sont surlignées en bleu. Voir aussi <a href="#org371aa5c">Rainbow delimiters</a>.
 </p>
 
 <div class="org-src-container">
@@ -860,11 +860,11 @@ Les parenthèses sont surlignées en bleu. Voir aussi <a href="#orgb7032c3">Rain
 </div>
 </div>
 
-<div id="outline-container-orge2eddb9" class="outline-2">
-<h2 id="orge2eddb9">Suggestions</h2>
-<div class="outline-text-2" id="text-orge2eddb9">
+<div id="outline-container-orga69b6b5" class="outline-2">
+<h2 id="orga69b6b5">Suggestions</h2>
+<div class="outline-text-2" id="text-orga69b6b5">
 <p>
-J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par <code>icomplete-mode</code>, mais ce n'était convaincant, si bien que j'utilise maintenant <a href="#org88f12e0">Helm</a>. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à <code>iswitchb-mode</code>.
+J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par <code>icomplete-mode</code>, mais ce n'était convaincant, si bien que j'utilise maintenant <a href="#org1347faf">Helm</a>. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à <code>iswitchb-mode</code>.
 </p>
 
 <div class="org-src-container">
@@ -935,9 +935,9 @@ Contourne les problèmes liés au buffer par défaut. En particulier, prend le p
 </div>
 </div>
 
-<div id="outline-container-org4fff841" class="outline-2">
-<h2 id="org4fff841">Mise à jour du path</h2>
-<div class="outline-text-2" id="text-org4fff841">
+<div id="outline-container-orgd77aab1" class="outline-2">
+<h2 id="orgd77aab1">Mise à jour du path</h2>
+<div class="outline-text-2" id="text-orgd77aab1">
 <p>
 C'est parfois utile d'enrichir un peu le path utilisé par Emacs. Il y a en fait plusieurs chemins, dont ces deux variables :
 </p>
@@ -981,9 +981,9 @@ Reste à ajouter quelques répertoires, selon ses habitudes&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org0a17553" class="outline-2">
-<h2 id="org0a17553">Valorisation du proxy</h2>
-<div class="outline-text-2" id="text-org0a17553">
+<div id="outline-container-org93baa3f" class="outline-2">
+<h2 id="org93baa3f">Valorisation du proxy</h2>
+<div class="outline-text-2" id="text-org93baa3f">
 <p>
 On cherche d'abord le proxy dans le fichier de configuration <code>~/.emacs.d/proxy.el</code> :
 </p>
@@ -1033,17 +1033,17 @@ Voir la doc d'<a href="http://www.emacswiki.org/emacs/UrlPackage#toc6">Url Packa
 </div>
 </div>
 
-<div id="outline-container-orgf392f7b" class="outline-2">
-<h2 id="orgf392f7b">Ajustements à l'OS</h2>
-<div class="outline-text-2" id="text-orgf392f7b">
+<div id="outline-container-orgad5a1e5" class="outline-2">
+<h2 id="orgad5a1e5">Ajustements à l'OS</h2>
+<div class="outline-text-2" id="text-orgad5a1e5">
 <p>
 Selon la plateforme, on effectue quelques ajustements, en particulier sur les polices de caractères.
 </p>
 </div>
 
-<div id="outline-container-org08e855a" class="outline-3">
-<h3 id="org08e855a">Sous Linux</h3>
-<div class="outline-text-3" id="text-org08e855a">
+<div id="outline-container-orgf55c2aa" class="outline-3">
+<h3 id="orgf55c2aa">Sous Linux</h3>
+<div class="outline-text-3" id="text-orgf55c2aa">
 <p>
 Fonte du terminal Xfce
 </p>
@@ -1055,9 +1055,9 @@ Fonte du terminal Xfce
 </div>
 </div>
 
-<div id="outline-container-orgc605510" class="outline-3">
-<h3 id="orgc605510">Sous Mac</h3>
-<div class="outline-text-3" id="text-orgc605510">
+<div id="outline-container-org3785581" class="outline-3">
+<h3 id="org3785581">Sous Mac</h3>
+<div class="outline-text-3" id="text-org3785581">
 <p>
 Réaffectation des touches à problèmes sur Mac :
 </p>
@@ -1089,9 +1089,9 @@ Fonte Xcode
 </div>
 </div>
 
-<div id="outline-container-org6803868" class="outline-2">
-<h2 id="org6803868">Require</h2>
-<div class="outline-text-2" id="text-org6803868">
+<div id="outline-container-orgedde326" class="outline-2">
+<h2 id="orgedde326">Require</h2>
+<div class="outline-text-2" id="text-orgedde326">
 <p>
 Un wrapper pour <code>require</code>, qui n'empêche pas le chargement du <code>.emacs</code> lorsqu'un module n'est pas disponible, et génère des traces dans <code>*Messages*</code>, avec en cas de succès, le temps passé par Emacs pour charger le module.
 </p>
@@ -1153,9 +1153,9 @@ On peut aussi utiliser le <i>soft require</i>, qui ne génère pas d'erreur quan
 </div>
 </div>
 
-<div id="outline-container-org26f90dc" class="outline-2">
-<h2 id="org26f90dc">Gestionnaire de paquets</h2>
-<div class="outline-text-2" id="text-org26f90dc">
+<div id="outline-container-orgfedcdc8" class="outline-2">
+<h2 id="orgfedcdc8">Gestionnaire de paquets</h2>
+<div class="outline-text-2" id="text-orgfedcdc8">
 <p>
 Charge le gestionnaire de paquets
 </p>
@@ -1224,9 +1224,9 @@ Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser <code>helm-lis
 </div>
 </div>
 
-<div id="outline-container-orge5ff8ce" class="outline-2">
-<h2 id="orge5ff8ce">TabTab minor mode</h2>
-<div class="outline-text-2" id="text-orge5ff8ce">
+<div id="outline-container-orgd8fede4" class="outline-2">
+<h2 id="orgd8fede4">TabTab minor mode</h2>
+<div class="outline-text-2" id="text-orgd8fede4">
 <p>
 Une tentative pour changer le comportement de la touche <kbd>TAB</kbd> dans les fichiers CMake :
 </p>
@@ -1272,9 +1272,9 @@ Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas 
 </div>
 </div>
 
-<div id="outline-container-org8f62479" class="outline-2">
-<h2 id="org8f62479">Auto Complete</h2>
-<div class="outline-text-2" id="text-org8f62479">
+<div id="outline-container-org53ab8c2" class="outline-2">
+<h2 id="org53ab8c2">Auto Complete</h2>
+<div class="outline-text-2" id="text-org53ab8c2">
 <p>
 Auto Complete présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
 </p>
@@ -1325,9 +1325,9 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
 </div>
 </div>
 
-<div id="outline-container-org4149468" class="outline-2">
-<h2 id="org4149468">Bookmarks</h2>
-<div class="outline-text-2" id="text-org4149468">
+<div id="outline-container-org1492dfa" class="outline-2">
+<h2 id="org1492dfa">Bookmarks</h2>
+<div class="outline-text-2" id="text-org1492dfa">
 <p>
 Marque-pages à la Visual Studio : la ligne marquée est surlignée, et l'on peut ensuite naviguer d'un marque-page à l'autre. Beaucoup d'autres fonctionnalités très pratiques comme mettre les marque-pages automatiquement avec une expression régulière, par exemple pour explorer des logs.
 </p>
@@ -1358,9 +1358,9 @@ On surligne les lignes marquées en fuchsia, comme avec un coup de Stabilo !
 </div>
 </div>
 
-<div id="outline-container-org7743c91" class="outline-2">
-<h2 id="org7743c91">C &amp; C++</h2>
-<div class="outline-text-2" id="text-org7743c91">
+<div id="outline-container-org3014f45" class="outline-2">
+<h2 id="org3014f45">C &amp; C++</h2>
+<div class="outline-text-2" id="text-org3014f45">
 <p>
 Accolades ouvrantes alignées sous le mot clé
 </p>
@@ -1381,11 +1381,11 @@ Ouvre les <code>.h</code> comme du C++, et non comme du C
 </div>
 </div>
 
-<div id="outline-container-org6493b01" class="outline-2">
-<h2 id="org6493b01">Column Marker</h2>
-<div class="outline-text-2" id="text-org6493b01">
+<div id="outline-container-org05b9493" class="outline-2">
+<h2 id="org05b9493">Column Marker</h2>
+<div class="outline-text-2" id="text-org05b9493">
 <p>
-Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que <a href="#org1700756">Fill column indicator</a>, mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
+Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que <a href="#org43578a3">Fill column indicator</a>, mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
 </p>
 
 <div class="org-src-container">
@@ -1406,9 +1406,9 @@ Si l'on est dans un mode de programmation, surligne le caractère tombant après
 </div>
 </div>
 
-<div id="outline-container-org74c3127" class="outline-2">
-<h2 id="org74c3127">CMake</h2>
-<div class="outline-text-2" id="text-org74c3127">
+<div id="outline-container-orgcc1361d" class="outline-2">
+<h2 id="orgcc1361d">CMake</h2>
+<div class="outline-text-2" id="text-orgcc1361d">
 <p>
 Le mode majeur pour éditer les fichiers CMake. Perfectible à mon avis, mais utile quand même. Plus d'informations sur le <a href="http://www.cmake.org/Wiki/CMake/Editors/Emacs">wiki</a> de Kitware dédié à CMake.
 </p>
@@ -1441,9 +1441,9 @@ Pas d'indentation automatique, en particulier après <kbd>Enter</kbd>
 </div>
 </div>
 
-<div id="outline-container-org76dd7ea" class="outline-2">
-<h2 id="org76dd7ea">DTrace</h2>
-<div class="outline-text-2" id="text-org76dd7ea">
+<div id="outline-container-org6f7a03e" class="outline-2">
+<h2 id="org6f7a03e">DTrace</h2>
+<div class="outline-text-2" id="text-org6f7a03e">
 <p>
 Un mode majeur pour DTrace, très bel outil d'instrumentation et d'analyse issu de Sun, à l'avenir bien incertain. Il reste utile sur macOS puisqu'il est derrière <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide">Instruments</a>. Plus d'infos sur le <a href="http://dtrace.org/blogs/ahl/tag/dtrace">blog</a> de l'un de ses auteurs.
 </p>
@@ -1466,9 +1466,9 @@ Les fichiers <code>.d</code> sont des scripts DTrace et s'ouvrent avec <code>dtr
 </div>
 </div>
 
-<div id="outline-container-orgd397773" class="outline-2">
-<h2 id="orgd397773">EasyPG Assistant</h2>
-<div class="outline-text-2" id="text-orgd397773">
+<div id="outline-container-org5b269af" class="outline-2">
+<h2 id="org5b269af">EasyPG Assistant</h2>
+<div class="outline-text-2" id="text-org5b269af">
 <p>
 Une interface à GnuPG pour Emacs, qui permet entre autres de manipuler des fichiers cryptés. GnuPG doit être installé et configuré sur la machine.
 </p>
@@ -1507,9 +1507,9 @@ Fonctionne bien aussi dans une variable en début de fichier :
 </div>
 </div>
 
-<div id="outline-container-org8c2b481" class="outline-2">
-<h2 id="org8c2b481">Ediff</h2>
-<div class="outline-text-2" id="text-org8c2b481">
+<div id="outline-container-orgd37047d" class="outline-2">
+<h2 id="orgd37047d">Ediff</h2>
+<div class="outline-text-2" id="text-orgd37047d">
 <p>
 Un mode très pratique pour gérer les diffs.
 </p>
@@ -1534,9 +1534,9 @@ Ediff n'ouvre pas de nouvelle fenêtre, tout se passe dans la fenêtre courante,
 </div>
 </div>
 
-<div id="outline-container-orgc76e374" class="outline-2">
-<h2 id="orgc76e374">Find File At Point</h2>
-<div class="outline-text-2" id="text-orgc76e374">
+<div id="outline-container-org793e5f7" class="outline-2">
+<h2 id="org793e5f7">Find File At Point</h2>
+<div class="outline-text-2" id="text-org793e5f7">
 <p>
 Sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>C</kbd>-<kbd>f</kbd> FFAP essaie de deviner le fichier à ouvrir en fonction du texte sous le curseur, ce qui fonctionne avec les includes par exemple.
 </p>
@@ -1551,7 +1551,7 @@ Active FFAP et remplace quelques raccourcis comme <kbd>C</kbd>-<kbd>x</kbd> <kbd
 </div>
 
 <p>
-Avant <a href="#orgb59a5a8">Projectile</a>, FFAP était très pratique pour passer d'un <code>.h</code> à un <code>.cpp</code>. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
+Avant <a href="#org2d9bdd5">Projectile</a>, FFAP était très pratique pour passer d'un <code>.h</code> à un <code>.cpp</code>. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
 </p>
 
 <p>
@@ -1579,11 +1579,11 @@ Ajoute quelques chemins usuels pour trouver les sources et les entêtes
 </div>
 </div>
 
-<div id="outline-container-org1700756" class="outline-2">
-<h2 id="org1700756">Fill column indicator</h2>
-<div class="outline-text-2" id="text-org1700756">
+<div id="outline-container-org43578a3" class="outline-2">
+<h2 id="org43578a3">Fill column indicator</h2>
+<div class="outline-text-2" id="text-org43578a3">
 <p>
-Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <a id="org74a8a89"></a>
+Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <a id="org2d21fdd"></a>
 </p>
 
 <ul class="org-ul">
@@ -1621,9 +1621,9 @@ Active FCI dans tous les modes de développement
 </div>
 </div>
 
-<div id="outline-container-orgb86dc97" class="outline-2">
-<h2 id="orgb86dc97">Global</h2>
-<div class="outline-text-2" id="text-orgb86dc97">
+<div id="outline-container-org806efbe" class="outline-2">
+<h2 id="org806efbe">Global</h2>
+<div class="outline-text-2" id="text-org806efbe">
 <p>
 Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
 </p>
@@ -1654,11 +1654,11 @@ Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très
 </div>
 </div>
 
-<div id="outline-container-org7857b45" class="outline-2">
-<h2 id="org7857b45">Graphviz</h2>
-<div class="outline-text-2" id="text-org7857b45">
+<div id="outline-container-org9a91c49" class="outline-2">
+<h2 id="org9a91c49">Graphviz</h2>
+<div class="outline-text-2" id="text-org9a91c49">
 <p>
-Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à <a href="#orgc973b9c">Org</a>, ce qui ne gâche rien !
+Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à <a href="#org6328416">Org</a>, ce qui ne gâche rien !
 </p>
 
 <div class="org-src-container">
@@ -1677,9 +1677,9 @@ Pour effectuer un rendu depuis Emacs avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>v</kbd>
 </div>
 </div>
 
-<div id="outline-container-org88f12e0" class="outline-2">
-<h2 id="org88f12e0">Helm</h2>
-<div class="outline-text-2" id="text-org88f12e0">
+<div id="outline-container-org1347faf" class="outline-2">
+<h2 id="org1347faf">Helm</h2>
+<div class="outline-text-2" id="text-org1347faf">
 <p>
 <a href="https://github.com/emacs-helm/helm/wiki">Helm</a> - Un framework plus qu'un simple module, de suggestion et d'aide à la sélection. S'appliquera bientôt à tous les aspects d'Emacs. Beaucoup plus intrusif que son principal concurrent, <a href="https://www.emacswiki.org/emacs/InteractivelyDoThings">Ido</a>, il change radicalement l'expérience utilisateur, et j'ai mis du temps à sauter le pas. Si ce n'est pas déjà fait, je vous encourage à faire de même ! En plus du nombre incroyable de fonctionnalités simplifiées et enrichies, Helm favorise la découverte et l'exploration d'Emacs. Que du bon en fin de compte !
 </p>
@@ -1804,11 +1804,11 @@ Pour plus de lecture, voir cette introduction à Helm : <a href="http://tuhdo.gi
 </div>
 </div>
 
-<div id="outline-container-org37421aa" class="outline-2">
-<h2 id="org37421aa">Htmlize</h2>
-<div class="outline-text-2" id="text-org37421aa">
+<div id="outline-container-org8953151" class="outline-2">
+<h2 id="org8953151">Htmlize</h2>
+<div class="outline-text-2" id="text-org8953151">
 <p>
-Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si <a href="#orgc973b9c">Org</a>, avec ses blocs <code>#+BEGIN_SRC</code> et <code>#+END_SRC</code>, offre souvent une bonne alternative.
+Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si <a href="#org6328416">Org</a>, avec ses blocs <code>#+BEGIN_SRC</code> et <code>#+END_SRC</code>, offre souvent une bonne alternative.
 </p>
 
 <div class="org-src-container">
@@ -1818,9 +1818,9 @@ Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer 
 </div>
 </div>
 
-<div id="outline-container-orgda7908e" class="outline-2">
-<h2 id="orgda7908e">Idle HighLight Mode</h2>
-<div class="outline-text-2" id="text-orgda7908e">
+<div id="outline-container-org54b9028" class="outline-2">
+<h2 id="org54b9028">Idle HighLight Mode</h2>
+<div class="outline-text-2" id="text-org54b9028">
 <p>
 Après un petit temps d'inactivité, surligne toutes les occurrences du mot se trouvant sous le curseur. Notepad++ fait cela par défaut. Très pratique pour voir où un symbole est utilisé, et repérer les fautes de frappe.
 </p>
@@ -1841,9 +1841,9 @@ Ce mode mineur est activé dans tous les modes de développement.
 </div>
 </div>
 
-<div id="outline-container-orge65b281" class="outline-2">
-<h2 id="orge65b281">Emacs Lisp</h2>
-<div class="outline-text-2" id="text-orge65b281">
+<div id="outline-container-org50c6a2b" class="outline-2">
+<h2 id="org50c6a2b">Emacs Lisp</h2>
+<div class="outline-text-2" id="text-org50c6a2b">
 <p>
 Dans les contextes où il y a du Lisp, on affiche les éventuelles informations disponibles sur une fonction ou une variable dans la zone d'écho, c.à.d à l'emplacement du minibuffer.
 </p>
@@ -1861,9 +1861,9 @@ IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'u
 </div>
 </div>
 
-<div id="outline-container-orgb1644b0" class="outline-2">
-<h2 id="orgb1644b0">Magit</h2>
-<div class="outline-text-2" id="text-orgb1644b0">
+<div id="outline-container-org5a95d05" class="outline-2">
+<h2 id="org5a95d05">Magit</h2>
+<div class="outline-text-2" id="text-org5a95d05">
 <p>
 Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
 </p>
@@ -1884,9 +1884,9 @@ La plupart des opérations dans Magit commencent par le buffer <code>status</cod
 </div>
 </div>
 
-<div id="outline-container-orgc752ee4" class="outline-2">
-<h2 id="orgc752ee4">MMM Mode</h2>
-<div class="outline-text-2" id="text-orgc752ee4">
+<div id="outline-container-org37fdcbd" class="outline-2">
+<h2 id="org37fdcbd">MMM Mode</h2>
+<div class="outline-text-2" id="text-org37fdcbd">
 <p>
 Permet de faire cohabiter plusieurs modes majeurs dans un même buffer.
 </p>
@@ -1938,9 +1938,9 @@ La règle here-doc est activée dans les buffers qui sont dans le très élémen
 </div>
 </div>
 
-<div id="outline-container-orgc973b9c" class="outline-2">
-<h2 id="orgc973b9c">Org</h2>
-<div class="outline-text-2" id="text-orgc973b9c">
+<div id="outline-container-org6328416" class="outline-2">
+<h2 id="org6328416">Org</h2>
+<div class="outline-text-2" id="text-org6328416">
 <p>
 Un autre mode exceptionnel. Au départ un <i>outliner</i>, puis un outil de publication avec environnement de <i>literate programming</i>, mais aussi de GTD, de suivi de temps, un agenda, etc.
 </p>
@@ -2010,9 +2010,9 @@ Concernant l'export (en HTML par exemple) :
 </div>
 </div>
 
-<div id="outline-container-orge538845" class="outline-3">
-<h3 id="orge538845">Mise à jour</h3>
-<div class="outline-text-3" id="text-orge538845">
+<div id="outline-container-org4c7e1ed" class="outline-3">
+<h3 id="org4c7e1ed">Mise à jour</h3>
+<div class="outline-text-3" id="text-org4c7e1ed">
 <p>
 La dernière version d'Org n'est en général pas celle qui est livrée avec Emacs. Il faut la mettre à jour avec le gestionnaire de paquets. Pour une raison que j'ignore, Org n'est pas listé comme <i>built-in</i>, mais quand on l'installe manuellement, le gestionnaire de paquet indique bien "shadowing a built-in package".
 </p>
@@ -2024,9 +2024,9 @@ Ensuite, en cas de bug suspect, il se peut qu'il faille supprimer les fichiers l
 </div>
 </div>
 
-<div id="outline-container-org0deb341" class="outline-2">
-<h2 id="org0deb341">Perforce</h2>
-<div class="outline-text-2" id="text-org0deb341">
+<div id="outline-container-orgff53105" class="outline-2">
+<h2 id="orgff53105">Perforce</h2>
+<div class="outline-text-2" id="text-orgff53105">
 <p>
 Permet d'utiliser Perforce depuis Emacs, principalement pour sortir des fichiers. Conventionnellement, les fichiers sont en lecture seule. Lorsqu'il les sort, Perforce les passe en lecture / écriture.
 </p>
@@ -2062,9 +2062,9 @@ P4PORT=srv-sources:1666
 </div>
 </div>
 
-<div id="outline-container-orgf96bc9b" class="outline-2">
-<h2 id="orgf96bc9b">Prettify Symbols</h2>
-<div class="outline-text-2" id="text-orgf96bc9b">
+<div id="outline-container-org44b5c5c" class="outline-2">
+<h2 id="org44b5c5c">Prettify Symbols</h2>
+<div class="outline-text-2" id="text-org44b5c5c">
 <p>
 <code>prettify-symbols-mode</code> permet de remplacer certaines séquences par un caractère composé (ou de faire des ligatures, pour reprendre la terminologie d'autres éditeurs). Par exemple, lorsqu'on écrit <code>a&lt;=b</code>, Emacs affiche <code>a≤b</code>. Les séquences à <i>enjoliver</i> sont définies par la liste <code>prettify-symbols-alist</code>, que chaque mode majeur est susceptible d'enrichir. Dans la pratique toutefois, elle semble vide la plupart du temps. Voici donc quelques ajouts  faits au niveau de <code>prog-mode</code>, dont tous les modes de développement dérivés profiteront.
 </p>
@@ -2106,7 +2106,7 @@ Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
 </div>
 
 <p>
-On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par Org (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui <i>facilite</i> la cohabitation avec les paquets comme <code>fci-mode</code>. Il reste quelques petits problèmes, comme une petite <i>marche</i> sur la limite pour les lignes trop longues, mais avec <code>fci-mode</code>, il faut savoir faire des <a href="#org74a8a89">compromis</a>&#x2026;
+On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par Org (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui <i>facilite</i> la cohabitation avec les paquets comme <code>fci-mode</code>. Il reste quelques petits problèmes, comme une petite <i>marche</i> sur la limite pour les lignes trop longues, mais avec <code>fci-mode</code>, il faut savoir faire des <a href="#org2d21fdd">compromis</a>&#x2026;
 </p>
 
 <p>
@@ -2121,9 +2121,9 @@ J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de t
 </div>
 
 
-<div id="outline-container-orgb59a5a8" class="outline-2">
-<h2 id="orgb59a5a8">Projectile</h2>
-<div class="outline-text-2" id="text-orgb59a5a8">
+<div id="outline-container-org2d9bdd5" class="outline-2">
+<h2 id="org2d9bdd5">Projectile</h2>
+<div class="outline-text-2" id="text-org2d9bdd5">
 <p>
 Un module qui fournit une fonctionnalité bien pratique : regrouper les fichiers d'un même projet. Lorsqu'on ouvre un fichier, Projectile cherche un dépôt (via la présence d'un <code>.git</code> ou autre) dans le répertoire du fichier ouvert, puis dans ses répertoires parents.
 </p>
@@ -2147,7 +2147,7 @@ Active Projectile dans tous les modes le supportant
 </div>
 
 <p>
-Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code> qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant <code>foo.h</code>, Projectile cherche dans le projet <code>foo.c</code>, et l'ouvre s'il le trouve. J'utilisais avant <a href="#orgc76e374">Find File At Point</a> pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
+Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code> qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant <code>foo.h</code>, Projectile cherche dans le projet <code>foo.c</code>, et l'ouvre s'il le trouve. J'utilisais avant <a href="#org793e5f7">Find File At Point</a> pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
 </p>
 
 <div class="org-src-container">
@@ -2175,9 +2175,9 @@ Active les raccourcis Helm pour les fonctions Projectile
 </div>
 </div>
 
-<div id="outline-container-orge5db465" class="outline-2">
-<h2 id="orge5db465">Qt</h2>
-<div class="outline-text-2" id="text-orge5db465">
+<div id="outline-container-org5c5478a" class="outline-2">
+<h2 id="org5c5478a">Qt</h2>
+<div class="outline-text-2" id="text-org5c5478a">
 <p>
 Pour ceux qui développent avec Qt, la fonction <code>generate-qt-includes</code> appelle un petit morceau de shell qui essaie de générer la liste des entêtes nécessaires aux types Qt utilisés. Sans doute pas parfait (tente régulièrement d'inclure QStringLiteral), mais mieux que rien !
 </p>
@@ -2208,9 +2208,9 @@ Le raccourci <kbd>M</kbd>-<kbd>#</kbd> appelle <code>generate-qt-includes</code>
 </div>
 </div>
 
-<div id="outline-container-orgb7032c3" class="outline-2">
-<h2 id="orgb7032c3">Rainbow delimiters</h2>
-<div class="outline-text-2" id="text-orgb7032c3">
+<div id="outline-container-org371aa5c" class="outline-2">
+<h2 id="org371aa5c">Rainbow delimiters</h2>
+<div class="outline-text-2" id="text-org371aa5c">
 <p>
 Met en évidence les symboles ouvrants et fermants, comme les parenthèses, les accolades ou les crochets, avec des couleurs appariées. Raffiné et élégant !
 </p>
@@ -2240,9 +2240,9 @@ Active cette fonctionnalité dans tous les modes de développement
 </div>
 </div>
 
-<div id="outline-container-orga8cc096" class="outline-2">
-<h2 id="orga8cc096">Rainbow mode</h2>
-<div class="outline-text-2" id="text-orga8cc096">
+<div id="outline-container-org7e0a734" class="outline-2">
+<h2 id="org7e0a734">Rainbow mode</h2>
+<div class="outline-text-2" id="text-org7e0a734">
 <p>
 Cherche dans un buffer les chaines représentant une couleur, et les surligne avec cette couleur. Quelquefois il devine mal et surligne des couleurs qui n'en sont pas, mais ça reste très pratique, et joli, ce qui ne gâche rien ! L'essayer c'est l'adopter.
 </p>
@@ -2272,9 +2272,9 @@ Active cette fonctionnalité dans tous les modes de développement
 </div>
 </div>
 
-<div id="outline-container-org2d0f240" class="outline-2">
-<h2 id="org2d0f240">Related</h2>
-<div class="outline-text-2" id="text-org2d0f240">
+<div id="outline-container-orge2f96ea" class="outline-2">
+<h2 id="orge2f96ea">Related</h2>
+<div class="outline-text-2" id="text-orge2f96ea">
 <p>
 Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
 </p>
@@ -2323,11 +2323,11 @@ Active Related, qui est un mode mineur global
 </div>
 </div>
 
-<div id="outline-container-orga34ad44" class="outline-2">
-<h2 id="orga34ad44">Shell scripts</h2>
-<div class="outline-text-2" id="text-orga34ad44">
+<div id="outline-container-org2ad9fa1" class="outline-2">
+<h2 id="org2ad9fa1">Shell scripts</h2>
+<div class="outline-text-2" id="text-org2ad9fa1">
 <p>
-Les fichiers en .sh s'ouvrent avec <code>shell-script-mode</code>, indépendamment de leur <i>shebang</i>. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
+Les fichiers en <code>.sh</code> s'ouvrent avec <code>shell-script-mode</code>, indépendamment de leur <i>shebang</i>. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
 </p>
 
 <div class="org-src-container">
@@ -2337,9 +2337,9 @@ Les fichiers en .sh s'ouvrent avec <code>shell-script-mode</code>, indépendamme
 </div>
 </div>
 
-<div id="outline-container-org10b0db5" class="outline-2">
-<h2 id="org10b0db5">Souris</h2>
-<div class="outline-text-2" id="text-org10b0db5">
+<div id="outline-container-orga631c8d" class="outline-2">
+<h2 id="orga631c8d">Souris</h2>
+<div class="outline-text-2" id="text-orga631c8d">
 <p>
 La molette de la souris fait défiler les lignes deux par deux
 </p>
@@ -2360,9 +2360,9 @@ Le défilement à l'écran suit la molette, et le pas reste constant quand elle 
 </div>
 </div>
 
-<div id="outline-container-org2472d5c" class="outline-2">
-<h2 id="org2472d5c">Tcl</h2>
-<div class="outline-text-2" id="text-org2472d5c">
+<div id="outline-container-org12b51e8" class="outline-2">
+<h2 id="org12b51e8">Tcl</h2>
+<div class="outline-text-2" id="text-org12b51e8">
 <p>
 Ouvre les <code>.tm</code> comme des modules Tcl
 </p>
@@ -2374,9 +2374,9 @@ Ouvre les <code>.tm</code> comme des modules Tcl
 </div>
 </div>
 
-<div id="outline-container-org28161e6" class="outline-2">
-<h2 id="org28161e6">Tramp</h2>
-<div class="outline-text-2" id="text-org28161e6">
+<div id="outline-container-org8ec8cea" class="outline-2">
+<h2 id="org8ec8cea">Tramp</h2>
+<div class="outline-text-2" id="text-org8ec8cea">
 <p>
 Transfère les fichiers en utilisant ssh, plutôt que ftp
 </p>
@@ -2388,9 +2388,9 @@ Transfère les fichiers en utilisant ssh, plutôt que ftp
 </div>
 </div>
 
-<div id="outline-container-orgc305190" class="outline-2">
-<h2 id="orgc305190">Uniquify</h2>
-<div class="outline-text-2" id="text-orgc305190">
+<div id="outline-container-org027bd2c" class="outline-2">
+<h2 id="org027bd2c">Uniquify</h2>
+<div class="outline-text-2" id="text-org027bd2c">
 <p>
 Génère des libellés plus pertinents pour les buffers de mêmes noms
 </p>
@@ -2411,9 +2411,9 @@ Soit les fichiers <code>xxx/yyy/foo.txt</code> et <code>zzz/ttt/foo.txt</code> t
 </div>
 </div>
 
-<div id="outline-container-org934bbb6" class="outline-2">
-<h2 id="org934bbb6">Whitespace</h2>
-<div class="outline-text-2" id="text-org934bbb6">
+<div id="outline-container-org8fa09a6" class="outline-2">
+<h2 id="org8fa09a6">Whitespace</h2>
+<div class="outline-text-2" id="text-org8fa09a6">
 <p>
 Un mode mineur qui permet de visualiser les espaces, de nettoyer les lignes blanches, ou encore de visualiser les lignes trop longues. Très paramétrable.
 </p>
@@ -2462,9 +2462,9 @@ Active whitespace-mode dans tous les modes de développement
 </div>
 </div>
 
-<div id="outline-container-org979cf77" class="outline-2">
-<h2 id="org979cf77">XML</h2>
-<div class="outline-text-2" id="text-org979cf77">
+<div id="outline-container-org40e3b31" class="outline-2">
+<h2 id="org40e3b31">XML</h2>
+<div class="outline-text-2" id="text-org40e3b31">
 <p>
 Une fonction pour remettre en forme du XML. Prise sur le site de <a href="http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html">Benjamin Ferrari</a>.
 </p>
@@ -2495,9 +2495,9 @@ Une fonction pour remettre en forme du XML. Prise sur le site de <a href="http:/
 </div>
 </div>
 
-<div id="outline-container-org2628759" class="outline-2">
-<h2 id="org2628759">Installation automatique</h2>
-<div class="outline-text-2" id="text-org2628759">
+<div id="outline-container-orgb2ba0a9" class="outline-2">
+<h2 id="orgb2ba0a9">Installation automatique</h2>
+<div class="outline-text-2" id="text-orgb2ba0a9">
 <p>
 Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de <a href="https://stackoverflow.com/a/10093312">cette réponse</a> sur Stack Overflow.
 </p>

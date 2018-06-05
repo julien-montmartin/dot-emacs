@@ -6,7 +6,7 @@
 
 Voir le manuel à la section Specifying File Variables pour la définition des variables locales à un buffer sur la première ligne de ce dernier.
 
-Utiliser C-u 1 M-x byte-recompile-directory pour produire des .elc. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
+Utiliser C-u 1 M-x byte-recompile-directory pour produire des ~.elc~. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
 :END:
 
 #+BEGIN_abstract
@@ -1738,7 +1738,7 @@ Active Related, qui est un mode mineur global
 
 * Shell scripts
 
-Les fichiers en .sh s'ouvrent avec ~shell-script-mode~, indépendamment de leur /shebang/. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
+Les fichiers en ~.sh~ s'ouvrent avec ~shell-script-mode~, indépendamment de leur /shebang/. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
