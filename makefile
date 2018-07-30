@@ -4,7 +4,7 @@ clean :
 	rm -f emacs.el emacs.html
 
 copy : all
-	cp emacs.org emacs.el emacs.html ${DIST}
+	cp emacs.org emacs.el loader.el emacs.html ${DIST}
 
 emacs.el : emacs.org
 	#On génère un emacs.el fonctionnel mais pas forcément bien formaté. Ce
