@@ -1311,8 +1311,14 @@ IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'u
 
 * Magit
 
+:NOTE:
+Pour éviter l'erreur suivante (qui paralyse Emacs !), on ne charge Magit que si git est présent...
+Error in post-command-hook (magit-auto-revert-mode-check-buffers): (file-error "Searching for program" "Aucun fichier ou dossier de ce type" "git")
+:END:
+
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
-  (when
+  (if (executable-find "git")
+      (progn (when
 #+END_SRC
 
 Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
@@ -1328,7 +1334,7 @@ La plupart des opérations dans Magit commencent par le buffer ~status~ accessib
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
-  )
+  )))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
