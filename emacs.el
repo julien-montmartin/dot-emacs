@@ -281,6 +281,9 @@ and restore it later."
 
 (last-step-duration "Gestionnaire de paquets")
 
+(if (member 'leuven-theme (mapcar 'car package-alist))
+    (load-theme 'leuven t))
+
 (defun prev-tab-to-tab-stop ()
   "Remove spaces or tabs to next defined tab-stop column."
   (interactive)
@@ -472,13 +475,14 @@ and restore it later."
 
 (last-step-duration "Lisp")
 
-(when
+(if (executable-find "git")
+    (progn (when
 
 (my-require 'magit)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-)
+)))
 
 (last-step-duration "Magit")
 
@@ -540,8 +544,8 @@ and restore it later."
             (push '("||" . ?∨) prettify-symbols-alist)
             (push '("<=" . ?≤) prettify-symbols-alist)
             (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("<<" . ?«) prettify-symbols-alist)
-            (push '(">>" . ?») prettify-symbols-alist)
+            (push '("<<" . ?≪) prettify-symbols-alist)
+            (push '(">>" . ?≫) prettify-symbols-alist)
             (push '("::" . ?∷) prettify-symbols-alist)
             (push '("->" . ?→) prettify-symbols-alist)
             (push '("=>" . ?⇒) prettify-symbols-alist)
@@ -652,8 +656,6 @@ sort | uniq" )
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
-(add-hook 'prog-mode-hook 'whitespace-mode)
-
 )
 
 (last-step-duration "Whitespace")
@@ -683,27 +685,28 @@ by using nxml's indentation rules."
 
 (defun my-setup()
   (unless package-archive-contents
-	(package-refresh-contents))
+    (package-refresh-contents))
   (dolist (package '(auto-complete-config
-					 bm
-					 column-marker
-					 cmake-mode
-					 epa-file
-					 fill-column-indicator
-					 graphviz-dot-mode
-					 helm
-					 htmlize
-					 idle-highlight-mode
-					 magit
-					 mmm-auto
-					 projectile
-					 helm-projectile
-					 rainbow-delimiters
-					 rainbow-mode
-					 related
-					 uniquify
-					 whitespace))
-	(message "---> %s" package)
-	(unless (package-installed-p package)
-	  (ignore-errors
-		(package-install package)))))
+                     bm
+                     column-marker
+                     cmake-mode
+                     epa-file
+                     fill-column-indicator
+                     graphviz-dot-mode
+                     helm
+                     htmlize
+                     idle-highlight-mode
+                     leuven-theme
+                     magit
+                     mmm-auto
+                     projectile
+                     helm-projectile
+                     rainbow-delimiters
+                     rainbow-mode
+                     related
+                     uniquify
+                     whitespace))
+    (message "---> %s" package)
+    (unless (package-installed-p package)
+      (ignore-errors
+        (package-install package)))))

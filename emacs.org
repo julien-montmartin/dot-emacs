@@ -740,7 +740,7 @@ Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser ~helm-list-eli
 
 * Thème Leuven
 
-Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ressortent mal. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à Org-mode), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
+Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ne ressortent pas. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à [[*Org]]), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (if (member 'leuven-theme (mapcar 'car package-alist))
@@ -1071,7 +1071,7 @@ Ajoute quelques chemins usuels pour trouver les sources et les entêtes
 Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <<fci-sucks>>
 
 - casse les menus d'~auto-complete~
-- casse l'export HTML des fichiers Org
+- casse l'export HTML des fichiers [[*Org]]
 - copie-colle des pipes depuis le terminal
 
 #+BEGIN_SRC emacs-lisp :tangle no :exports none
@@ -1525,11 +1525,11 @@ Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
   {
       //Print something if first != second
       if(p ≠ nullptr ∧ (p→first ≠ p→second))
-          std∷cout « p→first « "!=" « p→second « std∷endl;
+          std∷cout ≪ p→first « "!=" ≪ p→second « std∷endl;
   }
 #+END_SRC
 
-On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par Org (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui /facilite/ la cohabitation avec les paquets comme ~fci-mode~. Il reste quelques petits problèmes, comme une petite /marche/ sur la limite pour les lignes trop longues, mais avec ~fci-mode~, il faut savoir faire des [[fci-sucks][compromis]]...
+On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par [[*Org]] (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui /facilite/ la cohabitation avec les paquets comme ~fci-mode~. Il reste quelques petits problèmes, comme une petite /marche/ sur la limite pour les lignes trop longues, mais avec ~fci-mode~, il faut savoir faire des [[fci-sucks][compromis]]...
 
 J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de test. Pour l'instant, on l'active dans tous les modes qui le supportent.
 
