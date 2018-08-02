@@ -738,6 +738,15 @@ Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser ~helm-list-eli
   (last-step-duration "Gestionnaire de paquets")
 #+END_SRC
 
+* Thème Leuven
+
+Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ressortent mal. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à Org-mode), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (if (member 'leuven-theme (mapcar 'car package-alist))
+      (load-theme 'leuven t))
+#+END_SRC
+
 * TabTab minor mode
 
 Une tentative pour changer le comportement de la touche {{{KBD-(TAB)}}} dans les fichiers CMake :
@@ -1898,32 +1907,33 @@ Une fonction pour remettre en forme du XML. Prise sur le site de [[http://blog.b
 Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de [[https://stackoverflow.com/a/10093312][cette réponse]] sur Stack Overflow.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(defun my-setup()
-  (unless package-archive-contents
-	(package-refresh-contents))
-  (dolist (package '(auto-complete-config
-					 bm
-					 column-marker
-					 cmake-mode
-					 epa-file
-					 fill-column-indicator
-					 graphviz-dot-mode
-					 helm
-					 htmlize
-					 idle-highlight-mode
-					 magit
-					 mmm-auto
-					 projectile
-					 helm-projectile
-					 rainbow-delimiters
-					 rainbow-mode
-					 related
-					 uniquify
-					 whitespace))
-	(message "---> %s" package)
-	(unless (package-installed-p package)
-	  (ignore-errors
-		(package-install package)))))
+  (defun my-setup()
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (dolist (package '(auto-complete-config
+                       bm
+                       column-marker
+                       cmake-mode
+                       epa-file
+                       fill-column-indicator
+                       graphviz-dot-mode
+                       helm
+                       htmlize
+                       idle-highlight-mode
+                       leuven
+                       magit
+                       mmm-auto
+                       projectile
+                       helm-projectile
+                       rainbow-delimiters
+                       rainbow-mode
+                       related
+                       uniquify
+                       whitespace))
+      (message "---> %s" package)
+      (unless (package-installed-p package)
+        (ignore-errors
+          (package-install package)))))
 #+END_SRC
 
 * Générer les fichiers :noexport:
