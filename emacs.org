@@ -1859,7 +1859,7 @@ Lorsqu'on sauvegarde un fichier, on veut que les espaces soient automatiquement 
 
 Active whitespace-mode dans tous les modes de développement
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'prog-mode-hook 'whitespace-mode)
 #+END_SRC
 
