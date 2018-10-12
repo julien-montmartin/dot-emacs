@@ -199,8 +199,8 @@ Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de 
 #+BEGIN_SRC emacs-lisp :tangle yes
   ;; À la place de view-order-manuals qui est normalement sur f1
   (global-set-key (kbd "<f1>")	'view-mode)
-  (global-set-key (kbd "<C-f1>")	'revert-buffer)
-  (global-set-key (kbd "<S-f1>")	'revert-buffer)
+  (global-set-key (kbd "C-<f1>")	'revert-buffer)
+  (global-set-key (kbd "S-<f1>")	'revert-buffer)
 #+END_SRC
 
 - {{{KBD-(F2)}}} pour ~bm-toggle~, qui insère (ou retire) un marque-page sur la ligne. La ligne marquée est alors surlignée
@@ -210,11 +210,11 @@ En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<f2>")	'bm-toggle)
-  (global-set-key (kbd "<C-f2>")	'bm-next)
-  (global-set-key (kbd "<S-f2>")	'bm-previous)
+  (global-set-key (kbd "C-<f2>")	'bm-next)
+  (global-set-key (kbd "S-<f2>")	'bm-previous)
 
   (unless window-system
-    (global-set-key (kbd "<S-f2>")	'helm-bm))
+    (global-set-key (kbd "S-<f2>")	'helm-bm))
 #+END_SRC
 
 - {{{KBD-(F3)}}} pour ~hl-line-mode~, bien pratique quand on a besoin de se concentrer sur une ligne, ou lorsqu'on doit traiter un buffer une ligne après l'autre.
@@ -234,8 +234,8 @@ En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<f5>")	'run-compilation)
-  (global-set-key (kbd "<C-f5>")	'end-compilation)
-  (global-set-key (kbd "<S-f5>")	'end-compilation)
+  (global-set-key (kbd "C-<f5>")	'end-compilation)
+  (global-set-key (kbd "S-<f5>")	'end-compilation)
 #+END_SRC
 
 - {{{KBD-(F6)}}} pour ~projectile-multi-occur~, qui lance ~occur~ dans tous les buffers ouverts appartenant au projet du buffer courant
@@ -243,8 +243,8 @@ En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<f6>")	'projectile-multi-occur)
-  (global-set-key (kbd "<C-f6>")	'helm-occur)
-  (global-set-key (kbd "<S-f6>")	'helm-occur)
+  (global-set-key (kbd "C-<f6>")	'helm-occur)
+  (global-set-key (kbd "S-<f6>")	'helm-occur)
 #+END_SRC
 
 - {{{KBD-(F8)}}} pour [[*Fill column indicator]], qui met en évidence la colonne 80 dans les modes de développement.
@@ -252,8 +252,8 @@ En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "<f8>")	'fci-mode)
-  (global-set-key (kbd "<C-f8>")	'whitespace-mode)
-  (global-set-key (kbd "<S-f8>")	'whitespace-mode)
+  (global-set-key (kbd "C-<f8>")	'whitespace-mode)
+  (global-set-key (kbd "S-<f8>")	'whitespace-mode)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
@@ -482,8 +482,8 @@ Contourne les problèmes liés au buffer par défaut. En particulier, prend le p
     (let ((map icomplete-minibuffer-map))
 	  (define-key map (kbd "C-s") 'my-icomplete-forward-completions)
 	  (define-key map (kbd "C-r") 'my-icomplete-backward-completions)
-	  (define-key map (kbd "<C-j>") 'my-minibuffer-force-complete-and-exit)
-	  (define-key map (kbd "<C-return>") 'my-minibuffer-force-complete-and-exit)
+	  (define-key map (kbd "C-j") 'my-minibuffer-force-complete-and-exit)
+	  (define-key map (kbd "C-<return>") 'my-minibuffer-force-complete-and-exit)
 	  ))
 #+END_SRC
 
@@ -768,7 +768,7 @@ Une tentative pour changer le comportement de la touche {{{KBD-(TAB)}}} dans les
     :lighter " TTm"
     :keymap (let ((map (make-sparse-keymap)))
 			  (define-key map (kbd "<tab>") 'tab-to-tab-stop)
-			  (define-key map (kbd "<S-tab>") 'prev-tab-to-tab-stop)
+			  (define-key map (kbd "S-<tab>") 'prev-tab-to-tab-stop)
 			  map))
 
   (add-hook 'cmake-mode-hook 'tab-tab-mode)
@@ -788,15 +788,11 @@ Cependant ça ne fonctionne pas très bien, car ~cmake-mode~ n'a pas l'air de pr
 
 * Auto Complete
 
-:NOTE:
-Voir intégration ou remplacement par Helm
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (when
 #+END_SRC
 
-Auto Complete présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
+[[https://github.com/auto-complete/auto-complete/blob/master/doc/manual.md][Auto Complete]] présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (my-require 'auto-complete-config)
@@ -828,6 +824,25 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
   (setq ac-auto-start nil)
   (global-set-key "\M-/" 'auto-complete))
 #+END_SRC
+
+{{{CTRL-(s)}}} permet de filtrer une sous-chaine dans le menu
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq ac-use-menu-map t)
+#+END_SRC
+
+On souhaite profiter de la recherche approximative, dans le cas d'un préfix mal orthographié ou écrit en abrégé. Cela fonctionne au minimum avec le contenu du buffer courant, mais manifestement pas avec les autres sources. Nécessite le paquet ~fuzzy~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq ac-use-fuzzy t)
+#+END_SRC
+
+Intègre Auto Complete à Helm, et permet d'avoir avec {{{CTRL-(:)}}} dans un buffer helm, le contenu du menu qu'on aurait eu avec {{{META-(/)}}}.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
+#+END_SRC
+
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Auto Complete")

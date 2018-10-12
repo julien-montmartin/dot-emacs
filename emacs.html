@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
-<!-- 2018-08-02 jeu. 18:20 -->
+<!-- 2018-10-12 ven. 12:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Une Configuration Emacs</title>
@@ -248,7 +248,7 @@ for the JavaScript code in this tag.
 <h1 class="title">Une Configuration Emacs</h1>
 <div class="abstract">
 <p>
-Voici ma configuration Emacs - un chantier jamais fini - au 02/08/2018. Cette configuration prend la forme d'un <a href="http://dist.jmontmartin.net/emacs.org">fichier Org</a>, à partir duquel sont générés une <a href="emacs.html">documentation HTML</a>, ainsi que le <a href="emacs.el">fichier Lisp</a> qui constituait auparavant mon <code>.emacs</code>. Ce dernier s'est transformé en un petit <a href="loader.el">fichier de chargement</a>, qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+Voici ma configuration Emacs - un chantier jamais fini - au 12/10/2018. Cette configuration prend la forme d'un <a href="http://dist.jmontmartin.net/emacs.org">fichier Org</a>, à partir duquel sont générés une <a href="emacs.html">documentation HTML</a>, ainsi que le <a href="emacs.el">fichier Lisp</a> qui constituait auparavant mon <code>.emacs</code>. Ce dernier s'est transformé en un petit <a href="loader.el">fichier de chargement</a>, qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 </p>
 
 <p>
@@ -261,96 +261,96 @@ C'est également un essai pour voir ce qu'on peut faire avec <a href="http://org
 <h2>Table des matières</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga56a725">À propos du temps</a></li>
-<li><a href="#orgf6cf765">Généralités</a></li>
-<li><a href="#org72e6dac">Raccourcis Fn</a></li>
-<li><a href="#org39c1734">UTF-8</a></li>
-<li><a href="#orgaf994fd">Navigation dans les buffers</a></li>
-<li><a href="#org03caca3">Compilation</a></li>
-<li><a href="#org845281b">Copier/coller</a></li>
-<li><a href="#org70dc3e1">Parenthèses et Cie</a></li>
-<li><a href="#org8f22c14">Suggestions</a></li>
-<li><a href="#org2fb538c">Mise à jour du path</a></li>
-<li><a href="#org8520295">Valorisation du proxy</a></li>
-<li><a href="#org39e4c24">Ajustements à l'OS</a>
+<li><a href="#org164e7fb">À propos du temps</a></li>
+<li><a href="#org3752b4f">Généralités</a></li>
+<li><a href="#org7b740e9">Raccourcis Fn</a></li>
+<li><a href="#org0fd03d7">UTF-8</a></li>
+<li><a href="#org8ec03cc">Navigation dans les buffers</a></li>
+<li><a href="#orgef353c0">Compilation</a></li>
+<li><a href="#orgcddde68">Copier/coller</a></li>
+<li><a href="#orgac39814">Parenthèses et Cie</a></li>
+<li><a href="#org67dfed9">Suggestions</a></li>
+<li><a href="#org4cc6db2">Mise à jour du path</a></li>
+<li><a href="#orga4eb98e">Valorisation du proxy</a></li>
+<li><a href="#org319a825">Ajustements à l'OS</a>
 <ul>
-<li><a href="#orgeb5653f">Sous Linux</a></li>
-<li><a href="#org0cbab80">Sous Mac</a></li>
+<li><a href="#org7f60fa0">Sous Linux</a></li>
+<li><a href="#org726d3ef">Sous Mac</a></li>
 </ul>
 </li>
-<li><a href="#orgc95f65a">Require</a></li>
-<li><a href="#orgf4dbfa3">Gestionnaire de paquets</a></li>
-<li><a href="#org6e94e71">Thème Leuven</a></li>
-<li><a href="#org58913af">TabTab minor mode</a></li>
-<li><a href="#org25c23d2">Auto Complete</a></li>
-<li><a href="#orga67c50d">Bookmarks</a></li>
-<li><a href="#orge20b68e">C &amp; C++</a></li>
-<li><a href="#orgb53ef0b">Column Marker</a></li>
-<li><a href="#org2106eac">CMake</a></li>
-<li><a href="#org41ce83c">DTrace</a></li>
-<li><a href="#org7bd80a5">EasyPG Assistant</a></li>
-<li><a href="#org62f2cd7">Ediff</a></li>
-<li><a href="#org93c24f3">Find File At Point</a></li>
-<li><a href="#org9793787">Fill column indicator</a></li>
-<li><a href="#org4bb54e3">Global</a></li>
-<li><a href="#orge63d277">Graphviz</a></li>
-<li><a href="#orgc388ad3">Helm</a></li>
-<li><a href="#orge4670df">Htmlize</a></li>
-<li><a href="#org2cd6574">Idle HighLight Mode</a></li>
-<li><a href="#org8bf5def">Emacs Lisp</a></li>
-<li><a href="#org9dc2de3">Magit</a></li>
-<li><a href="#org426dae4">MMM Mode</a></li>
-<li><a href="#org4ef2861">Org</a>
+<li><a href="#orgee6857f">Require</a></li>
+<li><a href="#org625d866">Gestionnaire de paquets</a></li>
+<li><a href="#orgc61626e">Thème Leuven</a></li>
+<li><a href="#org2ab586c">TabTab minor mode</a></li>
+<li><a href="#orgc75149e">Auto Complete</a></li>
+<li><a href="#org9269a00">Bookmarks</a></li>
+<li><a href="#org9b4edb9">C &amp; C++</a></li>
+<li><a href="#orgf1833f2">Column Marker</a></li>
+<li><a href="#org9b40764">CMake</a></li>
+<li><a href="#org9aa9c08">DTrace</a></li>
+<li><a href="#orgc59e931">EasyPG Assistant</a></li>
+<li><a href="#org2bce385">Ediff</a></li>
+<li><a href="#org5867122">Find File At Point</a></li>
+<li><a href="#org0fd6644">Fill column indicator</a></li>
+<li><a href="#org03af72e">Global</a></li>
+<li><a href="#org4012e4d">Graphviz</a></li>
+<li><a href="#orgd728602">Helm</a></li>
+<li><a href="#orgb684a8d">Htmlize</a></li>
+<li><a href="#org957bfcb">Idle HighLight Mode</a></li>
+<li><a href="#org2a71ea3">Emacs Lisp</a></li>
+<li><a href="#org8b77fbf">Magit</a></li>
+<li><a href="#orgf78eafd">MMM Mode</a></li>
+<li><a href="#org74cc927">Org</a>
 <ul>
-<li><a href="#orgddfe8ef">Mise à jour</a></li>
+<li><a href="#org1037a8e">Mise à jour</a></li>
 </ul>
 </li>
-<li><a href="#org8dd311b">Perforce</a></li>
-<li><a href="#org8cde863">Prettify Symbols</a></li>
-<li><a href="#org1185aa8">Projectile</a></li>
-<li><a href="#orgfae51f9">Qt</a></li>
-<li><a href="#orgce0e424">Rainbow delimiters</a></li>
-<li><a href="#orgbc50dec">Rainbow mode</a></li>
-<li><a href="#orgdad8ed4">Related</a></li>
-<li><a href="#org8e9be74">Shell scripts</a></li>
-<li><a href="#org6c32d2a">Souris</a></li>
-<li><a href="#org2aed50e">Tcl</a></li>
-<li><a href="#org133e7fb">Tramp</a></li>
-<li><a href="#org03b8311">Uniquify</a></li>
-<li><a href="#org73926a1">Whitespace</a></li>
-<li><a href="#org38a5d73">XML</a></li>
-<li><a href="#orgf199677">Installation automatique</a></li>
+<li><a href="#orgd4b4564">Perforce</a></li>
+<li><a href="#orga47391f">Prettify Symbols</a></li>
+<li><a href="#orgf2a5b44">Projectile</a></li>
+<li><a href="#orgb4da257">Qt</a></li>
+<li><a href="#org672f002">Rainbow delimiters</a></li>
+<li><a href="#org5093769">Rainbow mode</a></li>
+<li><a href="#org6d1a97c">Related</a></li>
+<li><a href="#org8962571">Shell scripts</a></li>
+<li><a href="#org17867f2">Souris</a></li>
+<li><a href="#orgd544116">Tcl</a></li>
+<li><a href="#orgd5f6865">Tramp</a></li>
+<li><a href="#orgf381f76">Uniquify</a></li>
+<li><a href="#orgdd15dc8">Whitespace</a></li>
+<li><a href="#org45961a5">XML</a></li>
+<li><a href="#orge873e86">Installation automatique</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga56a725" class="outline-2">
-<h2 id="orga56a725">À propos du temps</h2>
-<div class="outline-text-2" id="text-orga56a725">
+<div id="outline-container-org164e7fb" class="outline-2">
+<h2 id="org164e7fb">À propos du temps</h2>
+<div class="outline-text-2" id="text-org164e7fb">
 <p>
 La fonction <code>last-step-duration</code>, appelée régulièrement, permet de voir comment le temps s'écoule lors du chargement du <code>.emacs</code>. À chaque appel, elle laisse une trace dans le buffer <code>*Messages*</code> avec le temps écoulé depuis l'appel précédent, ainsi que le temps total écoulé depuis le début du chargement du fichier. Certainement pas un modèle de Lisp, mais remplit son office et aide à comprendre pourquoi Emacs est parfois lent à démarrer.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">reset-ts</span>()
-  (<span style="font-weight: bold;">setq</span> first-ts (current-time))
-  (<span style="font-weight: bold;">setq</span> last-ts first-ts))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">reset-ts</span><span style="color: #7388D6;">()</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> first-ts <span style="color: #909183;">(</span>current-time<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> last-ts first-ts<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">step-duration</span>()
-  (<span style="font-weight: bold;">let*</span> ((ts (current-time))
-         (elapsed (float-time (time-subtract ts last-ts))))
-    (<span style="font-weight: bold;">setq</span> last-ts ts)
-    elapsed))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">step-duration</span><span style="color: #7388D6;">()</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let*</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>ts <span style="color: #907373;">(</span>current-time<span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+         <span style="color: #709870;">(</span>elapsed <span style="color: #907373;">(</span>float-time <span style="color: #6276BA;">(</span>time-subtract ts last-ts<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> last-ts ts<span style="color: #909183;">)</span>
+    elapsed<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">total-duration</span>()
-  (<span style="font-weight: bold;">let*</span> ((ts (current-time))
-         (elapsed (float-time (time-subtract ts first-ts))))
-    elapsed))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">total-duration</span><span style="color: #7388D6;">()</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let*</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>ts <span style="color: #907373;">(</span>current-time<span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+         <span style="color: #709870;">(</span>elapsed <span style="color: #907373;">(</span>float-time <span style="color: #6276BA;">(</span>time-subtract ts first-ts<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    elapsed<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">last-step-duration</span>(title)
-  (message <span style="font-style: italic;">"&#932;=%.3fs\t&#916;=%.3fs\t%s"</span> (total-duration) (step-duration) title))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">last-step-duration</span><span style="color: #7388D6;">(</span>title<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"&#932;=%.3fs\t&#916;=%.3fs\t%s"</span> <span style="color: #909183;">(</span>total-duration<span style="color: #909183;">)</span> <span style="color: #909183;">(</span>step-duration<span style="color: #909183;">)</span> title<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(reset-ts)
+<span style="color: #707183;">(</span>reset-ts<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -364,15 +364,15 @@ Ce code apparait en début de fichier afin d'initialiser une variable globale co
 </div>
 </div>
 
-<div id="outline-container-orgf6cf765" class="outline-2">
-<h2 id="orgf6cf765">Généralités</h2>
-<div class="outline-text-2" id="text-orgf6cf765">
+<div id="outline-container-org3752b4f" class="outline-2">
+<h2 id="org3752b4f">Généralités</h2>
+<div class="outline-text-2" id="text-org3752b4f">
 <p>
 Désactive l'écran d'accueil, Emacs s'ouvre avec le buffer <code>scratch</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> inhibit-startup-screen t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> inhibit-startup-screen t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -381,7 +381,7 @@ Affichage du nom du buffer dans la barre de titre
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> frame-title-format '(buffer-file-name <span style="font-style: italic;">"Emacs: %b (%f)"</span> <span style="font-style: italic;">"Emacs: %b"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> frame-title-format '<span style="color: #7388D6;">(</span>buffer-file-name <span style="color: #008000;">"Emacs: %b (%f)"</span> <span style="color: #008000;">"Emacs: %b"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -390,7 +390,7 @@ Dans le terminal, pas de barre de menu
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">unless</span> window-system (menu-bar-mode -1))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">unless</span> window-system <span style="color: #7388D6;">(</span>menu-bar-mode -1<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -399,7 +399,7 @@ En mode graphique, cache la barre d'outils
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> window-system (tool-bar-mode -1))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> window-system <span style="color: #7388D6;">(</span>tool-bar-mode -1<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -408,7 +408,7 @@ En mode graphique, gouttière réduite à gauche uniquement (nil pour remettre l
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> window-system (set-fringe-mode '(4 . 0)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> window-system <span style="color: #7388D6;">(</span>set-fringe-mode '<span style="color: #909183;">(</span>4 . 0<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -417,7 +417,7 @@ En mode graphique, barre de défilement à droite (-1 pour désactiver)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> window-system (set-scroll-bar-mode 'right))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> window-system <span style="color: #7388D6;">(</span>set-scroll-bar-mode 'right<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -426,7 +426,7 @@ Un buffer pour lequel Emacs n'a attribué aucun mode majeur s'ouvre en mode text
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq-default</span> major-mode 'text-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq-default</span> major-mode 'text-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -435,7 +435,7 @@ Une ligne de 80 caractères est suffisamment longue. La variable <code>default-f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> default-fill-column 80)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> default-fill-column 80<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -444,9 +444,9 @@ Indentation avec des tabulations de 4 caractères
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq-default</span> c-basic-offset 4
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq-default</span> c-basic-offset 4
               tab-width 4
-              indent-tabs-mode t)
+              indent-tabs-mode t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -455,7 +455,7 @@ En fin de buffer, les touches flèches ne créent pas une nouvelle ligne
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq-default</span> next-line-add-newlines nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq-default</span> next-line-add-newlines nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -464,8 +464,8 @@ Affichage de la ligne et de la colonne du curseur dans la mode line
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(line-number-mode t)
-(column-number-mode t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>line-number-mode t<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>column-number-mode t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -474,7 +474,7 @@ Pour utiliser <code>narrow-to-region</code> via son raccourci clavier <kbd>C</kb
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(put 'narrow-to-region 'disabled nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>put 'narrow-to-region 'disabled nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -483,7 +483,7 @@ Désactive la transient mark. La région est toujours active, mais pas surligné
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> transient-mark-mode nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> transient-mark-mode nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -492,7 +492,7 @@ Dans un environnement graphique, lance Emacs en mode serveur
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> window-system (server-start))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> window-system <span style="color: #7388D6;">(</span>server-start<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -501,7 +501,7 @@ Des modules peuvent se trouver dans <code>site-lisp</code>. On ajoute ce répert
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'load-path <span style="font-style: italic;">"~/.emacs.d/site-lisp/"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'load-path <span style="color: #008000;">"~/.emacs.d/site-lisp/"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -520,8 +520,8 @@ L'expression régulière <code>".*"</code> ci-après indique que la règle conce
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> backup-directory-alist `((<span style="font-style: italic;">".*"</span> . ,temporary-file-directory)))
-(<span style="font-weight: bold;">setq</span> auto-save-file-name-transforms `((<span style="font-style: italic;">".*"</span> ,temporary-file-directory t)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> backup-directory-alist `<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">".*"</span> . ,temporary-file-directory<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> auto-save-file-name-transforms `<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">".*"</span> ,temporary-file-directory t<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -530,7 +530,7 @@ Mise en évidence de la ligne en cours dans Dired
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'dired-mode-hook 'hl-line-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'dired-mode-hook 'hl-line-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -539,9 +539,9 @@ Sur Mac, Dired utilise GNU <code>ls</code> si disponible
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> (eq system-type 'darwin)
-  (<span style="font-weight: bold;">if</span> (file-executable-p <span style="font-style: italic;">"/usr/local/bin/gls"</span>)
-      (<span style="font-weight: bold;">setq</span> insert-directory-program <span style="font-style: italic;">"/usr/local/bin/gls"</span>)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> <span style="color: #7388D6;">(</span>eq system-type 'darwin<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span>file-executable-p <span style="color: #008000;">"/usr/local/bin/gls"</span><span style="color: #909183;">)</span>
+      <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> insert-directory-program <span style="color: #008000;">"/usr/local/bin/gls"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -550,15 +550,15 @@ Common Lisp, pour <code>ignore-errors</code> et d'autres
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">cl</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">cl</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org72e6dac" class="outline-2">
-<h2 id="org72e6dac">Raccourcis Fn</h2>
-<div class="outline-text-2" id="text-org72e6dac">
+<div id="outline-container-org7b740e9" class="outline-2">
+<h2 id="org7b740e9">Raccourcis Fn</h2>
+<div class="outline-text-2" id="text-org7b740e9">
 <p>
 Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de Visual Studio ou de Xcode. Lorsqu'il est lancé en mode texte depuis un terminal, Emacs ne voit pas les raccourcis en <kbd>C</kbd>-<kbd>Fn</kbd>. Pour cette raison, ils sont en général doublés sur <kbd>S</kbd>-<kbd>Fn</kbd>.
 </p>
@@ -569,10 +569,10 @@ Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">&#192; la place de view-order-manuals qui est normalement sur f1</span>
-(global-set-key (kbd <span style="font-style: italic;">"&lt;f1&gt;"</span>)    'view-mode)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;C-f1&gt;"</span>)  'revert-buffer)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;S-f1&gt;"</span>)  'revert-buffer)
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">&#192; la place de view-order-manuals qui est normalement sur f1</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f1&gt;"</span><span style="color: #7388D6;">)</span>    'view-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-&lt;f1&gt;"</span><span style="color: #7388D6;">)</span>  'revert-buffer<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"S-&lt;f1&gt;"</span><span style="color: #7388D6;">)</span>  'revert-buffer<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -586,12 +586,12 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f2&gt;"</span>)    'bm-toggle)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;C-f2&gt;"</span>)  'bm-next)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;S-f2&gt;"</span>)  'bm-previous)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f2&gt;"</span><span style="color: #7388D6;">)</span>    'bm-toggle<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-&lt;f2&gt;"</span><span style="color: #7388D6;">)</span>  'bm-next<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"S-&lt;f2&gt;"</span><span style="color: #7388D6;">)</span>  'bm-previous<span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">unless</span> window-system
-  (global-set-key (kbd <span style="font-style: italic;">"&lt;S-f2&gt;"</span>)    'helm-bm))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">unless</span> window-system
+  <span style="color: #7388D6;">(</span>global-set-key <span style="color: #909183;">(</span>kbd <span style="color: #008000;">"S-&lt;f2&gt;"</span><span style="color: #909183;">)</span>    'helm-bm<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -600,7 +600,7 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f3&gt;"</span>)    'hl-line-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f3&gt;"</span><span style="color: #7388D6;">)</span>    'hl-line-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -609,7 +609,7 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f4&gt;"</span>)    'projectile-grep)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f4&gt;"</span><span style="color: #7388D6;">)</span>    'projectile-grep<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -619,9 +619,9 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f5&gt;"</span>)    'run-compilation)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;C-f5&gt;"</span>)  'end-compilation)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;S-f5&gt;"</span>)  'end-compilation)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f5&gt;"</span><span style="color: #7388D6;">)</span>    'run-compilation<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-&lt;f5&gt;"</span><span style="color: #7388D6;">)</span>  'end-compilation<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"S-&lt;f5&gt;"</span><span style="color: #7388D6;">)</span>  'end-compilation<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -631,67 +631,67 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f6&gt;"</span>)    'projectile-multi-occur)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;C-f6&gt;"</span>)  'helm-occur)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;S-f6&gt;"</span>)  'helm-occur)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f6&gt;"</span><span style="color: #7388D6;">)</span>    'projectile-multi-occur<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-&lt;f6&gt;"</span><span style="color: #7388D6;">)</span>  'helm-occur<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"S-&lt;f6&gt;"</span><span style="color: #7388D6;">)</span>  'helm-occur<span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <ul class="org-ul">
-<li><kbd>F8</kbd> pour <a href="#org9793787">Fill column indicator</a>, qui met en évidence la colonne 80 dans les modes de développement.</li>
-<li><kbd>C</kbd>-<kbd>F8</kbd> pour désactiver (ou réactiver) <a href="#org73926a1">Whitespace</a> lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.</li>
+<li><kbd>F8</kbd> pour <a href="#org0fd6644">Fill column indicator</a>, qui met en évidence la colonne 80 dans les modes de développement.</li>
+<li><kbd>C</kbd>-<kbd>F8</kbd> pour désactiver (ou réactiver) <a href="#orgdd15dc8">Whitespace</a> lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.</li>
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"&lt;f8&gt;"</span>)    'fci-mode)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;C-f8&gt;"</span>)  'whitespace-mode)
-(global-set-key (kbd <span style="font-style: italic;">"&lt;S-f8&gt;"</span>)  'whitespace-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;f8&gt;"</span><span style="color: #7388D6;">)</span>    'fci-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-&lt;f8&gt;"</span><span style="color: #7388D6;">)</span>  'whitespace-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"S-&lt;f8&gt;"</span><span style="color: #7388D6;">)</span>  'whitespace-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org39c1734" class="outline-2">
-<h2 id="org39c1734">UTF-8</h2>
-<div class="outline-text-2" id="text-org39c1734">
+<div id="outline-container-org0fd03d7" class="outline-2">
+<h2 id="org0fd03d7">UTF-8</h2>
+<div class="outline-text-2" id="text-org0fd03d7">
 <p>
 Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple <a href="https://stackoverflow.com/a/2903256">cette réponse</a> sur Stack Overflow). Mais la simple directive <code>set-language-environment</code> réalise un paramétrage par défaut satisfaisant.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(set-language-environment 'utf-8)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>set-language-environment 'utf-8<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgaf994fd" class="outline-2">
-<h2 id="orgaf994fd">Navigation dans les buffers</h2>
-<div class="outline-text-2" id="text-orgaf994fd">
+<div id="outline-container-org8ec03cc" class="outline-2">
+<h2 id="org8ec03cc">Navigation dans les buffers</h2>
+<div class="outline-text-2" id="text-org8ec03cc">
 <p>
 Lorsqu'on navigue dans les buffers, on préfère sauter les buffers ouverts automatiquement par Dired, Helm, ou autre, comme <code>*compilation*</code> par exemple. On définit pour cela la fonction <code>navigate-nostar-buffer</code>, qui cherche le prochain buffer ne commençant pas par <code>*</code> (ou le précédent si appelé avec un argument).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">navigate-nostar-buffer</span> (<span style="font-weight: bold; text-decoration: underline;">&amp;optional</span> previous)
-  <span style="font-style: italic;">"Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."</span>
-  (<span style="font-weight: bold;">let</span> ((start-buffer (buffer-name)))
-    (<span style="font-weight: bold;">cl-flet</span> ((next-f () (<span style="font-weight: bold;">if</span> previous (next-buffer) (previous-buffer))))
-      (next-f)
-      (<span style="font-weight: bold;">while</span>
-          (<span style="font-weight: bold;">and</span> (string-match-p <span style="font-style: italic;">"^\*"</span> (buffer-name))
-               (not (equal start-buffer (buffer-name))))
-        (next-f)))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">navigate-nostar-buffer</span> <span style="color: #7388D6;">(</span><span style="color: #6434A3;">&amp;optional</span> previous<span style="color: #7388D6;">)</span>
+  <span style="color: #036A07;">"Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>start-buffer <span style="color: #907373;">(</span>buffer-name<span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">cl-flet</span> <span style="color: #709870;">(</span><span style="color: #907373;">(</span>next-f <span style="color: #6276BA;">()</span> <span style="color: #6276BA;">(</span><span style="color: #0000FF;">if</span> previous <span style="color: #858580;">(</span>next-buffer<span style="color: #858580;">)</span> <span style="color: #858580;">(</span>previous-buffer<span style="color: #858580;">)</span><span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span>next-f<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span><span style="color: #0000FF;">while</span>
+          <span style="color: #907373;">(</span><span style="color: #0000FF;">and</span> <span style="color: #6276BA;">(</span>string-match-p <span style="color: #008000;">"^\*"</span> <span style="color: #858580;">(</span>buffer-name<span style="color: #858580;">)</span><span style="color: #6276BA;">)</span>
+               <span style="color: #6276BA;">(</span>not <span style="color: #858580;">(</span>equal start-buffer <span style="color: #80A880;">(</span>buffer-name<span style="color: #80A880;">)</span><span style="color: #858580;">)</span><span style="color: #6276BA;">)</span><span style="color: #907373;">)</span>
+        <span style="color: #907373;">(</span>next-f<span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">navigate-next-nostar-buffer</span> ()
-  <span style="font-style: italic;">"Navigate to next \"no star\" buffer."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (navigate-nostar-buffer))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">navigate-next-nostar-buffer</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Navigate to next \"no star\" buffer."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>navigate-nostar-buffer<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">navigate-previous-nostar-buffer</span> ()
-  <span style="font-style: italic;">"Navigate to previous \"no star\" buffer."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (navigate-nostar-buffer t))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">navigate-previous-nostar-buffer</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Navigate to previous \"no star\" buffer."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>navigate-nostar-buffer t<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -700,75 +700,75 @@ Puis on utilise <a href="https://www.gnu.org/software/emacs/manual/html_node/eli
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key [remap next-buffer] 'navigate-next-nostar-buffer)
-(global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">[</span>remap next-buffer<span style="color: #7388D6;">]</span> 'navigate-next-nostar-buffer<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">[</span>remap previous-buffer<span style="color: #7388D6;">]</span> 'navigate-previous-nostar-buffer<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org03caca3" class="outline-2">
-<h2 id="org03caca3">Compilation</h2>
-<div class="outline-text-2" id="text-org03caca3">
+<div id="outline-container-orgef353c0" class="outline-2">
+<h2 id="orgef353c0">Compilation</h2>
+<div class="outline-text-2" id="text-orgef353c0">
 <p>
 Définit <code>run-compilation</code> et <code>end-compilation</code> qui sauvegardent et restaurent l'affichage des buffers lors d'une séance de compilation : Si l'on doit faire plusieurs allers / retours entre le buffer de compilation et les sources, pour comprendre et corriger les erreurs, on peut ensuite restaurer son environnement de travail.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">get-compilation-buffer</span> ()
-  <span style="font-style: italic;">"Get the compilation buffer, or nil if it does not exist."</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Voir aussi `</span><span style="font-weight: bold; font-style: italic; text-decoration: underline;">compilation-buffer-name-function</span><span style="font-weight: bold; font-style: italic;">'</span>
-  (car (cl-remove-if-not
-        (<span style="font-weight: bold;">lambda</span> (b)
-          (equal <span style="font-style: italic;">"*compilation*"</span> (buffer-name b)))
-        (buffer-list))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">get-compilation-buffer</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Get the compilation buffer, or nil if it does not exist."</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Voir aussi `</span><span style="color: #D0372D; font-style: italic;">compilation-buffer-name-function</span><span style="color: #8D8D84; font-style: italic;">'</span>
+  <span style="color: #7388D6;">(</span>car <span style="color: #909183;">(</span>cl-remove-if-not
+        <span style="color: #709870;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #907373;">(</span>b<span style="color: #907373;">)</span>
+          <span style="color: #907373;">(</span>equal <span style="color: #008000;">"*compilation*"</span> <span style="color: #6276BA;">(</span>buffer-name b<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+        <span style="color: #709870;">(</span>buffer-list<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">get-compilation-layout-register</span> ()
-  <span style="font-style: italic;">"Returns the register used to save the layout before compilation,</span>
-<span style="font-style: italic;">and restore it later."</span>
-  (message <span style="font-style: italic;">"get-compilation-layout-register ()"</span>)
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">It seems we can use more than one letter register !</span>
-  'comp-layout-reg)
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">get-compilation-layout-register</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Returns the register used to save the layout before compilation,</span>
+<span style="color: #036A07;">and restore it later."</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"get-compilation-layout-register ()"</span><span style="color: #7388D6;">)</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">It seems we can use more than one letter register !</span>
+  'comp-layout-reg<span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">start-new-compilation</span> ()
-  <span style="font-style: italic;">"Prompt for command and run a new compilation"</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Passer en plein &#233;cran</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">(let ((current-prefix-arg '(4)))   ; C-u</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">(call-interactively 'compile)))</span>
-  (call-interactively 'compile))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">start-new-compilation</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Prompt for command and run a new compilation"</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Passer en plein &#233;cran</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">(let ((current-prefix-arg '(4)))   ; C-u</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">(call-interactively 'compile)))</span>
+  <span style="color: #7388D6;">(</span>call-interactively 'compile<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">return-to-compilation</span> ()
-  <span style="font-style: italic;">"Get compilation buffer back in full screen"</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Relancer la compil automatiquement ?</span>
-  (switch-to-buffer (get-compilation-buffer))
-  (delete-other-windows))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">return-to-compilation</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Get compilation buffer back in full screen"</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Relancer la compil automatiquement ?</span>
+  <span style="color: #7388D6;">(</span>switch-to-buffer <span style="color: #909183;">(</span>get-compilation-buffer<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>delete-other-windows<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">setq</span> ongoing-compilation-session nil)
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ongoing-compilation-session nil<span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">start-compilation-session</span> ()
-  <span style="font-style: italic;">"Save layout and start a new compilation session"</span>
-  (frame-configuration-to-register (get-compilation-layout-register))
-  (start-new-compilation)
-  (<span style="font-weight: bold;">setq</span> ongoing-compilation-session t))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">start-compilation-session</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Save layout and start a new compilation session"</span>
+  <span style="color: #7388D6;">(</span>frame-configuration-to-register <span style="color: #909183;">(</span>get-compilation-layout-register<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>start-new-compilation<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> ongoing-compilation-session t<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">end-compilation-session</span> ()
-  <span style="font-style: italic;">"Restore pre-compilation layout and terminate compilation session"</span>
-  <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Supprimer le buffer de compil ?</span>
-  (<span style="font-weight: bold;">setq</span> ongoing-compilation-session nil)
-  (jump-to-register (get-compilation-layout-register)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">end-compilation-session</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Restore pre-compilation layout and terminate compilation session"</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Supprimer le buffer de compil ?</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> ongoing-compilation-session nil<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>jump-to-register <span style="color: #909183;">(</span>get-compilation-layout-register<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">run-compilation</span> ()
-  <span style="font-style: italic;">"Start new compilation session or restore an old one"</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">if</span> (<span style="font-weight: bold;">and</span> ongoing-compilation-session (get-compilation-buffer))
-      (return-to-compilation)
-    (start-compilation-session)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">run-compilation</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Start new compilation session or restore an old one"</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> <span style="color: #909183;">(</span><span style="color: #0000FF;">and</span> ongoing-compilation-session <span style="color: #709870;">(</span>get-compilation-buffer<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+      <span style="color: #909183;">(</span>return-to-compilation<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>start-compilation-session<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">end-compilation</span> ()
-  <span style="font-style: italic;">"Terminate a compilation session"</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">if</span> ongoing-compilation-session
-      (end-compilation-session)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">end-compilation</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Terminate a compilation session"</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">if</span> ongoing-compilation-session
+      <span style="color: #909183;">(</span>end-compilation-session<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -777,7 +777,7 @@ Le buffer <code>*compilation*</code> défile jusqu'à la première erreur
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> compilation-scroll-output 'first-error)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> compilation-scroll-output 'first-error<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -787,15 +787,15 @@ Dans ce buffer, un clic sur une erreur emmène dans les sources, et <kbd>g</kbd>
 </div>
 </div>
 
-<div id="outline-container-org845281b" class="outline-2">
-<h2 id="org845281b">Copier/coller</h2>
-<div class="outline-text-2" id="text-org845281b">
+<div id="outline-container-orgcddde68" class="outline-2">
+<h2 id="orgcddde68">Copier/coller</h2>
+<div class="outline-text-2" id="text-orgcddde68">
 <p>
 Le bouton du milieu colle le texte au niveau du point, sans le déplacer
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mouse-yank-at-point t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mouse-yank-at-point t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -804,7 +804,7 @@ Lorsqu'on copie depuis Emacs alors qu'une autre application avait placé du text
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> save-interprogram-paste-before-kill t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> save-interprogram-paste-before-kill t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -813,21 +813,21 @@ Le texte surligné est automatiquement copié dans le kill ring
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mouse-drag-copy-region t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mouse-drag-copy-region t<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org70dc3e1" class="outline-2">
-<h2 id="org70dc3e1">Parenthèses et Cie</h2>
-<div class="outline-text-2" id="text-org70dc3e1">
+<div id="outline-container-orgac39814" class="outline-2">
+<h2 id="orgac39814">Parenthèses et Cie</h2>
+<div class="outline-text-2" id="text-orgac39814">
 <p>
 Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière une parenthèse fermante, la paire de parenthèses est surlignée. De même avec les accolades et les crochets.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(show-paren-mode 1)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>show-paren-mode 1<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -836,30 +836,30 @@ Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> show-paren-style 'expression)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> show-paren-style 'expression<span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <p>
-Les parenthèses sont surlignées en bleu. Voir aussi <a href="#orgce0e424">Rainbow delimiters</a>.
+Les parenthèses sont surlignées en bleu. Voir aussi <a href="#org672f002">Rainbow delimiters</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(set-face-background 'show-paren-match <span style="font-style: italic;">"</span><span style="color: #000000; background-color: #b5d5ff;">#b5d5ff</span><span style="font-style: italic;">"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>set-face-background 'show-paren-match <span style="color: #008000;">"</span><span style="color: #000000; background-color: #b5d5ff;">#b5d5ff</span><span style="color: #008000;">"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8f22c14" class="outline-2">
-<h2 id="org8f22c14">Suggestions</h2>
-<div class="outline-text-2" id="text-org8f22c14">
+<div id="outline-container-org67dfed9" class="outline-2">
+<h2 id="org67dfed9">Suggestions</h2>
+<div class="outline-text-2" id="text-org67dfed9">
 <p>
-J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par <code>icomplete-mode</code>, mais ce n'était convaincant, si bien que j'utilise maintenant <a href="#orgc388ad3">Helm</a>. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à <code>iswitchb-mode</code>.
+J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par <code>icomplete-mode</code>, mais ce n'était convaincant, si bien que j'utilise maintenant <a href="#orgd728602">Helm</a>. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à <code>iswitchb-mode</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(icomplete-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>icomplete-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -868,7 +868,7 @@ Suggère les buffers sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>b</kbd> avant qu'on c
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> icomplete-show-matches-on-no-input t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> icomplete-show-matches-on-no-input t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -877,7 +877,7 @@ Ignore la casse lorsqu'on demande à compléter avec <kbd>TAB</kbd>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> read-buffer-completion-ignore-case t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> read-buffer-completion-ignore-case t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -886,7 +886,7 @@ Met en évidence dans le minibuffer le candidat qui pourrait être sélectionné
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(copy-face 'minibuffer-prompt 'icomplete-first-match)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>copy-face 'minibuffer-prompt 'icomplete-first-match<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -895,40 +895,40 @@ Contourne les problèmes liés au buffer par défaut. En particulier, prend le p
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-icomplete-forward-completions</span> ()
-  <span style="font-style: italic;">"Step forward completions by one entry."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">progn</span> (<span style="font-weight: bold;">setq</span> minibuffer-default nil)
-         (icomplete-forward-completions)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">my-icomplete-forward-completions</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Step forward completions by one entry."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">progn</span> <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> minibuffer-default nil<span style="color: #909183;">)</span>
+         <span style="color: #909183;">(</span>icomplete-forward-completions<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-icomplete-backward-completions</span> ()
-  <span style="font-style: italic;">"Step backward completions by one entry."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">progn</span> (<span style="font-weight: bold;">setq</span> minibuffer-default nil)
-         (icomplete-backward-completions)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">my-icomplete-backward-completions</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Step backward completions by one entry."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">progn</span> <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> minibuffer-default nil<span style="color: #909183;">)</span>
+         <span style="color: #909183;">(</span>icomplete-backward-completions<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-minibuffer-force-complete-and-exit</span> ()
-  <span style="font-style: italic;">"Select the current completion."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">progn</span> (<span style="font-weight: bold;">setq</span> minibuffer-default nil)
-         (minibuffer-force-complete-and-exit)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">my-minibuffer-force-complete-and-exit</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Select the current completion."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">progn</span> <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> minibuffer-default nil<span style="color: #909183;">)</span>
+         <span style="color: #909183;">(</span>minibuffer-force-complete-and-exit<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-<span style="font-weight: bold; font-style: italic;">;;</span><span style="font-weight: bold; font-style: italic;">Configure des raccourcis ressemblant &#224; ceux de iswitchb</span>
-(<span style="font-weight: bold;">when</span> (boundp 'icomplete-minibuffer-map)
-  (<span style="font-weight: bold;">let</span> ((map icomplete-minibuffer-map))
-    (define-key map (kbd <span style="font-style: italic;">"C-s"</span>) 'my-icomplete-forward-completions)
-    (define-key map (kbd <span style="font-style: italic;">"C-r"</span>) 'my-icomplete-backward-completions)
-    (define-key map (kbd <span style="font-style: italic;">"&lt;C-j&gt;"</span>) 'my-minibuffer-force-complete-and-exit)
-    (define-key map (kbd <span style="font-style: italic;">"&lt;C-return&gt;"</span>) 'my-minibuffer-force-complete-and-exit)
-    ))
+<span style="color: #8D8D84;">;;</span><span style="color: #8D8D84; font-style: italic;">Configure des raccourcis ressemblant &#224; ceux de iswitchb</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> <span style="color: #7388D6;">(</span>boundp 'icomplete-minibuffer-map<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>map icomplete-minibuffer-map<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"C-s"</span><span style="color: #709870;">)</span> 'my-icomplete-forward-completions<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"C-r"</span><span style="color: #709870;">)</span> 'my-icomplete-backward-completions<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"C-j"</span><span style="color: #709870;">)</span> 'my-minibuffer-force-complete-and-exit<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"C-&lt;return&gt;"</span><span style="color: #709870;">)</span> 'my-minibuffer-force-complete-and-exit<span style="color: #909183;">)</span>
+    <span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2fb538c" class="outline-2">
-<h2 id="org2fb538c">Mise à jour du path</h2>
-<div class="outline-text-2" id="text-org2fb538c">
+<div id="outline-container-org4cc6db2" class="outline-2">
+<h2 id="org4cc6db2">Mise à jour du path</h2>
+<div class="outline-text-2" id="text-org4cc6db2">
 <p>
 C'est parfois utile d'enrichir un peu le path utilisé par Emacs. Il y a en fait plusieurs chemins, dont ces deux variables :
 </p>
@@ -944,16 +944,16 @@ ajoute (s'il existe) à la fin des deux paths le répertoire passé en argument 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">TODO - Filtrer les doublons</span>
-(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">add-to-exec-paths</span>(some-folder)
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">cond</span>
-   ((file-exists-p some-folder)
-    (add-to-list 'exec-path some-folder)
-    <span style="font-weight: bold; font-style: italic;">;;</span><span style="font-weight: bold; font-style: italic;">(message "exec-path=%s" exec-path)</span>
-    (setenv <span style="font-style: italic;">"PATH"</span> (concat (getenv <span style="font-style: italic;">"PATH"</span>) <span style="font-style: italic;">":"</span> some-folder))
-    <span style="font-weight: bold; font-style: italic;">;;</span><span style="font-weight: bold; font-style: italic;">(message "PATH=%s" (getenv "PATH"))</span>
-    (message <span style="font-style: italic;">"Added '%s' to PATH and exec-path"</span> some-folder))))
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">TODO - Filtrer les doublons</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">add-to-exec-paths</span><span style="color: #7388D6;">(</span>some-folder<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">cond</span>
+   <span style="color: #909183;">(</span><span style="color: #709870;">(</span>file-exists-p some-folder<span style="color: #709870;">)</span>
+    <span style="color: #709870;">(</span>add-to-list 'exec-path some-folder<span style="color: #709870;">)</span>
+    <span style="color: #8D8D84;">;;</span><span style="color: #8D8D84; font-style: italic;">(message "exec-path=%s" exec-path)</span>
+    <span style="color: #709870;">(</span>setenv <span style="color: #008000;">"PATH"</span> <span style="color: #907373;">(</span>concat <span style="color: #6276BA;">(</span>getenv <span style="color: #008000;">"PATH"</span><span style="color: #6276BA;">)</span> <span style="color: #008000;">":"</span> some-folder<span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+    <span style="color: #8D8D84;">;;</span><span style="color: #8D8D84; font-style: italic;">(message "PATH=%s" (getenv "PATH"))</span>
+    <span style="color: #709870;">(</span>message <span style="color: #008000;">"Added '%s' to PATH and exec-path"</span> some-folder<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -962,29 +962,29 @@ Reste à ajouter quelques répertoires, selon ses habitudes&#x2026;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-exec-paths <span style="font-style: italic;">"~/scripts"</span>)
-(add-to-exec-paths <span style="font-style: italic;">"~/local/bin"</span>)
-(add-to-exec-paths <span style="font-style: italic;">"/usr/bin"</span>)
-(add-to-exec-paths <span style="font-style: italic;">"/usr/local/bin"</span>)
-(add-to-exec-paths <span style="font-style: italic;">"/opt/local/bin"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-exec-paths <span style="color: #008000;">"~/scripts"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-exec-paths <span style="color: #008000;">"~/local/bin"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-exec-paths <span style="color: #008000;">"/usr/bin"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-exec-paths <span style="color: #008000;">"/usr/local/bin"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-exec-paths <span style="color: #008000;">"/opt/local/bin"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8520295" class="outline-2">
-<h2 id="org8520295">Valorisation du proxy</h2>
-<div class="outline-text-2" id="text-org8520295">
+<div id="outline-container-orga4eb98e" class="outline-2">
+<h2 id="orga4eb98e">Valorisation du proxy</h2>
+<div class="outline-text-2" id="text-orga4eb98e">
 <p>
 On cherche d'abord le proxy dans le fichier de configuration <code>~/.emacs.d/proxy.el</code> :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> my-proxy ())
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> my-proxy <span style="color: #7388D6;">()</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">if</span> (file-exists-p <span style="font-style: italic;">"~/.emacs.d/proxy.el"</span>)
-    (<span style="font-weight: bold;">progn</span>
-      (load-file <span style="font-style: italic;">"~/.emacs.d/proxy.el"</span>)))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>file-exists-p <span style="color: #008000;">"~/.emacs.d/proxy.el"</span><span style="color: #7388D6;">)</span>
+    <span style="color: #7388D6;">(</span><span style="color: #0000FF;">progn</span>
+      <span style="color: #909183;">(</span>load-file <span style="color: #008000;">"~/.emacs.d/proxy.el"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -993,7 +993,7 @@ Si ce fichier existe, il contient une simple ligne, telle que :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> my-proxy 'proxy.mon.domaine.fr:80)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> my-proxy 'proxy.mon.domaine.fr:80<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1002,7 +1002,7 @@ Si l'on ne l'a pas trouvé, on cherche dans l'environnement la variable <code>ht
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">unless</span> my-proxy (<span style="font-weight: bold;">setq</span> my-proxy (getenv <span style="font-style: italic;">"http_proxy"</span>)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">unless</span> my-proxy <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> my-proxy <span style="color: #909183;">(</span>getenv <span style="color: #008000;">"http_proxy"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1011,10 +1011,10 @@ On valorise correctement <code>url-proxy-services</code> et on affiche le proxy 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">if</span> my-proxy
-    (<span style="font-weight: bold;">progn</span>
-      (<span style="font-weight: bold;">setq</span> url-proxy-services (list (cons <span style="font-style: italic;">"http"</span> (symbol-name my-proxy))))
-      (message <span style="font-style: italic;">"Set HTTP proxy to '%s'"</span> my-proxy)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">if</span> my-proxy
+    <span style="color: #7388D6;">(</span><span style="color: #0000FF;">progn</span>
+      <span style="color: #909183;">(</span><span style="color: #0000FF;">setq</span> url-proxy-services <span style="color: #709870;">(</span>list <span style="color: #907373;">(</span>cons <span style="color: #008000;">"http"</span> <span style="color: #6276BA;">(</span>symbol-name my-proxy<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+      <span style="color: #909183;">(</span>message <span style="color: #008000;">"Set HTTP proxy to '%s'"</span> my-proxy<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1024,31 +1024,31 @@ Voir la doc d'<a href="http://www.emacswiki.org/emacs/UrlPackage#toc6">Url Packa
 </div>
 </div>
 
-<div id="outline-container-org39e4c24" class="outline-2">
-<h2 id="org39e4c24">Ajustements à l'OS</h2>
-<div class="outline-text-2" id="text-org39e4c24">
+<div id="outline-container-org319a825" class="outline-2">
+<h2 id="org319a825">Ajustements à l'OS</h2>
+<div class="outline-text-2" id="text-org319a825">
 <p>
 Selon la plateforme, on effectue quelques ajustements, en particulier sur les polices de caractères.
 </p>
 </div>
 
-<div id="outline-container-orgeb5653f" class="outline-3">
-<h3 id="orgeb5653f">Sous Linux</h3>
-<div class="outline-text-3" id="text-orgeb5653f">
+<div id="outline-container-org7f60fa0" class="outline-3">
+<h3 id="org7f60fa0">Sous Linux</h3>
+<div class="outline-text-3" id="text-org7f60fa0">
 <p>
 Fonte du terminal Xfce
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(set-default-font <span style="font-style: italic;">"Liberation Mono 10"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>set-default-font <span style="color: #008000;">"Liberation Mono 10"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0cbab80" class="outline-3">
-<h3 id="org0cbab80">Sous Mac</h3>
-<div class="outline-text-3" id="text-org0cbab80">
+<div id="outline-container-org726d3ef" class="outline-3">
+<h3 id="org726d3ef">Sous Mac</h3>
+<div class="outline-text-3" id="text-org726d3ef">
 <p>
 Réaffectation des touches à problèmes sur Mac :
 </p>
@@ -1058,10 +1058,10 @@ Réaffectation des touches à problèmes sur Mac :
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mac-option-key-is-meta nil)
-(<span style="font-weight: bold;">setq</span> mac-command-key-is-meta t)
-(<span style="font-weight: bold;">setq</span> mac-command-modifier 'meta)
-(<span style="font-weight: bold;">setq</span> mac-option-modifier nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mac-option-key-is-meta nil<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mac-command-key-is-meta t<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mac-command-modifier 'meta<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mac-option-modifier nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1070,33 +1070,33 @@ Fonte Xcode
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(set-face-font
- 'menu <span style="font-style: italic;">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span>)
-(set-face-font
- 'default <span style="font-style: italic;">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>set-face-font
+ 'menu <span style="color: #008000;">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>set-face-font
+ 'default <span style="color: #008000;">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc95f65a" class="outline-2">
-<h2 id="orgc95f65a">Require</h2>
-<div class="outline-text-2" id="text-orgc95f65a">
+<div id="outline-container-orgee6857f" class="outline-2">
+<h2 id="orgee6857f">Require</h2>
+<div class="outline-text-2" id="text-orgee6857f">
 <p>
 Un wrapper pour <code>require</code>, qui n'empêche pas le chargement du <code>.emacs</code> lorsqu'un module n'est pas disponible, et génère des traces dans <code>*Messages*</code>, avec en cas de succès, le temps passé par Emacs pour charger le module.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-require</span>(feature)
-  (<span style="font-weight: bold;">condition-case</span> nil
-      (<span style="font-weight: bold;">let</span> ((ts (current-time)))
-        (<span style="font-weight: bold;">progn</span>
-          (<span style="font-weight: bold;">require</span> <span style="font-weight: bold; text-decoration: underline;">feature</span>)
-          (<span style="font-weight: bold;">let</span> ((elapsed (float-time (time-subtract (current-time) ts))))
-            (message <span style="font-style: italic;">"Successfully load '%s' in %.3fs"</span> feature elapsed))))
-    (file-error
-     (<span style="font-weight: bold;">progn</span> (message <span style="font-style: italic;">"Fail to load required feature '%s'"</span> feature) nil))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">my-require</span><span style="color: #7388D6;">(</span>feature<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">condition-case</span> nil
+      <span style="color: #909183;">(</span><span style="color: #0000FF;">let</span> <span style="color: #709870;">(</span><span style="color: #907373;">(</span>ts <span style="color: #6276BA;">(</span>current-time<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+        <span style="color: #709870;">(</span><span style="color: #0000FF;">progn</span>
+          <span style="color: #907373;">(</span><span style="color: #0000FF;">require</span> <span style="color: #D0372D;">feature</span><span style="color: #907373;">)</span>
+          <span style="color: #907373;">(</span><span style="color: #0000FF;">let</span> <span style="color: #6276BA;">(</span><span style="color: #858580;">(</span>elapsed <span style="color: #80A880;">(</span>float-time <span style="color: #887070;">(</span>time-subtract <span style="color: #707183;">(</span>current-time<span style="color: #707183;">)</span> ts<span style="color: #887070;">)</span><span style="color: #80A880;">)</span><span style="color: #858580;">)</span><span style="color: #6276BA;">)</span>
+            <span style="color: #6276BA;">(</span>message <span style="color: #008000;">"Successfully load '%s' in %.3fs"</span> feature elapsed<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>file-error
+     <span style="color: #709870;">(</span><span style="color: #0000FF;">progn</span> <span style="color: #907373;">(</span>message <span style="color: #008000;">"Fail to load required feature '%s'"</span> feature<span style="color: #907373;">)</span> nil<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1105,10 +1105,10 @@ Il s'utilise ainsi :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> (my-require 'package-xxx)
-  (message <span style="font-style: italic;">"Do foo"</span>)
-  (message <span style="font-style: italic;">"Do bar"</span>)
-  (message <span style="font-style: italic;">"Do baz"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> <span style="color: #7388D6;">(</span>my-require 'package-xxx<span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"Do foo"</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"Do bar"</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"Do baz"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1117,10 +1117,10 @@ Il s'utilise ainsi :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'package-xxx)
-(message <span style="font-style: italic;">"Do foo"</span>)
-(message <span style="font-style: italic;">"Do bar"</span>)
-(message <span style="font-style: italic;">"Do baz"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'package-xxx<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>message <span style="color: #008000;">"Do foo"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>message <span style="color: #008000;">"Do bar"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>message <span style="color: #008000;">"Do baz"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1138,21 +1138,21 @@ On peut aussi utiliser le <i>soft require</i>, qui ne génère pas d'erreur quan
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">package-foobar</span> nil t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">package-foobar</span> nil t<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf4dbfa3" class="outline-2">
-<h2 id="orgf4dbfa3">Gestionnaire de paquets</h2>
-<div class="outline-text-2" id="text-orgf4dbfa3">
+<div id="outline-container-org625d866" class="outline-2">
+<h2 id="org625d866">Gestionnaire de paquets</h2>
+<div class="outline-text-2" id="text-org625d866">
 <p>
 Charge le gestionnaire de paquets
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'package)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'package<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1165,8 +1165,8 @@ Milkypostman’s Emacs Lisp Package Archive (<a href="http://melpa.org">MELPA</a
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'package-archives
-             '(<span style="font-style: italic;">"MELPA"</span> . <span style="font-style: italic;">"http://melpa.milkbox.net/packages/"</span>) t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'package-archives
+             '<span style="color: #7388D6;">(</span><span style="color: #008000;">"MELPA"</span> . <span style="color: #008000;">"http://melpa.milkbox.net/packages/"</span><span style="color: #7388D6;">)</span> t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1179,8 +1179,8 @@ En cas de problème avec les paquets, on peut supprimer le répertoire où tout 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'package-archives
-             '(<span style="font-style: italic;">"Marmalade"</span> . <span style="font-style: italic;">"http://marmalade-repo.org/packages/"</span>) t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'package-archives
+             '<span style="color: #7388D6;">(</span><span style="color: #008000;">"Marmalade"</span> . <span style="color: #008000;">"http://marmalade-repo.org/packages/"</span><span style="color: #7388D6;">)</span> t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1189,8 +1189,8 @@ GNU Emacs Lisp Package Archive (<a href="http://elpa.gnu.org">ELPA</a>) est la s
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'package-archives
-             '(<span style="font-style: italic;">"GNU"</span> . <span style="font-style: italic;">"http://elpa.gnu.org/packages/"</span>) t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'package-archives
+             '<span style="color: #7388D6;">(</span><span style="color: #008000;">"GNU"</span> . <span style="color: #008000;">"http://elpa.gnu.org/packages/"</span><span style="color: #7388D6;">)</span> t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1199,8 +1199,8 @@ GNU Emacs Lisp Package Archive (<a href="http://elpa.gnu.org">ELPA</a>) est la s
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'package-archives
-             '(<span style="font-style: italic;">"Org"</span> . <span style="font-style: italic;">"http://orgmode.org/elpa/"</span>) t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'package-archives
+             '<span style="color: #7388D6;">(</span><span style="color: #008000;">"Org"</span> . <span style="color: #008000;">"http://orgmode.org/elpa/"</span><span style="color: #7388D6;">)</span> t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1209,30 +1209,30 @@ Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser <code>helm-lis
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(package-initialize)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>package-initialize<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6e94e71" class="outline-2">
-<h2 id="org6e94e71">Thème Leuven</h2>
-<div class="outline-text-2" id="text-org6e94e71">
+<div id="outline-container-orgc61626e" class="outline-2">
+<h2 id="orgc61626e">Thème Leuven</h2>
+<div class="outline-text-2" id="text-orgc61626e">
 <p>
-Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ne ressortent pas. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à <a href="#org4ef2861">Org</a>), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
+Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ne ressortent pas. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à <a href="#org74cc927">Org</a>), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">if</span> (member 'leuven-theme (mapcar 'car package-alist))
-    (load-theme 'leuven t))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">if</span> <span style="color: #7388D6;">(</span>member 'leuven-theme <span style="color: #909183;">(</span>mapcar 'car package-alist<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+    <span style="color: #7388D6;">(</span>load-theme 'leuven t<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org58913af" class="outline-2">
-<h2 id="org58913af">TabTab minor mode</h2>
-<div class="outline-text-2" id="text-org58913af">
+<div id="outline-container-org2ab586c" class="outline-2">
+<h2 id="org2ab586c">TabTab minor mode</h2>
+<div class="outline-text-2" id="text-org2ab586c">
 <p>
 Une tentative pour changer le comportement de la touche <kbd>TAB</kbd> dans les fichiers CMake :
 </p>
@@ -1242,24 +1242,24 @@ Une tentative pour changer le comportement de la touche <kbd>TAB</kbd> dans les 
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">prev-tab-to-tab-stop</span> ()
-  <span style="font-style: italic;">"Remove spaces or tabs to next defined tab-stop column."</span>
-  (<span style="font-weight: bold;">interactive</span>)
-  (<span style="font-weight: bold;">and</span> abbrev-mode (= (char-syntax (preceding-char)) ?w)
-       (expand-abbrev))
-  (<span style="font-weight: bold;">let</span> ((nexttab (indent-next-tab-stop (current-column) t)))
-    (delete-horizontal-space t)
-    (indent-to nexttab)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">prev-tab-to-tab-stop</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Remove spaces or tabs to next defined tab-stop column."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">and</span> abbrev-mode <span style="color: #909183;">(</span>= <span style="color: #709870;">(</span>char-syntax <span style="color: #907373;">(</span>preceding-char<span style="color: #907373;">)</span><span style="color: #709870;">)</span> ?w<span style="color: #909183;">)</span>
+       <span style="color: #909183;">(</span>expand-abbrev<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>nexttab <span style="color: #907373;">(</span>indent-next-tab-stop <span style="color: #6276BA;">(</span>current-column<span style="color: #6276BA;">)</span> t<span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>delete-horizontal-space t<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>indent-to nexttab<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(<span style="font-weight: bold;">define-minor-mode</span> <span style="font-weight: bold;">tab-tab-mode</span>
-  <span style="font-style: italic;">"Tab-to-tab in both directions"</span>
-  <span style="font-weight: bold;">:lighter</span> <span style="font-style: italic;">" TTm"</span>
-  <span style="font-weight: bold;">:keymap</span> (<span style="font-weight: bold;">let</span> ((map (make-sparse-keymap)))
-            (define-key map (kbd <span style="font-style: italic;">"&lt;tab&gt;"</span>) 'tab-to-tab-stop)
-            (define-key map (kbd <span style="font-style: italic;">"&lt;S-tab&gt;"</span>) 'prev-tab-to-tab-stop)
-            map))
+<span style="color: #707183;">(</span><span style="color: #0000FF;">define-minor-mode</span> <span style="color: #006699;">tab-tab-mode</span>
+  <span style="color: #036A07;">"Tab-to-tab in both directions"</span>
+  <span style="color: #006FE0;">:lighter</span> <span style="color: #008000;">" TTm"</span>
+  <span style="color: #006FE0;">:keymap</span> <span style="color: #7388D6;">(</span><span style="color: #0000FF;">let</span> <span style="color: #909183;">(</span><span style="color: #709870;">(</span>map <span style="color: #907373;">(</span>make-sparse-keymap<span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"&lt;tab&gt;"</span><span style="color: #709870;">)</span> 'tab-to-tab-stop<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span>define-key map <span style="color: #709870;">(</span>kbd <span style="color: #008000;">"S-&lt;tab&gt;"</span><span style="color: #709870;">)</span> 'prev-tab-to-tab-stop<span style="color: #909183;">)</span>
+            map<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
-(add-hook 'cmake-mode-hook 'tab-tab-mode)
+<span style="color: #707183;">(</span>add-hook 'cmake-mode-hook 'tab-tab-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1268,7 +1268,7 @@ Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (local-set-key (kbd <span style="font-style: italic;">"&lt;tab&gt;"</span>) 'tab-to-tab-stop))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'cmake-mode-hook <span style="color: #7388D6;">(</span>local-set-key <span style="color: #909183;">(</span>kbd <span style="color: #008000;">"&lt;tab&gt;"</span><span style="color: #909183;">)</span> 'tab-to-tab-stop<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1278,15 +1278,15 @@ Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas 
 </div>
 </div>
 
-<div id="outline-container-org25c23d2" class="outline-2">
-<h2 id="org25c23d2">Auto Complete</h2>
-<div class="outline-text-2" id="text-org25c23d2">
+<div id="outline-container-orgc75149e" class="outline-2">
+<h2 id="orgc75149e">Auto Complete</h2>
+<div class="outline-text-2" id="text-orgc75149e">
 <p>
-Auto Complete présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
+<a href="https://github.com/auto-complete/auto-complete/blob/master/doc/manual.md">Auto Complete</a> présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'auto-complete-config)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'auto-complete-config<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1295,7 +1295,7 @@ Les choix proposés proviennent d'un certain nombre de sources ; on utilise les 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(ac-config-default)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>ac-config-default<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1304,9 +1304,9 @@ Auto Complete ne s'active pas automatiquement dans tous les modes, mais seulemen
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'ac-modes 'cmake-mode)
-(add-to-list 'ac-modes 'org-mode)
-(add-to-list 'ac-modes 'text-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'ac-modes 'cmake-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-list 'ac-modes 'org-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-to-list 'ac-modes 'text-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1315,7 +1315,7 @@ Active Auto Complete dans tous les modes sélectionnés
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-auto-complete-mode t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-auto-complete-mode t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1324,22 +1324,50 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> ac-auto-start nil)
-(global-set-key <span style="font-style: italic;">"\M-/"</span> 'auto-complete))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ac-auto-start nil<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #008000;">"\M-/"</span> 'auto-complete<span style="color: #707183;">)</span><span style="color: #000000; background-color: #FFDCDC; font-weight: bold; text-decoration: underline;">)</span>
+</pre>
+</div>
+
+<p>
+<kbd>C</kbd>-<kbd>s</kbd> permet de filtrer une sous-chaine dans le menu
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ac-use-menu-map t<span style="color: #707183;">)</span>
+</pre>
+</div>
+
+<p>
+On souhaite profiter de la recherche approximative, dans le cas d'un préfix mal orthographié ou écrit en abrégé. Cela fonctionne au minimum avec le contenu du buffer courant, mais manifestement pas avec les autres sources. Nécessite le paquet <code>fuzzy</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ac-use-fuzzy t<span style="color: #707183;">)</span>
+</pre>
+</div>
+
+<p>
+Intègre Auto Complete à Helm, et permet d'avoir avec <kbd>C</kbd>-<kbd>:</kbd> dans un buffer helm, le contenu du menu qu'on aurait eu avec <kbd>M</kbd>-<kbd>/</kbd>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>define-key ac-complete-mode-map <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-:"</span><span style="color: #7388D6;">)</span> 'ac-complete-with-helm<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga67c50d" class="outline-2">
-<h2 id="orga67c50d">Bookmarks</h2>
-<div class="outline-text-2" id="text-orga67c50d">
+
+<div id="outline-container-org9269a00" class="outline-2">
+<h2 id="org9269a00">Bookmarks</h2>
+<div class="outline-text-2" id="text-org9269a00">
 <p>
 Marque-pages à la Visual Studio : la ligne marquée est surlignée, et l'on peut ensuite naviguer d'un marque-page à l'autre. Beaucoup d'autres fonctionnalités très pratiques comme mettre les marque-pages automatiquement avec une expression régulière, par exemple pour explorer des logs.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'bm)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'bm<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1348,7 +1376,7 @@ On parcourt avec <code>bm-next</code> et <code>bm-previous</code> l'ensemble des
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> bm-cycle-all-buffers t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> bm-cycle-all-buffers t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1357,22 +1385,22 @@ On surligne les lignes marquées en fuchsia, comme avec un coup de Stabilo !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(custom-set-faces
- '(bm-face ((t (<span style="font-weight: bold;">:background</span> <span style="font-style: italic;">"</span><span style="color: #ffffff; background-color: #ffafff;">#ffafff</span><span style="font-style: italic;">"</span>)))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>custom-set-faces
+ '<span style="color: #7388D6;">(</span>bm-face <span style="color: #909183;">(</span><span style="color: #709870;">(</span>t <span style="color: #907373;">(</span><span style="color: #006FE0;">:background</span> <span style="color: #008000;">"</span><span style="color: #000000; background-color: #ffafff;">#ffafff</span><span style="color: #008000;">"</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge20b68e" class="outline-2">
-<h2 id="orge20b68e">C &amp; C++</h2>
-<div class="outline-text-2" id="text-orge20b68e">
+<div id="outline-container-org9b4edb9" class="outline-2">
+<h2 id="org9b4edb9">C &amp; C++</h2>
+<div class="outline-text-2" id="text-org9b4edb9">
 <p>
 Accolades ouvrantes alignées sous le mot clé
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(c-set-offset (<span style="font-weight: bold;">quote</span> substatement-open) 0)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>c-set-offset <span style="color: #7388D6;">(</span><span style="color: #0000FF;">quote</span> substatement-open<span style="color: #7388D6;">)</span> 0<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1381,21 +1409,21 @@ Ouvre les <code>.h</code> comme du C++, et non comme du C
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> auto-mode-alist (append '((<span style="font-style: italic;">"\.h$"</span> . c++-mode)) auto-mode-alist))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> auto-mode-alist <span style="color: #7388D6;">(</span>append '<span style="color: #909183;">(</span><span style="color: #709870;">(</span><span style="color: #008000;">"\.h$"</span> . c++-mode<span style="color: #709870;">)</span><span style="color: #909183;">)</span> auto-mode-alist<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb53ef0b" class="outline-2">
-<h2 id="orgb53ef0b">Column Marker</h2>
-<div class="outline-text-2" id="text-orgb53ef0b">
+<div id="outline-container-orgf1833f2" class="outline-2">
+<h2 id="orgf1833f2">Column Marker</h2>
+<div class="outline-text-2" id="text-orgf1833f2">
 <p>
-Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que <a href="#org9793787">Fill column indicator</a>, mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
+Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que <a href="#org0fd6644">Fill column indicator</a>, mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'column-marker)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'column-marker<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1404,23 +1432,23 @@ Si l'on est dans un mode de programmation, surligne le caractère tombant après
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">column-marker</span>)
-(add-hook 'prog-mode-hook
-          (<span style="font-weight: bold;">lambda</span> () (<span style="font-weight: bold;">interactive</span>) (column-marker-1 80)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">column-marker</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-hook 'prog-mode-hook
+          <span style="color: #7388D6;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #909183;">()</span> <span style="color: #909183;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #909183;">)</span> <span style="color: #909183;">(</span>column-marker-1 80<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2106eac" class="outline-2">
-<h2 id="org2106eac">CMake</h2>
-<div class="outline-text-2" id="text-org2106eac">
+<div id="outline-container-org9b40764" class="outline-2">
+<h2 id="org9b40764">CMake</h2>
+<div class="outline-text-2" id="text-org9b40764">
 <p>
 Le mode majeur pour éditer les fichiers CMake. Perfectible à mon avis, mais utile quand même. Plus d'informations sur le <a href="http://www.cmake.org/Wiki/CMake/Editors/Emacs">wiki</a> de Kitware dédié à CMake.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'cmake-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'cmake-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1429,10 +1457,10 @@ Les fichiers CMake habituels s'ouvrent avec <code>cmake-mode</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> auto-mode-alist
-      (append '((<span style="font-style: italic;">"CMakeLists\\.txt\\'"</span> . cmake-mode))
-              '((<span style="font-style: italic;">"\\.cmake\\'"</span> . cmake-mode))
-              auto-mode-alist))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> auto-mode-alist
+      <span style="color: #7388D6;">(</span>append '<span style="color: #909183;">(</span><span style="color: #709870;">(</span><span style="color: #008000;">"CMakeLists\\.txt\\'"</span> . cmake-mode<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+              '<span style="color: #909183;">(</span><span style="color: #709870;">(</span><span style="color: #008000;">"\\.cmake\\'"</span> . cmake-mode<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+              auto-mode-alist<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1441,21 +1469,21 @@ Pas d'indentation automatique, en particulier après <kbd>Enter</kbd>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (<span style="font-weight: bold;">lambda</span> () (electric-indent-mode -1)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'cmake-mode-hook <span style="color: #7388D6;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #909183;">()</span> <span style="color: #909183;">(</span>electric-indent-mode -1<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org41ce83c" class="outline-2">
-<h2 id="org41ce83c">DTrace</h2>
-<div class="outline-text-2" id="text-org41ce83c">
+<div id="outline-container-org9aa9c08" class="outline-2">
+<h2 id="org9aa9c08">DTrace</h2>
+<div class="outline-text-2" id="text-org9aa9c08">
 <p>
 Un mode majeur pour DTrace, très bel outil d'instrumentation et d'analyse issu de Sun, à l'avenir bien incertain. Il reste utile sur macOS puisqu'il est derrière <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide">Instruments</a>. Plus d'infos sur le <a href="http://dtrace.org/blogs/ahl/tag/dtrace">blog</a> de l'un de ses auteurs.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'dtrace-script-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'dtrace-script-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1464,23 +1492,23 @@ Les fichiers <code>.d</code> sont des scripts DTrace et s'ouvrent avec <code>dtr
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> auto-mode-alist
-      (append '((<span style="font-style: italic;">"\\.d\\'"</span> . dtrace-script-mode))
-              auto-mode-alist))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> auto-mode-alist
+      <span style="color: #7388D6;">(</span>append '<span style="color: #909183;">(</span><span style="color: #709870;">(</span><span style="color: #008000;">"\\.d\\'"</span> . dtrace-script-mode<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+              auto-mode-alist<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7bd80a5" class="outline-2">
-<h2 id="org7bd80a5">EasyPG Assistant</h2>
-<div class="outline-text-2" id="text-org7bd80a5">
+<div id="outline-container-orgc59e931" class="outline-2">
+<h2 id="orgc59e931">EasyPG Assistant</h2>
+<div class="outline-text-2" id="text-orgc59e931">
 <p>
 Une interface à GnuPG pour Emacs, qui permet entre autres de manipuler des fichiers cryptés. GnuPG doit être installé et configuré sur la machine.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'epa-file)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'epa-file<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1489,7 +1517,7 @@ Rend transparent la lecture et l'écriture des fichiers <code>.gpg</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(epa-file-enable)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>epa-file-enable<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1498,7 +1526,7 @@ Indique à EasyPG une clé par défaut, afin qu'il ne pose pas la question à ch
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> epa-file-encrypt-to <span style="font-style: italic;">"julien.montmartin@fastmail.fm"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> epa-file-encrypt-to <span style="color: #008000;">"julien.montmartin@fastmail.fm"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1507,15 +1535,15 @@ Fonctionne bien aussi dans une variable en début de fichier :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">-*- epa-file-encrypt-to: (<span style="font-style: italic;">"julien.montmartin@fastmail.fm"</span>) -*-
+<pre class="src src-emacs-lisp">-*- epa-file-encrypt-to: <span style="color: #707183;">(</span><span style="color: #008000;">"julien.montmartin@fastmail.fm"</span><span style="color: #707183;">)</span> -*-
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org62f2cd7" class="outline-2">
-<h2 id="org62f2cd7">Ediff</h2>
-<div class="outline-text-2" id="text-org62f2cd7">
+<div id="outline-container-org2bce385" class="outline-2">
+<h2 id="org2bce385">Ediff</h2>
+<div class="outline-text-2" id="text-org2bce385">
 <p>
 Un mode très pratique pour gérer les diffs.
 </p>
@@ -1525,7 +1553,7 @@ Les fichiers à comparer sont ouverts cote à cote, et non pas l'un en dessous d
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> ediff-split-window-function 'split-window-horizontally)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ediff-split-window-function 'split-window-horizontally<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1534,15 +1562,15 @@ Ediff n'ouvre pas de nouvelle fenêtre, tout se passe dans la fenêtre courante,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> ediff-window-setup-function 'ediff-setup-windows-plain)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ediff-window-setup-function 'ediff-setup-windows-plain<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org93c24f3" class="outline-2">
-<h2 id="org93c24f3">Find File At Point</h2>
-<div class="outline-text-2" id="text-org93c24f3">
+<div id="outline-container-org5867122" class="outline-2">
+<h2 id="org5867122">Find File At Point</h2>
+<div class="outline-text-2" id="text-org5867122">
 <p>
 Sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>C</kbd>-<kbd>f</kbd> FFAP essaie de deviner le fichier à ouvrir en fonction du texte sous le curseur, ce qui fonctionne avec les includes par exemple.
 </p>
@@ -1552,12 +1580,12 @@ Active FFAP et remplace quelques raccourcis comme <kbd>C</kbd>-<kbd>x</kbd> <kbd
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(ffap-bindings)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>ffap-bindings<span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <p>
-Avant <a href="#org1185aa8">Projectile</a>, FFAP était très pratique pour passer d'un <code>.h</code> à un <code>.cpp</code>. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
+Avant <a href="#orgf2a5b44">Projectile</a>, FFAP était très pratique pour passer d'un <code>.h</code> à un <code>.cpp</code>. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
 </p>
 
 <p>
@@ -1565,7 +1593,7 @@ J'utilisais <kbd>C</kbd>-<kbd>t</kbd> (avec un 't' comme <i>toggle</i>) pour bas
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"C-t"</span>) (<span style="font-weight: bold;">quote</span> ff-find-other-file))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-t"</span><span style="color: #7388D6;">)</span> <span style="color: #7388D6;">(</span><span style="color: #0000FF;">quote</span> ff-find-other-file<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1574,27 +1602,27 @@ Ajoute quelques chemins usuels pour trouver les sources et les entêtes
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> ff-search-directories
-      '(<span style="font-style: italic;">"."</span> <span style="font-style: italic;">".."</span>
-        <span style="font-style: italic;">"./src"</span> <span style="font-style: italic;">"./include"</span>
-        <span style="font-style: italic;">"../src"</span> <span style="font-style: italic;">"../include"</span>
-        <span style="font-style: italic;">"../src/*"</span>  <span style="font-style: italic;">"../include/*"</span>
-        <span style="font-style: italic;">"../../src"</span> <span style="font-style: italic;">"../../include"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> ff-search-directories
+      '<span style="color: #7388D6;">(</span><span style="color: #008000;">"."</span> <span style="color: #008000;">".."</span>
+        <span style="color: #008000;">"./src"</span> <span style="color: #008000;">"./include"</span>
+        <span style="color: #008000;">"../src"</span> <span style="color: #008000;">"../include"</span>
+        <span style="color: #008000;">"../src/*"</span>  <span style="color: #008000;">"../include/*"</span>
+        <span style="color: #008000;">"../../src"</span> <span style="color: #008000;">"../../include"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9793787" class="outline-2">
-<h2 id="org9793787">Fill column indicator</h2>
-<div class="outline-text-2" id="text-org9793787">
+<div id="outline-container-org0fd6644" class="outline-2">
+<h2 id="org0fd6644">Fill column indicator</h2>
+<div class="outline-text-2" id="text-org0fd6644">
 <p>
-Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <a id="org06af646"></a>
+Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <a id="orge103b41"></a>
 </p>
 
 <ul class="org-ul">
 <li>casse les menus d'<code>auto-complete</code></li>
-<li>casse l'export HTML des fichiers <a href="#org4ef2861">Org</a></li>
+<li>casse l'export HTML des fichiers <a href="#org74cc927">Org</a></li>
 <li>copie-colle des pipes depuis le terminal</li>
 </ul>
 
@@ -1603,7 +1631,7 @@ Avoir besoin de <code>fci-mode</code>, c'est devoir choisir entre la peste et le
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'fill-column-indicator)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'fill-column-indicator<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1612,7 +1640,7 @@ Matérialise la colonne 80
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq-default</span> fci-rule-column 80)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq-default</span> fci-rule-column 80<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1621,21 +1649,21 @@ Active FCI dans tous les modes de développement
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'fci-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook 'fci-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4bb54e3" class="outline-2">
-<h2 id="org4bb54e3">Global</h2>
-<div class="outline-text-2" id="text-org4bb54e3">
+<div id="outline-container-org03af72e" class="outline-2">
+<h2 id="org03af72e">Global</h2>
+<div class="outline-text-2" id="text-org03af72e">
 <p>
 Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(autoload 'gtags-mode <span style="font-style: italic;">"gtags"</span> <span style="font-style: italic;">""</span> t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>autoload 'gtags-mode <span style="color: #008000;">"gtags"</span> <span style="color: #036A07;">""</span> t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1649,8 +1677,8 @@ Reprend les raccourcis usuels d'Etags:
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key <span style="font-style: italic;">"\M-."</span> 'gtags-find-tag)
-(global-set-key <span style="font-style: italic;">"\M-*"</span> 'gtags-pop-stack)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #008000;">"\M-."</span> 'gtags-find-tag<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #008000;">"\M-*"</span> 'gtags-pop-stack<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1660,15 +1688,15 @@ Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très
 </div>
 </div>
 
-<div id="outline-container-orge63d277" class="outline-2">
-<h2 id="orge63d277">Graphviz</h2>
-<div class="outline-text-2" id="text-orge63d277">
+<div id="outline-container-org4012e4d" class="outline-2">
+<h2 id="org4012e4d">Graphviz</h2>
+<div class="outline-text-2" id="text-org4012e4d">
 <p>
-Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à <a href="#org4ef2861">Org</a>, ce qui ne gâche rien !
+Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à <a href="#org74cc927">Org</a>, ce qui ne gâche rien !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'graphviz-dot-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'graphviz-dot-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1677,21 +1705,21 @@ Pour effectuer un rendu depuis Emacs avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>v</kbd>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key graphviz-dot-mode-map (kbd <span style="font-style: italic;">"C-c v"</span>) 'graphviz-dot-preview)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>define-key graphviz-dot-mode-map <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-c v"</span><span style="color: #7388D6;">)</span> 'graphviz-dot-preview<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc388ad3" class="outline-2">
-<h2 id="orgc388ad3">Helm</h2>
-<div class="outline-text-2" id="text-orgc388ad3">
+<div id="outline-container-orgd728602" class="outline-2">
+<h2 id="orgd728602">Helm</h2>
+<div class="outline-text-2" id="text-orgd728602">
 <p>
 <a href="https://github.com/emacs-helm/helm/wiki">Helm</a> - Un framework plus qu'un simple module, de suggestion et d'aide à la sélection. S'appliquera bientôt à tous les aspects d'Emacs. Beaucoup plus intrusif que son principal concurrent, <a href="https://www.emacswiki.org/emacs/InteractivelyDoThings">Ido</a>, il change radicalement l'expérience utilisateur, et j'ai mis du temps à sauter le pas. Si ce n'est pas déjà fait, je vous encourage à faire de même ! En plus du nombre incroyable de fonctionnalités simplifiées et enrichies, Helm favorise la découverte et l'exploration d'Emacs. Que du bon en fin de compte !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'helm)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'helm<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1700,7 +1728,7 @@ Pas nécessaire d'après la doc, mais certaines versions fonctionnent mieux avec
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">require</span> '<span style="font-weight: bold; text-decoration: underline;">helm-config</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">helm-config</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1709,8 +1737,8 @@ Préfixe pour les commandes Helm, remplace <kbd>C</kbd>-<kbd>x</kbd> <kbd>c</kbd
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"C-c h"</span>) 'helm-command-prefix)
-(global-unset-key (kbd <span style="font-style: italic;">"C-x c"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-c h"</span><span style="color: #7388D6;">)</span> 'helm-command-prefix<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-unset-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-x c"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1724,9 +1752,9 @@ Le traditionnel <kbd>M</kbd>-<kbd>x</kbd> appelle la version Helm de <code>execu
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"M-x"</span>) 'helm-M-x)
-(global-set-key (kbd <span style="font-style: italic;">"C-x C-f"</span>) 'helm-find-files)
-(global-set-key (kbd <span style="font-style: italic;">"C-x r b"</span>) 'helm-filtered-bookmarks)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"M-x"</span><span style="color: #7388D6;">)</span> 'helm-M-x<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-x C-f"</span><span style="color: #7388D6;">)</span> 'helm-find-files<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-x r b"</span><span style="color: #7388D6;">)</span> 'helm-filtered-bookmarks<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1735,7 +1763,7 @@ Dans un buffer Helm, <kbd>TAB</kbd> essaye de compléter ce qui peut l'être
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key helm-map (kbd <span style="font-style: italic;">"&lt;tab&gt;"</span>) 'helm-execute-persistent-action)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>define-key helm-map <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"&lt;tab&gt;"</span><span style="color: #7388D6;">)</span> 'helm-execute-persistent-action<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1744,7 +1772,7 @@ Pour lister les actions, à la place de <kbd>TAB</kbd>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(define-key helm-map (kbd <span style="font-style: italic;">"C-z"</span>)  'helm-select-action)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>define-key helm-map <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-z"</span><span style="color: #7388D6;">)</span>  'helm-select-action<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1753,7 +1781,7 @@ Dans un chemin, sélectionne immédiatement un répertoire dès lors qu'il est l
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> helm-ff-auto-update-initial-value t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> helm-ff-auto-update-initial-value t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1762,8 +1790,8 @@ S'il est disponible, on utilise cURL pour télécharger des données
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> (executable-find <span style="font-style: italic;">"curl"</span>)
-  (<span style="font-weight: bold;">setq</span> helm-net-prefer-curl t))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> <span style="color: #7388D6;">(</span>executable-find <span style="color: #008000;">"curl"</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> helm-net-prefer-curl t<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1772,7 +1800,7 @@ Ouvre le buffer Helm en partageant le buffer courant (partage horizontal)
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> helm-split-window-in-side-p t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> helm-split-window-in-side-p t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1781,7 +1809,7 @@ Quand on arrive à la fin des candidats, on boucle et on retourne au début
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> helm-move-to-line-cycle-in-source t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> helm-move-to-line-cycle-in-source t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1790,8 +1818,8 @@ Une couleur plus discrète pour les répertoires <code>.</code> et <code>..</cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(custom-set-faces
- '(helm-ff-dotted-directory ((t (<span style="font-weight: bold;">:foreground</span> <span style="font-style: italic;">"DimGrey"</span>)))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>custom-set-faces
+ '<span style="color: #7388D6;">(</span>helm-ff-dotted-directory <span style="color: #909183;">(</span><span style="color: #709870;">(</span>t <span style="color: #907373;">(</span><span style="color: #006FE0;">:foreground</span> <span style="color: #008000;">"</span><span style="color: #ffffff; background-color: #696969;">DimGrey</span><span style="color: #008000;">"</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1800,7 +1828,7 @@ Finalement, on active Helm
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(helm-mode t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>helm-mode t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1810,29 +1838,29 @@ Pour plus de lecture, voir cette introduction à Helm : <a href="http://tuhdo.gi
 </div>
 </div>
 
-<div id="outline-container-orge4670df" class="outline-2">
-<h2 id="orge4670df">Htmlize</h2>
-<div class="outline-text-2" id="text-orge4670df">
+<div id="outline-container-orgb684a8d" class="outline-2">
+<h2 id="orgb684a8d">Htmlize</h2>
+<div class="outline-text-2" id="text-orgb684a8d">
 <p>
-Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si <a href="#org4ef2861">Org</a>, avec ses blocs <code>#+BEGIN_SRC</code> et <code>#+END_SRC</code>, offre souvent une bonne alternative.
+Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si <a href="#org74cc927">Org</a>, avec ses blocs <code>#+BEGIN_SRC</code> et <code>#+END_SRC</code>, offre souvent une bonne alternative.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'htmlize)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'htmlize<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2cd6574" class="outline-2">
-<h2 id="org2cd6574">Idle HighLight Mode</h2>
-<div class="outline-text-2" id="text-org2cd6574">
+<div id="outline-container-org957bfcb" class="outline-2">
+<h2 id="org957bfcb">Idle HighLight Mode</h2>
+<div class="outline-text-2" id="text-org957bfcb">
 <p>
 Après un petit temps d'inactivité, surligne toutes les occurrences du mot se trouvant sous le curseur. Notepad++ fait cela par défaut. Très pratique pour voir où un symbole est utilisé, et repérer les fautes de frappe.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'idle-highlight-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'idle-highlight-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1841,23 +1869,23 @@ Ce mode mineur est activé dans tous les modes de développement.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook (<span style="font-weight: bold;">lambda</span> () (idle-highlight-mode t)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook <span style="color: #7388D6;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #909183;">()</span> <span style="color: #909183;">(</span>idle-highlight-mode t<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8bf5def" class="outline-2">
-<h2 id="org8bf5def">Emacs Lisp</h2>
-<div class="outline-text-2" id="text-org8bf5def">
+<div id="outline-container-org2a71ea3" class="outline-2">
+<h2 id="org2a71ea3">Emacs Lisp</h2>
+<div class="outline-text-2" id="text-org2a71ea3">
 <p>
 Dans les contextes où il y a du Lisp, on affiche les éventuelles informations disponibles sur une fonction ou une variable dans la zone d'écho, c.à.d à l'emplacement du minibuffer.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
-(add-hook 'ielm-mode-hook 'eldoc-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'emacs-lisp-mode-hook 'eldoc-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-hook 'lisp-interaction-mode-hook 'eldoc-mode<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>add-hook 'ielm-mode-hook 'eldoc-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1867,15 +1895,15 @@ IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'u
 </div>
 </div>
 
-<div id="outline-container-org9dc2de3" class="outline-2">
-<h2 id="org9dc2de3">Magit</h2>
-<div class="outline-text-2" id="text-org9dc2de3">
+<div id="outline-container-org8b77fbf" class="outline-2">
+<h2 id="org8b77fbf">Magit</h2>
+<div class="outline-text-2" id="text-org8b77fbf">
 <p>
 Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'magit)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'magit<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1884,21 +1912,21 @@ La plupart des opérations dans Magit commencent par le buffer <code>status</cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"C-x g"</span>) 'magit-status)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-x g"</span><span style="color: #7388D6;">)</span> 'magit-status<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org426dae4" class="outline-2">
-<h2 id="org426dae4">MMM Mode</h2>
-<div class="outline-text-2" id="text-org426dae4">
+<div id="outline-container-orgf78eafd" class="outline-2">
+<h2 id="orgf78eafd">MMM Mode</h2>
+<div class="outline-text-2" id="text-orgf78eafd">
 <p>
 Permet de faire cohabiter plusieurs modes majeurs dans un même buffer.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'mmm-auto)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'mmm-auto<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1907,7 +1935,7 @@ Reparse un buffer qui a été modifié dès qu'Emacs a un peu de temps
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mmm-parse-when-idle t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mmm-parse-when-idle t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1916,7 +1944,7 @@ Ce mode n'est pas activé automatiquement, mais uniquement dans les buffer pour 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mmm-global-mode 'sometimes)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mmm-global-mode 'sometimes<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1925,11 +1953,11 @@ Définit la règle here-doc qui active le mode <code>shell-script-mode</code> en
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(mmm-add-classes
- '((here-doc
-    <span style="font-weight: bold;">:submode</span> shell-script-mode
-    <span style="font-weight: bold;">:front</span> <span style="font-style: italic;">"&lt;&lt;EOF"</span>
-    <span style="font-weight: bold;">:back</span> <span style="font-style: italic;">"^EOF"</span>)))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>mmm-add-classes
+ '<span style="color: #7388D6;">(</span><span style="color: #909183;">(</span>here-doc
+    <span style="color: #006FE0;">:submode</span> shell-script-mode
+    <span style="color: #006FE0;">:front</span> <span style="color: #008000;">"&lt;&lt;EOF"</span>
+    <span style="color: #006FE0;">:back</span> <span style="color: #008000;">"^EOF"</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1938,15 +1966,15 @@ La règle here-doc est activée dans les buffers qui sont dans le très élémen
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(mmm-add-mode-ext-class 'text-mode nil 'here-doc)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>mmm-add-mode-ext-class 'text-mode nil 'here-doc<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4ef2861" class="outline-2">
-<h2 id="org4ef2861">Org</h2>
-<div class="outline-text-2" id="text-org4ef2861">
+<div id="outline-container-org74cc927" class="outline-2">
+<h2 id="org74cc927">Org</h2>
+<div class="outline-text-2" id="text-org74cc927">
 <p>
 Un autre mode exceptionnel. Au départ un <i>outliner</i>, puis un outil de publication avec environnement de <i>literate programming</i>, mais aussi de GTD, de suivi de temps, un agenda, etc.
 </p>
@@ -1956,7 +1984,7 @@ Les lignes ne sont pas tronquées. Plus pratique comme ça, tant pis pour les ta
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-startup-truncated nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-startup-truncated nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1965,7 +1993,7 @@ Les lignes sont indentées selon leur profondeur dans l'arborescence
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-startup-indented t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-startup-indented t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1974,8 +2002,8 @@ Dans les blocs de code, on veut la mise en évidence de syntaxe, et l'on utilise
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-src-fontify-natively t)
-(<span style="font-weight: bold;">setq</span> org-src-tab-acts-natively t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-src-fontify-natively t<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-src-tab-acts-natively t<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1984,9 +2012,9 @@ Les blocs de code sont évalués sans demande de confirmation, ainsi que les lie
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-confirm-babel-evaluate nil)
-(<span style="font-weight: bold;">setq</span> org-confirm-shell-link-function nil)
-(<span style="font-weight: bold;">setq</span> org-confirm-elisp-link-function nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-confirm-babel-evaluate nil<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-confirm-shell-link-function nil<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-confirm-elisp-link-function nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -1995,7 +2023,7 @@ Sauf indication contraire, les éléments de texte générés par Org sont en fr
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-export-default-language <span style="font-style: italic;">"fr"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-export-default-language <span style="color: #008000;">"fr"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2009,16 +2037,16 @@ Concernant l'export (en HTML par exemple) :
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> org-export-with-section-numbers nil)
-(<span style="font-weight: bold;">setq</span> org-export-headline-levels 3)
-(<span style="font-weight: bold;">setq</span> org-export-with-author nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-export-with-section-numbers nil<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-export-headline-levels 3<span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> org-export-with-author nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgddfe8ef" class="outline-3">
-<h3 id="orgddfe8ef">Mise à jour</h3>
-<div class="outline-text-3" id="text-orgddfe8ef">
+<div id="outline-container-org1037a8e" class="outline-3">
+<h3 id="org1037a8e">Mise à jour</h3>
+<div class="outline-text-3" id="text-org1037a8e">
 <p>
 La dernière version d'Org n'est en général pas celle qui est livrée avec Emacs. Il faut la mettre à jour avec le gestionnaire de paquets. Pour une raison que j'ignore, Org n'est pas listé comme <i>built-in</i>, mais quand on l'installe manuellement, le gestionnaire de paquet indique bien "shadowing a built-in package".
 </p>
@@ -2030,15 +2058,15 @@ Ensuite, en cas de bug suspect, il se peut qu'il faille supprimer les fichiers l
 </div>
 </div>
 
-<div id="outline-container-org8dd311b" class="outline-2">
-<h2 id="org8dd311b">Perforce</h2>
-<div class="outline-text-2" id="text-org8dd311b">
+<div id="outline-container-orgd4b4564" class="outline-2">
+<h2 id="orgd4b4564">Perforce</h2>
+<div class="outline-text-2" id="text-orgd4b4564">
 <p>
 Permet d'utiliser Perforce depuis Emacs, principalement pour sortir des fichiers. Conventionnellement, les fichiers sont en lecture seule. Lorsqu'il les sort, Perforce les passe en lecture / écriture.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'p4)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'p4<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2047,7 +2075,7 @@ Le client Perforce en ligne de commande doit être correctement configuré. Le f
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(setenv <span style="font-style: italic;">"P4CONFIG"</span> <span style="font-style: italic;">".P4CONFIG"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>setenv <span style="color: #008000;">"P4CONFIG"</span> <span style="color: #008000;">".P4CONFIG"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2068,32 +2096,32 @@ P4PORT=srv-sources:1666
 </div>
 </div>
 
-<div id="outline-container-org8cde863" class="outline-2">
-<h2 id="org8cde863">Prettify Symbols</h2>
-<div class="outline-text-2" id="text-org8cde863">
+<div id="outline-container-orga47391f" class="outline-2">
+<h2 id="orga47391f">Prettify Symbols</h2>
+<div class="outline-text-2" id="text-orga47391f">
 <p>
 <code>prettify-symbols-mode</code> permet de remplacer certaines séquences par un caractère composé (ou de faire des ligatures, pour reprendre la terminologie d'autres éditeurs). Par exemple, lorsqu'on écrit <code>a&lt;=b</code>, Emacs affiche <code>a≤b</code>. Les séquences à <i>enjoliver</i> sont définies par la liste <code>prettify-symbols-alist</code>, que chaque mode majeur est susceptible d'enrichir. Dans la pratique toutefois, elle semble vide la plupart du temps. Voici donc quelques ajouts  faits au niveau de <code>prog-mode</code>, dont tous les modes de développement dérivés profiteront.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook
-          (<span style="font-weight: bold;">lambda</span> ()
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"/="</span> . ?&#8800;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"!="</span> . ?&#8800;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"=="</span> . ?&#10869;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"&amp;&amp;"</span> . ?&#8743;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"||"</span> . ?&#8744;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"&lt;="</span> . ?&#8804;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"&gt;="</span> . ?&#8805;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"&lt;&lt;"</span> . ?&#8810;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"&gt;&gt;"</span> . ?&#8811;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"::"</span> . ?&#8759;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"-&gt;"</span> . ?&#8594;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"=&gt;"</span> . ?&#8658;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"and"</span> . ?&#8743;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"not"</span> . ?&#172;) prettify-symbols-alist)
-            (<span style="font-weight: bold;">push</span> '(<span style="font-style: italic;">"or"</span> . ?&#8744;) prettify-symbols-alist)
-            ))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook
+          <span style="color: #7388D6;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #909183;">()</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"/="</span> . ?&#8800;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"!="</span> . ?&#8800;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"=="</span> . ?&#10869;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"&amp;&amp;"</span> . ?&#8743;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"||"</span> . ?&#8744;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"&lt;="</span> . ?&#8804;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"&gt;="</span> . ?&#8805;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"&lt;&lt;"</span> . ?&#8810;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"&gt;&gt;"</span> . ?&#8811;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"::"</span> . ?&#8759;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"-&gt;"</span> . ?&#8594;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"=&gt;"</span> . ?&#8658;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"and"</span> . ?&#8743;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"not"</span> . ?&#172;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #909183;">(</span><span style="color: #0000FF;">push</span> '<span style="color: #709870;">(</span><span style="color: #008000;">"or"</span> . ?&#8744;<span style="color: #709870;">)</span> prettify-symbols-alist<span style="color: #909183;">)</span>
+            <span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2102,17 +2130,17 @@ Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C++"><span style="font-weight: bold; text-decoration: underline;">void</span> <span style="font-weight: bold;">foo</span>(std&#8759;<span style="font-weight: bold; text-decoration: underline;">pair</span>&lt;<span style="font-weight: bold; text-decoration: underline;">int</span>, <span style="font-weight: bold; text-decoration: underline;">int</span>&gt;* p)
-{
-    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">Print something if first != second</span>
-    <span style="font-weight: bold;">if</span>(p &#8800; <span style="font-weight: bold; text-decoration: underline;">nullptr</span> &#8743; (p&#8594;first &#8800; p&#8594;second))
-        std&#8759;cout &#8810; p&#8594;first &#171; <span style="font-style: italic;">"!="</span> &#8810; p&#8594;second &#171; std&#8759;endl;
-}
+<pre class="src src-C++"><span style="color: #6434A3;">void</span> <span style="color: #006699;">foo</span><span style="color: #707183;">(</span>std&#8759;<span style="color: #6434A3;">pair</span><span style="color: #7388D6;">&lt;</span><span style="color: #6434A3;">int</span>, <span style="color: #6434A3;">int</span><span style="color: #7388D6;">&gt;</span>* p<span style="color: #707183;">)</span>
+<span style="color: #707183;">{</span>
+    <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">Print something if first != second</span>
+    <span style="color: #0000FF;">if</span><span style="color: #7388D6;">(</span>p &#8800; <span style="color: #D0372D;">nullptr</span> &#8743; <span style="color: #909183;">(</span>p&#8594;first &#8800; p&#8594;second<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+        std&#8759;cout &#8810; p&#8594;first &#171; <span style="color: #008000;">"!="</span> &#8810; p&#8594;second &#171; std&#8759;endl;
+<span style="color: #707183;">}</span>
 </pre>
 </div>
 
 <p>
-On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par <a href="#org4ef2861">Org</a> (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui <i>facilite</i> la cohabitation avec les paquets comme <code>fci-mode</code>. Il reste quelques petits problèmes, comme une petite <i>marche</i> sur la limite pour les lignes trop longues, mais avec <code>fci-mode</code>, il faut savoir faire des <a href="#org06af646">compromis</a>&#x2026;
+On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par <a href="#org74cc927">Org</a> (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui <i>facilite</i> la cohabitation avec les paquets comme <code>fci-mode</code>. Il reste quelques petits problèmes, comme une petite <i>marche</i> sur la limite pour les lignes trop longues, mais avec <code>fci-mode</code>, il faut savoir faire des <a href="#orge103b41">compromis</a>&#x2026;
 </p>
 
 <p>
@@ -2120,16 +2148,16 @@ J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de t
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-prettify-symbols-mode t)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-prettify-symbols-mode t<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org1185aa8" class="outline-2">
-<h2 id="org1185aa8">Projectile</h2>
-<div class="outline-text-2" id="text-org1185aa8">
+<div id="outline-container-orgf2a5b44" class="outline-2">
+<h2 id="orgf2a5b44">Projectile</h2>
+<div class="outline-text-2" id="text-orgf2a5b44">
 <p>
 Un module qui fournit une fonctionnalité bien pratique : regrouper les fichiers d'un même projet. Lorsqu'on ouvre un fichier, Projectile cherche un dépôt (via la présence d'un <code>.git</code> ou autre) dans le répertoire du fichier ouvert, puis dans ses répertoires parents.
 </p>
@@ -2139,7 +2167,7 @@ S'il identifie un dépôt, Projectile considère que tous les fichiers du dépô
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'projectile)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'projectile<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2148,16 +2176,16 @@ Active Projectile dans tous les modes le supportant
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(projectile-global-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>projectile-global-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
 <p>
-Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code> qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant <code>foo.h</code>, Projectile cherche dans le projet <code>foo.c</code>, et l'ouvre s'il le trouve. J'utilisais avant <a href="#org93c24f3">Find File At Point</a> pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
+Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code> qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant <code>foo.h</code>, Projectile cherche dans le projet <code>foo.c</code>, et l'ouvre s'il le trouve. J'utilisais avant <a href="#org5867122">Find File At Point</a> pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"C-t"</span>) 'projectile-find-other-file)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-t"</span><span style="color: #7388D6;">)</span> 'projectile-find-other-file<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2166,7 +2194,7 @@ Projectile utilise Helm pour l'aide à la sélection
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> projectile-completion-system 'helm)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> projectile-completion-system 'helm<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2175,31 +2203,31 @@ Active les raccourcis Helm pour les fonctions Projectile
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(helm-projectile-on)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>helm-projectile-on<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgfae51f9" class="outline-2">
-<h2 id="orgfae51f9">Qt</h2>
-<div class="outline-text-2" id="text-orgfae51f9">
+<div id="outline-container-orgb4da257" class="outline-2">
+<h2 id="orgb4da257">Qt</h2>
+<div class="outline-text-2" id="text-orgb4da257">
 <p>
 Pour ceux qui développent avec Qt, la fonction <code>generate-qt-includes</code> appelle un petit morceau de shell qui essaie de générer la liste des entêtes nécessaires aux types Qt utilisés. Sans doute pas parfait (tente régulièrement d'inclure QStringLiteral), mais mieux que rien !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">generate-qt-includes</span> ()
-    <span style="font-style: italic;">"Insert a list of Qt includes matching Qt types found in this buffer"</span>
-    (<span style="font-weight: bold;">interactive</span>)
-    (shell-command-on-region
-     (point-min) (point-max)
-     <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">Pourquoi ne peut-on pas mettre le pipe en d&#233;but de ligne ?</span>
-     <span style="font-style: italic;">"sed 's/\#.*include.*&lt;.*&gt;/#include &lt;header&gt;/' |</span>
-<span style="font-style: italic;">sed 's://.*:// comment:' |</span>
-<span style="font-style: italic;">sed -n 's/.*</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">(</span><span style="font-style: italic;">Q[A-Z][a-zA-Z]*</span><span style="font-weight: bold; font-style: italic;">\\</span><span style="font-weight: bold; font-style: italic;">)</span><span style="font-style: italic;">.*/#include &lt;\\1&gt;/p' |</span>
-<span style="font-style: italic;">sort | uniq"</span> )
-  (insert-buffer <span style="font-style: italic;">"*Shell Command Output*"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">generate-qt-includes</span> <span style="color: #7388D6;">()</span>
+    <span style="color: #036A07;">"Insert a list of Qt includes matching Qt types found in this buffer"</span>
+    <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+    <span style="color: #7388D6;">(</span>shell-command-on-region
+     <span style="color: #909183;">(</span>point-min<span style="color: #909183;">)</span> <span style="color: #909183;">(</span>point-max<span style="color: #909183;">)</span>
+     <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Pourquoi ne peut-on pas mettre le pipe en d&#233;but de ligne ?</span>
+     <span style="color: #008000;">"sed 's/\#.*include.*&lt;.*&gt;/#include &lt;header&gt;/' |</span>
+<span style="color: #008000;">sed 's://.*:// comment:' |</span>
+<span style="color: #008000;">sed -n 's/.*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">Q[A-Z][a-zA-Z]*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">.*/#include &lt;\\1&gt;/p' |</span>
+<span style="color: #008000;">sort | uniq"</span> <span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>insert-buffer <span style="color: #008000;">"*Shell Command Output*"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2208,21 +2236,21 @@ Le raccourci <kbd>M</kbd>-<kbd>#</kbd> appelle <code>generate-qt-includes</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"M-#"</span>) 'generate-qt-includes)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"M-#"</span><span style="color: #7388D6;">)</span> 'generate-qt-includes<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgce0e424" class="outline-2">
-<h2 id="orgce0e424">Rainbow delimiters</h2>
-<div class="outline-text-2" id="text-orgce0e424">
+<div id="outline-container-org672f002" class="outline-2">
+<h2 id="org672f002">Rainbow delimiters</h2>
+<div class="outline-text-2" id="text-org672f002">
 <p>
 Met en évidence les symboles ouvrants et fermants, comme les parenthèses, les accolades ou les crochets, avec des couleurs appariées. Raffiné et élégant !
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'rainbow-delimiters)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'rainbow-delimiters<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2231,7 +2259,7 @@ Exemple avec des parenthèses :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">when</span> (foo (bar (baz t))))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">when</span> <span style="color: #7388D6;">(</span>foo <span style="color: #909183;">(</span>bar <span style="color: #709870;">(</span>baz t<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2240,21 +2268,21 @@ Active cette fonctionnalité dans tous les modes de développement
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook 'rainbow-delimiters-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbc50dec" class="outline-2">
-<h2 id="orgbc50dec">Rainbow mode</h2>
-<div class="outline-text-2" id="text-orgbc50dec">
+<div id="outline-container-org5093769" class="outline-2">
+<h2 id="org5093769">Rainbow mode</h2>
+<div class="outline-text-2" id="text-org5093769">
 <p>
 Cherche dans un buffer les chaines représentant une couleur, et les surligne avec cette couleur. Quelquefois il devine mal et surligne des couleurs qui n'en sont pas, mais ça reste très pratique, et joli, ce qui ne gâche rien ! L'essayer c'est l'adopter.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'rainbow-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'rainbow-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2263,7 +2291,7 @@ Quelques exemples de couleurs reconnues :
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(message <span style="font-style: italic;">"De la couleur ! </span><span style="color: #ffffff; background-color: #ffafff;">#ffafff</span><span style="font-style: italic;"> </span><span style="color: #000000; background-color: #F5DEB3;">#F5DEB3</span><span style="font-style: italic;"> </span><span style="color: #000000; background-color: #def;">#def</span><span style="font-style: italic;"> DeepPink"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>message <span style="color: #008000;">"De la couleur ! </span><span style="color: #000000; background-color: #ffafff;">#ffafff</span><span style="color: #008000;"> </span><span style="color: #000000; background-color: #F5DEB3;">#F5DEB3</span><span style="color: #008000;"> </span><span style="color: #000000; background-color: #def;">#def</span><span style="color: #008000;"> </span><span style="color: #ffffff; background-color: #ff1493;">DeepPink</span><span style="color: #008000;">"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2272,15 +2300,15 @@ Active cette fonctionnalité dans tous les modes de développement
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook 'rainbow-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgdad8ed4" class="outline-2">
-<h2 id="orgdad8ed4">Related</h2>
-<div class="outline-text-2" id="text-orgdad8ed4">
+<div id="outline-container-org6d1a97c" class="outline-2">
+<h2 id="org6d1a97c">Related</h2>
+<div class="outline-text-2" id="text-org6d1a97c">
 <p>
 Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
 </p>
@@ -2305,7 +2333,7 @@ On peut passer de l'un à l'autre avec <kbd>C</kbd>-<kbd>x</kbd> <kbd>↑</kbd> 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'related)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'related<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2314,7 +2342,7 @@ Active Related, qui est un mode mineur global
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(related-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>related-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2323,35 +2351,35 @@ Active Related, qui est un mode mineur global
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="font-style: italic;">"C-x &lt;end&gt;"</span>) 'related-switch-buffer )
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>global-set-key <span style="color: #7388D6;">(</span>kbd <span style="color: #008000;">"C-x &lt;end&gt;"</span><span style="color: #7388D6;">)</span> 'related-switch-buffer <span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8e9be74" class="outline-2">
-<h2 id="org8e9be74">Shell scripts</h2>
-<div class="outline-text-2" id="text-org8e9be74">
+<div id="outline-container-org8962571" class="outline-2">
+<h2 id="org8962571">Shell scripts</h2>
+<div class="outline-text-2" id="text-org8962571">
 <p>
 Les fichiers en <code>.sh</code> s'ouvrent avec <code>shell-script-mode</code>, indépendamment de leur <i>shebang</i>. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '(<span style="font-style: italic;">"\\.sh\\'"</span> . sh-mode))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-to-list 'auto-mode-alist '<span style="color: #7388D6;">(</span><span style="color: #008000;">"\\.sh\\'"</span> . sh-mode<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6c32d2a" class="outline-2">
-<h2 id="org6c32d2a">Souris</h2>
-<div class="outline-text-2" id="text-org6c32d2a">
+<div id="outline-container-org17867f2" class="outline-2">
+<h2 id="org17867f2">Souris</h2>
+<div class="outline-text-2" id="text-org17867f2">
 <p>
 La molette de la souris fait défiler les lignes deux par deux
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mouse-wheel-scroll-amount '(2))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mouse-wheel-scroll-amount '<span style="color: #7388D6;">(</span>2<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2360,49 +2388,49 @@ Le défilement à l'écran suit la molette, et le pas reste constant quand elle 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> mouse-wheel-progressive-speed nil)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> mouse-wheel-progressive-speed nil<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2aed50e" class="outline-2">
-<h2 id="org2aed50e">Tcl</h2>
-<div class="outline-text-2" id="text-org2aed50e">
+<div id="outline-container-orgd544116" class="outline-2">
+<h2 id="orgd544116">Tcl</h2>
+<div class="outline-text-2" id="text-orgd544116">
 <p>
 Ouvre les <code>.tm</code> comme des modules Tcl
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> auto-mode-alist (append '((<span style="font-style: italic;">"\.tm$"</span> . tcl-mode)) auto-mode-alist))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> auto-mode-alist <span style="color: #7388D6;">(</span>append '<span style="color: #909183;">(</span><span style="color: #709870;">(</span><span style="color: #008000;">"\.tm$"</span> . tcl-mode<span style="color: #709870;">)</span><span style="color: #909183;">)</span> auto-mode-alist<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org133e7fb" class="outline-2">
-<h2 id="org133e7fb">Tramp</h2>
-<div class="outline-text-2" id="text-org133e7fb">
+<div id="outline-container-orgd5f6865" class="outline-2">
+<h2 id="orgd5f6865">Tramp</h2>
+<div class="outline-text-2" id="text-orgd5f6865">
 <p>
 Transfère les fichiers en utilisant ssh, plutôt que ftp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> tramp-default-method <span style="font-style: italic;">"ssh"</span>)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> tramp-default-method <span style="color: #008000;">"ssh"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org03b8311" class="outline-2">
-<h2 id="org03b8311">Uniquify</h2>
-<div class="outline-text-2" id="text-org03b8311">
+<div id="outline-container-orgf381f76" class="outline-2">
+<h2 id="orgf381f76">Uniquify</h2>
+<div class="outline-text-2" id="text-orgf381f76">
 <p>
 Génère des libellés plus pertinents pour les buffers de mêmes noms
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'uniquify)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'uniquify<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2411,21 +2439,21 @@ Soit les fichiers <code>xxx/yyy/foo.txt</code> et <code>zzz/ttt/foo.txt</code> t
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> uniquify-buffer-name-style 'post-forward)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> uniquify-buffer-name-style 'post-forward<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org73926a1" class="outline-2">
-<h2 id="org73926a1">Whitespace</h2>
-<div class="outline-text-2" id="text-org73926a1">
+<div id="outline-container-orgdd15dc8" class="outline-2">
+<h2 id="orgdd15dc8">Whitespace</h2>
+<div class="outline-text-2" id="text-orgdd15dc8">
 <p>
 Un mode mineur qui permet de visualiser les espaces, de nettoyer les lignes blanches, ou encore de visualiser les lignes trop longues. Très paramétrable.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(my-require 'whitespace)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>my-require 'whitespace<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2440,7 +2468,7 @@ La variable <code>whitespace-style</code> contrôle les types d'espaces qui sero
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">setq</span> whitespace-style '(face trailing lines empty))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">setq</span> whitespace-style '<span style="color: #7388D6;">(</span>face trailing lines empty<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2453,7 +2481,7 @@ Lorsqu'on sauvegarde un fichier, on veut que les espaces soient automatiquement 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'before-save-hook 'whitespace-cleanup)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'before-save-hook 'whitespace-cleanup<span style="color: #707183;">)</span>
 </pre>
 </div>
 
@@ -2462,57 +2490,57 @@ Active whitespace-mode dans tous les modes de développement
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'whitespace-mode)
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'prog-mode-hook 'whitespace-mode<span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org38a5d73" class="outline-2">
-<h2 id="org38a5d73">XML</h2>
-<div class="outline-text-2" id="text-org38a5d73">
+<div id="outline-container-org45961a5" class="outline-2">
+<h2 id="org45961a5">XML</h2>
+<div class="outline-text-2" id="text-org45961a5">
 <p>
 Une fonction pour remettre en forme du XML. Prise sur le site de <a href="http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html">Benjamin Ferrari</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">pretty-print-xml-region</span> (begin end)
-  <span style="font-style: italic;">"Pretty format XML markup in region. You need to have nxml-mode</span>
-<span style="font-style: italic;">http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do</span>
-<span style="font-style: italic;">this.  The function inserts linebreaks to separate tags that have</span>
-<span style="font-style: italic;">nothing but whitespace between them.  It then indents the markup</span>
-<span style="font-style: italic;">by using nxml's indentation rules."</span>
-  (<span style="font-weight: bold;">interactive</span> <span style="font-style: italic;">"r"</span>)
-  (<span style="font-weight: bold;">save-excursion</span>
-    (nxml-mode)
-    (goto-char begin)
-    <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">split &lt;foo&gt;&lt;foo&gt; or &lt;/foo&gt;&lt;foo&gt;, but not &lt;foo&gt;&lt;/foo&gt;</span>
-    (<span style="font-weight: bold;">while</span> (search-forward-regexp <span style="font-style: italic;">"&gt;[ \t]*&lt;[</span><span style="font-style: italic;">^</span><span style="font-style: italic;">/]"</span> end t)
-      (backward-char 2) (insert <span style="font-style: italic;">"\n"</span>) (<span style="font-weight: bold;">incf</span> end))
-    <span style="font-weight: bold; font-style: italic;">;; </span><span style="font-weight: bold; font-style: italic;">split &lt;foo/&gt;&lt;/foo&gt; and &lt;/foo&gt;&lt;/foo&gt;</span>
-    (goto-char begin)
-    (<span style="font-weight: bold;">while</span> (search-forward-regexp <span style="font-style: italic;">"&lt;.*?/.*?&gt;[ \t]*&lt;"</span> end t)
-      (backward-char) (insert <span style="font-style: italic;">"\n"</span>) (<span style="font-weight: bold;">incf</span> end))
-    (indent-region begin end nil)
-    (normal-mode))
-  (message <span style="font-style: italic;">"All indented!"</span>))
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">pretty-print-xml-region</span> <span style="color: #7388D6;">(</span>begin end<span style="color: #7388D6;">)</span>
+  <span style="color: #036A07;">"Pretty format XML markup in region. You need to have nxml-mode</span>
+<span style="color: #036A07;">http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do</span>
+<span style="color: #036A07;">this.  The function inserts linebreaks to separate tags that have</span>
+<span style="color: #036A07;">nothing but whitespace between them.  It then indents the markup</span>
+<span style="color: #036A07;">by using nxml's indentation rules."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span> <span style="color: #008000;">"r"</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">save-excursion</span>
+    <span style="color: #909183;">(</span>nxml-mode<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>goto-char begin<span style="color: #909183;">)</span>
+    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">split &lt;foo&gt;&lt;foo&gt; or &lt;/foo&gt;&lt;foo&gt;, but not &lt;foo&gt;&lt;/foo&gt;</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">while</span> <span style="color: #709870;">(</span>search-forward-regexp <span style="color: #008000;">"&gt;[ \t]*&lt;[</span><span style="color: #008000;">^</span><span style="color: #008000;">/]"</span> end t<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span>backward-char 2<span style="color: #709870;">)</span> <span style="color: #709870;">(</span>insert <span style="color: #008000;">"\n"</span><span style="color: #709870;">)</span> <span style="color: #709870;">(</span><span style="color: #0000FF;">incf</span> end<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">split &lt;foo/&gt;&lt;/foo&gt; and &lt;/foo&gt;&lt;/foo&gt;</span>
+    <span style="color: #909183;">(</span>goto-char begin<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">while</span> <span style="color: #709870;">(</span>search-forward-regexp <span style="color: #008000;">"&lt;.*?/.*?&gt;[ \t]*&lt;"</span> end t<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span>backward-char<span style="color: #709870;">)</span> <span style="color: #709870;">(</span>insert <span style="color: #008000;">"\n"</span><span style="color: #709870;">)</span> <span style="color: #709870;">(</span><span style="color: #0000FF;">incf</span> end<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>indent-region begin end nil<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>normal-mode<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span>message <span style="color: #008000;">"All indented!"</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf199677" class="outline-2">
-<h2 id="orgf199677">Installation automatique</h2>
-<div class="outline-text-2" id="text-orgf199677">
+<div id="outline-container-orge873e86" class="outline-2">
+<h2 id="orge873e86">Installation automatique</h2>
+<div class="outline-text-2" id="text-orge873e86">
 <p>
 Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de <a href="https://stackoverflow.com/a/10093312">cette réponse</a> sur Stack Overflow.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">defun</span> <span style="font-weight: bold;">my-setup</span>()
-  (<span style="font-weight: bold;">unless</span> package-archive-contents
-    (package-refresh-contents))
-  (<span style="font-weight: bold;">dolist</span> (package '(auto-complete-config
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">my-setup</span><span style="color: #7388D6;">()</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">unless</span> package-archive-contents
+    <span style="color: #909183;">(</span>package-refresh-contents<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">dolist</span> <span style="color: #909183;">(</span>package '<span style="color: #709870;">(</span>auto-complete-config
                      bm
                      column-marker
                      cmake-mode
@@ -2531,11 +2559,11 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
                      rainbow-mode
                      related
                      uniquify
-                     whitespace))
-    (message <span style="font-style: italic;">"---&gt; %s"</span> package)
-    (<span style="font-weight: bold;">unless</span> (package-installed-p package)
-      (<span style="font-weight: bold;">ignore-errors</span>
-        (package-install package)))))
+                     whitespace<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span>message <span style="color: #008000;">"---&gt; %s"</span> package<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">unless</span> <span style="color: #709870;">(</span>package-installed-p package<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span><span style="color: #0000FF;">ignore-errors</span>
+        <span style="color: #907373;">(</span>package-install package<span style="color: #907373;">)</span><span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>

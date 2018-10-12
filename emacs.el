@@ -64,31 +64,31 @@
 
 ;; À la place de view-order-manuals qui est normalement sur f1
 (global-set-key (kbd "<f1>")	'view-mode)
-(global-set-key (kbd "<C-f1>")	'revert-buffer)
-(global-set-key (kbd "<S-f1>")	'revert-buffer)
+(global-set-key (kbd "C-<f1>")	'revert-buffer)
+(global-set-key (kbd "S-<f1>")	'revert-buffer)
 
 (global-set-key (kbd "<f2>")	'bm-toggle)
-(global-set-key (kbd "<C-f2>")	'bm-next)
-(global-set-key (kbd "<S-f2>")	'bm-previous)
+(global-set-key (kbd "C-<f2>")	'bm-next)
+(global-set-key (kbd "S-<f2>")	'bm-previous)
 
 (unless window-system
-  (global-set-key (kbd "<S-f2>")	'helm-bm))
+  (global-set-key (kbd "S-<f2>")	'helm-bm))
 
 (global-set-key (kbd "<f3>")	'hl-line-mode)
 
 (global-set-key (kbd "<f4>")	'projectile-grep)
 
 (global-set-key (kbd "<f5>")	'run-compilation)
-(global-set-key (kbd "<C-f5>")	'end-compilation)
-(global-set-key (kbd "<S-f5>")	'end-compilation)
+(global-set-key (kbd "C-<f5>")	'end-compilation)
+(global-set-key (kbd "S-<f5>")	'end-compilation)
 
 (global-set-key (kbd "<f6>")	'projectile-multi-occur)
-(global-set-key (kbd "<C-f6>")	'helm-occur)
-(global-set-key (kbd "<S-f6>")	'helm-occur)
+(global-set-key (kbd "C-<f6>")	'helm-occur)
+(global-set-key (kbd "S-<f6>")	'helm-occur)
 
 (global-set-key (kbd "<f8>")	'fci-mode)
-(global-set-key (kbd "<C-f8>")	'whitespace-mode)
-(global-set-key (kbd "<S-f8>")	'whitespace-mode)
+(global-set-key (kbd "C-<f8>")	'whitespace-mode)
+(global-set-key (kbd "S-<f8>")	'whitespace-mode)
 
 (last-step-duration "Raccourcis Fn")
 
@@ -298,7 +298,7 @@ and restore it later."
   :lighter " TTm"
   :keymap (let ((map (make-sparse-keymap)))
 			(define-key map (kbd "<tab>") 'tab-to-tab-stop)
-			(define-key map (kbd "<S-tab>") 'prev-tab-to-tab-stop)
+			(define-key map (kbd "S-<tab>") 'prev-tab-to-tab-stop)
 			map))
 
 (add-hook 'cmake-mode-hook 'tab-tab-mode)
@@ -319,6 +319,12 @@ and restore it later."
 
 (setq ac-auto-start nil)
 (global-set-key "\M-/" 'auto-complete))
+
+(setq ac-use-menu-map t)
+
+(setq ac-use-fuzzy t)
+
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
 
 (last-step-duration "Auto Complete")
 
@@ -696,7 +702,7 @@ by using nxml's indentation rules."
                      helm
                      htmlize
                      idle-highlight-mode
-                     leuven-theme
+                     leuven
                      magit
                      mmm-auto
                      projectile
