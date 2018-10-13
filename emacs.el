@@ -661,6 +661,16 @@ sort | uniq" )
 
 (when
 
+(my-require 'unfill)
+
+(global-set-key (kbd "M-/") 'unfill-toggle)
+
+)
+
+(last-step-duration "Unfill")
+
+(when
+
 (my-require 'uniquify)
 
 (setq uniquify-buffer-name-style 'post-forward)
@@ -736,6 +746,7 @@ by using nxml's indentation rules."
                      rainbow-mode
                      related
                      rust-mode
+                     unfill
                      uniquify
                      whitespace))
       (message "---> %s" package)

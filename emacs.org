@@ -1806,11 +1806,11 @@ Active Related, qui est un mode mineur global
 #+END_SRC
 
 Rust dispose d'un très bon support dans Emacs, au travers des paquets suivants :
-- rust-mode : mode majeur pour Rust, mise en évidence de syntaxe et c^ie.
-- cargo : raccourcis clavier pour piloter Cargo, le /front-end/ à tout faire de Rust
-- flycheck-rust : mise en évidence des erreurs au fil de la saisie
-- ob-rust : exécution des blocs de code Rust dans Org avec Babel
-- racer : support de Racer, outil externe d'indexation du code
+- ~rust-mode~ : mode majeur pour Rust, mise en évidence de syntaxe et c^ie.
+- ~cargo~ : raccourcis clavier pour piloter Cargo, le /front-end/ à tout faire de Rust
+- ~flycheck-rust~ : mise en évidence des erreurs au fil de la saisie
+- ~ob-rust~ : exécution des blocs de code Rust dans Org avec Babel
+- ~racer~ : support de Racer, outil externe d'indexation du code
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (my-require 'rust-mode)
@@ -1894,6 +1894,32 @@ Transfère les fichiers en utilisant ssh, plutôt que ftp
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Tramp")
+#+END_SRC
+
+* Unfill
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+La fonction ~fill~ permet de découper correctement les lignes trop longues, et le paquet ~unfill~ fournit la fonction inverse, celle qui recolle les lignes. Et même mieux, ce paquet fournit également ~unfill-toggle~, qui passe d'un état à l'autre. Si simple et tellement utile ! Travaille sur la région si elle est définie, sur le paragraphe sinon.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'unfill)
+#+END_SRC
+
+Le raccourci par défaut pour ~fill~ est remplacé sans états d'âme
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key (kbd "M-/") 'unfill-toggle)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Unfill")
 #+END_SRC
 
 * Uniquify
@@ -2002,44 +2028,45 @@ Une fonction pour remettre en forme du XML. Prise sur le site de [[http://blog.b
 Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de [[https://stackoverflow.com/a/10093312][cette réponse]] sur Stack Overflow.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun my-setup()
-    (add-to-list 'package-archives
-                 '("MELPA" . "http://melpa.milkbox.net/packages/") t)
-    (unless package-archive-contents
-      (package-refresh-contents))
-    (dolist (package '(ac-capf
-                       ac-helm
-                       auto-complete-config
-                       bm
-                       cargo
-                       cmake-mode
-                       column-marker
-                       epa-file
-                       fill-column-indicator
-                       flycheck-rust
-                       fuzzy
-                       ggtags
-                       graphviz-dot-mode
-                       helm
-                       helm-projectile
-                       htmlize
-                       idle-highlight-mode
-                       leuven
-                       magit
-                       mmm-mode
-                       ob-rust
-                       projectile
-                       racer
-                       rainbow-delimiters
-                       rainbow-mode
-                       related
-                       rust-mode
-                       uniquify
-                       whitespace))
-        (message "---> %s" package)
-        (unless (package-installed-p package)
-          (ignore-errors
-            (package-install package)))))
+    (defun my-setup()
+      (add-to-list 'package-archives
+                   '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+      (unless package-archive-contents
+        (package-refresh-contents))
+      (dolist (package '(ac-capf
+                         ac-helm
+                         auto-complete-config
+                         bm
+                         cargo
+                         cmake-mode
+                         column-marker
+                         epa-file
+                         fill-column-indicator
+                         flycheck-rust
+                         fuzzy
+                         ggtags
+                         graphviz-dot-mode
+                         helm
+                         helm-projectile
+                         htmlize
+                         idle-highlight-mode
+                         leuven
+                         magit
+                         mmm-mode
+                         ob-rust
+                         projectile
+                         racer
+                         rainbow-delimiters
+                         rainbow-mode
+                         related
+                         rust-mode
+                         unfill
+                         uniquify
+                         whitespace))
+          (message "---> %s" package)
+          (unless (package-installed-p package)
+            (ignore-errors
+              (package-install package)))))
 #+END_SRC
 
 * Générer les fichiers :noexport:
