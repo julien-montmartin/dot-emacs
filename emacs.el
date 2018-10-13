@@ -324,7 +324,9 @@ and restore it later."
 
 (setq ac-use-fuzzy t)
 
-(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
+(global-set-key (kbd "C-:") 'ac-complete-with-helm)
+
+(add-hook 'prog-mode-hook 'ac-capf-setup)
 
 (last-step-duration "Auto Complete")
 
@@ -346,6 +348,14 @@ and restore it later."
 (setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
 
 (last-step-duration "C & C++")
+
+(my-require 'ggtags)
+(add-hook 'c-mode-common-hook 'ggtags-mode)
+
+(add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-." 'gtags-find-tag)))
+(add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+
+(last-step-duration "Global")
 
 (last-step-duration "Column Marker")
 
@@ -409,13 +419,6 @@ and restore it later."
 
 (setq-default fci-rule-column 80)
 
-(autoload 'gtags-mode "gtags" "" t)
-
-(global-set-key "\M-." 'gtags-find-tag)
-(global-set-key "\M-*" 'gtags-pop-stack)
-
-(last-step-duration "Global")
-
 (when
 
 (my-require 'graphviz-dot-mode)
@@ -441,7 +444,7 @@ and restore it later."
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 
-(define-key helm-map (kbd "C-z")  'helm-select-action)
+(define-key helm-map (kbd "C-z") 'helm-select-action)
 
 (setq helm-ff-auto-update-initial-value t)
 
@@ -628,6 +631,18 @@ sort | uniq" )
 
 (last-step-duration "Related")
 
+(my-require 'rust-mode)
+(my-require 'cargo)
+(my-require 'flycheck-rust)
+(my-require 'ob-rust)
+(my-require 'racer)
+
+(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-." 'racer-find-definition)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+
+(last-step-duration "Rust")
+
 (add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
 
 (last-step-duration "Shell scripts")
@@ -690,29 +705,40 @@ by using nxml's indentation rules."
 (last-step-duration "XML")
 
 (defun my-setup()
+  (add-to-list 'package-archives
+               '("MELPA" . "http://melpa.milkbox.net/packages/") t)
   (unless package-archive-contents
     (package-refresh-contents))
-  (dolist (package '(auto-complete-config
+  (dolist (package '(ac-capf
+                     ac-helm
+                     auto-complete-config
                      bm
-                     column-marker
+                     cargo
                      cmake-mode
+                     column-marker
                      epa-file
                      fill-column-indicator
+                     flycheck-rust
+                     fuzzy
+                     ggtags
                      graphviz-dot-mode
                      helm
+                     helm-projectile
                      htmlize
                      idle-highlight-mode
                      leuven
                      magit
-                     mmm-auto
+                     mmm-mode
+                     ob-rust
                      projectile
-                     helm-projectile
+                     racer
                      rainbow-delimiters
                      rainbow-mode
                      related
+                     rust-mode
                      uniquify
                      whitespace))
-    (message "---> %s" package)
-    (unless (package-installed-p package)
-      (ignore-errors
-        (package-install package)))))
+      (message "---> %s" package)
+      (unless (package-installed-p package)
+        (ignore-errors
+          (package-install package)))))
