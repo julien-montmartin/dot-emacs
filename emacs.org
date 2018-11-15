@@ -822,10 +822,14 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq ac-auto-start nil)
-  (global-set-key "\M-/" 'auto-complete))
+  (global-set-key (kbd "M-/") 'auto-complete)
 #+END_SRC
 
 {{{CTRL-(s)}}} permet de filtrer une sous-chaine dans le menu
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq ac-use-menu-map t)
@@ -951,8 +955,8 @@ Reprend les raccourcis usuels d'Etags:
 - {{{META-(*)}}} pour revenir d'où on vient
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-." 'gtags-find-tag)))
-  (add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+  (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
+  (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 #+END_SRC
 
 Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très bien avec C++, et nécessite en plus d'être configuré et périodiquement relancé... Il se trouve que ~helm-projectile-grep~ fonctionne tellement bien, que je n'utilise presque plus que ça pour naviguer dans les projets.
@@ -1824,8 +1828,8 @@ On ajoute un peu de configuration pour Racer afin d'avoir les raccourcis habitue
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-." 'racer-find-definition)))
-(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-.") 'racer-find-definition)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 #+END_SRC
 
 On peut également utiliser {{{CTRL-META-(i)}}} pour invoquer ~completion-at-point~, qui ouvre dans un buffer Helm une liste des définitions appropriées trouvées par Racer. Cette liste est plus intéressante que le menu d'Auto Complete, qui se contente des symboles, et non de leurs définitions complètes.
@@ -1911,7 +1915,7 @@ La fonction ~fill~ permet de découper correctement les lignes trop longues, et 
 Le raccourci par défaut pour ~fill~ est remplacé sans états d'âme
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (global-set-key (kbd "M-/") 'unfill-toggle)
+  (global-set-key (kbd "M-q") 'unfill-toggle)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
