@@ -586,7 +586,7 @@ Selon la plateforme, on effectue quelques ajustements, en particulier sur les po
 Fonte du terminal Xfce
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (set-default-font "Liberation Mono 10")
+  (set-default-font "Liberation Mono 10" t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
