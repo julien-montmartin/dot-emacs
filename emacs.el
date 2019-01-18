@@ -234,7 +234,7 @@ and restore it later."
  (progn
    (message "Tweak Emacs for Linux")
 
-(set-default-font "Liberation Mono 10")
+(set-default-font "Liberation Mono 10" t t)
 
 ))
 
@@ -318,7 +318,9 @@ and restore it later."
 (global-auto-complete-mode t)
 
 (setq ac-auto-start nil)
-(global-set-key "\M-/" 'auto-complete))
+(global-set-key (kbd "M-/") 'auto-complete)
+
+)
 
 (setq ac-use-menu-map t)
 
@@ -352,8 +354,8 @@ and restore it later."
 (my-require 'ggtags)
 (add-hook 'c-mode-common-hook 'ggtags-mode)
 
-(add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-." 'gtags-find-tag)))
-(add-hook 'c-mode-common-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
+(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 
 (last-step-duration "Global")
 
@@ -638,8 +640,8 @@ sort | uniq" )
 (my-require 'racer)
 
 (add-hook 'rust-mode-hook 'racer-mode)
-(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-." 'racer-find-definition)))
-(add-hook 'rust-mode-hook (lambda () (local-set-key "\M-*" 'pop-tag-mark)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-.") 'racer-find-definition)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 
 (last-step-duration "Rust")
 
@@ -663,7 +665,7 @@ sort | uniq" )
 
 (my-require 'unfill)
 
-(global-set-key (kbd "M-/") 'unfill-toggle)
+(global-set-key (kbd "M-q") 'unfill-toggle)
 
 )
 
