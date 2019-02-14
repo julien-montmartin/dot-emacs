@@ -701,6 +701,13 @@ Milkypostman’s Emacs Lisp Package Archive ([[http://melpa.org][MELPA]]), une s
                '("MELPA" . "http://melpa.milkbox.net/packages/") t)
 #+END_SRC
 
+Pour ceux qui veulent une version bien à jour de [[http://orgmode.org][Org]], la source dédiée est pratique également.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'package-archives
+               '("Org" . "https://orgmode.org/elpa/") t)
+#+END_SRC
+
 En cas de problème avec les paquets, on peut supprimer le répertoire où tout est installé : ~~/.emacs.d/elpa/archives/melpa/archive-contents~.
 
 [[https://marmalade-repo.org][Marmelade]] une autre source de paquets intéressante, moins dynamique que Melpa ces derniers temps, mais avec avec un système de validation différent.
