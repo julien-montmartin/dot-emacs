@@ -1,0 +1,3003 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+<title>Une Configuration Emacs</title>
+<!-- 2019-05-17 Fri 12:34 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<style type="text/css">
+/*Tdm sur 3 colonnes*/
+#text-table-of-contents {
+padding: 1em;
+column-count: 3;
+column-gap: 1em;
+}
+/*Corrige le pb des liens qui sautent dans la tdm*/
+#text-table-of-contents a {
+border-bottom: 1px dotted;
+border-bottom-color: transparent;
+}
+#text-table-of-contents a:hover {
+border-bottom-color: #035;
+}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Une Configuration Emacs</h1>
+<p>
+:NOTE:
+;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
+</p>
+
+<p>
+Voir le manuel à la section Specifying File Variables pour la définition des variables locales à un buffer sur la première ligne de ce dernier.
+</p>
+
+<p>
+Utiliser C-u 1 M-x byte-recompile-directory pour produire des <code>.elc</code>. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
+:END:
+</p>
+
+<div class="abstract">
+<p>
+Voici ma configuration Emacs - un chantier jamais fini - au 17/05/2019. Cette configuration prend la forme d'un <a href="http://dist.jmontmartin.net/emacs.org">fichier Org</a>, à partir duquel sont générés une <a href="emacs.html">documentation HTML</a>, ainsi que le <a href="emacs.el">fichier Lisp</a> qui constituait auparavant mon <code>.emacs</code>. Ce dernier s'est transformé en un petit <a href="loader.el">fichier de chargement</a>, qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+</p>
+
+<p>
+C'est également un essai pour voir ce qu'on peut faire avec <a href="http://orgmode.org/">Org</a>. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à <a href="http://gongzhitaao.org/orgcss">Zhitao Gong</a> pour le CSS qui habille les exports HTML.
+</p>
+
+</div>
+
+<div id="table-of-contents">
+<h2>Table des matières</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">À propos du temps</a></li>
+<li><a href="#sec-2">Généralités</a></li>
+<li><a href="#sec-3">Raccourcis Fn</a></li>
+<li><a href="#sec-4">UTF-8</a></li>
+<li><a href="#sec-5">Navigation dans les buffers</a></li>
+<li><a href="#sec-6">Compilation</a></li>
+<li><a href="#sec-7">Copier/coller</a></li>
+<li><a href="#sec-8">Parenthèses et Cie</a></li>
+<li><a href="#sec-9">Suggestions</a></li>
+<li><a href="#sec-10">Mise à jour du path</a></li>
+<li><a href="#sec-11">Valorisation du proxy</a></li>
+<li><a href="#sec-12">Ajustements à l'OS</a>
+<ul>
+<li><a href="#sec-12-1">Sous Linux</a></li>
+<li><a href="#sec-12-2">Sous Mac</a></li>
+</ul>
+</li>
+<li><a href="#sec-13">Require</a></li>
+<li><a href="#sec-14">Gestionnaire de paquets</a></li>
+<li><a href="#sec-15">Thème Leuven</a></li>
+<li><a href="#sec-16">TabTab minor mode</a></li>
+<li><a href="#sec-17">Auto Complete</a>
+<ul>
+<li><a href="#sec-17-1">Recherche approximative</a></li>
+<li><a href="#sec-17-2">Intégration à Helm</a></li>
+<li><a href="#sec-17-3">Source pour completion-at-point</a></li>
+</ul>
+</li>
+<li><a href="#sec-18">Bookmarks</a></li>
+<li><a href="#sec-19">C &amp; C++</a>
+<ul>
+<li><a href="#sec-19-1">Global</a></li>
+</ul>
+</li>
+<li><a href="#sec-20">Column Marker</a></li>
+<li><a href="#sec-21">CMake</a></li>
+<li><a href="#sec-22">DTrace</a></li>
+<li><a href="#sec-23">EasyPG Assistant</a></li>
+<li><a href="#sec-24">Ediff</a></li>
+<li><a href="#sec-25">Find File At Point</a></li>
+<li><a href="#sec-26">Fill column indicator</a></li>
+<li><a href="#sec-27">Graphviz</a></li>
+<li><a href="#sec-28">Helm</a></li>
+<li><a href="#sec-29">Htmlize</a></li>
+<li><a href="#sec-30">Idle HighLight Mode</a></li>
+<li><a href="#sec-31">Emacs Lisp</a></li>
+<li><a href="#sec-32">Magit</a></li>
+<li><a href="#sec-33">MMM Mode</a></li>
+<li><a href="#sec-34">Org</a>
+<ul>
+<li><a href="#sec-34-1">Mise à jour</a></li>
+</ul>
+</li>
+<li><a href="#sec-35">Perforce</a></li>
+<li><a href="#sec-36">Prettify Symbols</a></li>
+<li><a href="#sec-37">Projectile</a></li>
+<li><a href="#sec-38">Qt</a></li>
+<li><a href="#sec-39">Rainbow delimiters</a></li>
+<li><a href="#sec-40">Rainbow mode</a></li>
+<li><a href="#sec-41">Related</a></li>
+<li><a href="#sec-42">Rust</a></li>
+<li><a href="#sec-43">Shell scripts</a></li>
+<li><a href="#sec-44">Souris</a></li>
+<li><a href="#sec-45">Tcl</a></li>
+<li><a href="#sec-46">Tramp</a></li>
+<li><a href="#sec-47">Unfill</a></li>
+<li><a href="#sec-48">Uniquify</a></li>
+<li><a href="#sec-49">Whitespace</a></li>
+<li><a href="#sec-50">XML</a></li>
+<li><a href="#sec-51">Installation automatique</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">À propos du temps</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+La fonction <code>last-step-duration</code>, appelée régulièrement, permet de voir comment le temps s'écoule lors du chargement du <code>.emacs</code>. À chaque appel, elle laisse une trace dans le buffer <code>*Messages*</code> avec le temps écoulé depuis l'appel précédent, ainsi que le temps total écoulé depuis le début du chargement du fichier. Certainement pas un modèle de Lisp, mais remplit son office et aide à comprendre pourquoi Emacs est parfois lent à démarrer.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun reset-ts()
+  (setq first-ts (current-time))
+  (setq last-ts first-ts))
+
+(defun step-duration()
+  (let* ((ts (current-time))
+         (elapsed (float-time (time-subtract ts last-ts))))
+    (setq last-ts ts)
+    elapsed))
+
+(defun total-duration()
+  (let* ((ts (current-time))
+         (elapsed (float-time (time-subtract ts first-ts))))
+    elapsed))
+
+(defun last-step-duration(title)
+  (message "Τ=%.3fs\tΔ=%.3fs\t%s" (total-duration) (step-duration) title))
+
+(reset-ts)
+</pre>
+</div>
+
+<p>
+Ce code apparait en début de fichier afin d'initialiser une variable globale contenant le <i>time stamp</i> de début de chargement de ce <code>.emacs</code>. Bien que ses appels ne soient pas exportés dans le HTML généré, la fonction <code>last-step-duration</code> est utilisée régulièrement, à la fin de chaque section. Exemple de trace :
+</p>
+
+<pre class="example">
+Τ=2.516s	Δ=0.016s	Rainbow delimiters
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Généralités</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Désactive l'écran d'accueil, Emacs s'ouvre avec le buffer <code>scratch</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq inhibit-startup-screen t)
+</pre>
+</div>
+
+<p>
+Affichage du nom du buffer dans la barre de titre
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
+</pre>
+</div>
+
+<p>
+Dans le terminal, pas de barre de menu
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(unless window-system (menu-bar-mode -1))
+</pre>
+</div>
+
+<p>
+En mode graphique, cache la barre d'outils
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when window-system (tool-bar-mode -1))
+</pre>
+</div>
+
+<p>
+En mode graphique, gouttière réduite à gauche uniquement (nil pour remettre la taille par défaut).
+</p>
+
+<p>
+:NOTE:
+Cohabite mal avec <code>fill-column-mode</code>.
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when window-system (set-fringe-mode '(4 . 0)))
+</pre>
+</div>
+
+<p>
+En mode graphique, barre de défilement à droite (-1 pour désactiver)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when window-system (set-scroll-bar-mode 'right))
+</pre>
+</div>
+
+<p>
+Un buffer pour lequel Emacs n'a attribué aucun mode majeur s'ouvre en mode texte.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq-default major-mode 'text-mode)
+</pre>
+</div>
+
+<p>
+Une ligne de 80 caractères est suffisamment longue. La variable <code>default-fill-column</code> affecte de nombreuses commandes comme <code>fill-paragraph</code>, ainsi que des modes mineurs comme <code>whitespace-mode</code>. Pour ceux qui le souhaitent, appliquer la règle des 80 colonnes commence par là.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq default-fill-column 80)
+</pre>
+</div>
+
+<p>
+Indentation avec des tabulations de 4 caractères
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode t)
+</pre>
+</div>
+
+<p>
+En fin de buffer, les touches flèches ne créent pas une nouvelle ligne
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq-default next-line-add-newlines nil)
+</pre>
+</div>
+
+<p>
+Affichage de la ligne et de la colonne du curseur dans la mode line
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(line-number-mode t)
+(column-number-mode t)
+</pre>
+</div>
+
+<p>
+Pour utiliser <code>narrow-to-region</code> via son raccourci clavier <kbd>C</kbd>-<kbd>n</kbd> <kbd>n</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(put 'narrow-to-region 'disabled nil)
+</pre>
+</div>
+
+<p>
+Désactive la transient mark. La région est toujours active, mais pas surlignée. Au besoin, la transient mark est activée le temps d'une commande avec <kbd>C</kbd>-<kbd>SPC</kbd> <kbd>C</kbd>-<kbd>SPC</kbd>. Correspond à l'ancien comportement d'Emacs.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq transient-mark-mode nil)
+</pre>
+</div>
+
+<p>
+Dans un environnement graphique, lance Emacs en mode serveur
+</p>
+
+<p>
+:NOTE:
+Voir l'opportunité du mode démon si pas d'environnement graphique.
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when window-system (server-start))
+</pre>
+</div>
+
+<p>
+Des modules peuvent se trouver dans <code>site-lisp</code>. On ajoute ce répertoire à la variable <code>load-path</code> afin qu'ils soient trouvés par la commande <code>require</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'load-path "~/.emacs.d/site-lisp/")
+</pre>
+</div>
+
+<p>
+Place les <i>backups</i> (copie d'un fichier avant modifications) et les sauvegardes automatiques (faites périodiquement pendant qu'on édite un fichier) dans un répertoire temporaire, selon la plateforme :
+</p>
+
+<ul class="org-ul">
+<li>sur Mac : <code>/var/folders/xxx</code>
+</li>
+<li>sur Windows : <code>c:/Users/yyy/AppData/Local/Temp</code>
+</li>
+<li>sur Linux : <code>/tmp</code>
+</li>
+</ul>
+
+<p>
+L'expression régulière ~".*"~ ci-après indique que la règle concerne tous les fichiers, car on peut faire, par exemple, des règles différentes selon l'extension.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+</pre>
+</div>
+
+<p>
+Mise en évidence de la ligne en cours dans Dired
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'dired-mode-hook 'hl-line-mode)
+</pre>
+</div>
+
+<p>
+Sur Mac, Dired utilise GNU <code>ls</code> si disponible
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when (eq system-type 'darwin)
+  (if (file-executable-p "/usr/local/bin/gls")
+      (setq insert-directory-program "/usr/local/bin/gls")))
+</pre>
+</div>
+
+<p>
+Common Lisp, pour <code>ignore-errors</code> et d'autres
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(require 'cl)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Raccourcis Fn</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de Visual Studio ou de Xcode. Lorsqu'il est lancé en mode texte depuis un terminal, Emacs ne voit pas les raccourcis en <kbd>C</kbd>-<kbd>Fn</kbd>. Pour cette raison, ils sont en général doublés sur <kbd>S</kbd>-<kbd>Fn</kbd>.
+</p>
+
+<ul class="org-ul">
+<li><kbd>F1</kbd> pour <code>view-mode</code>, qui permet de passer un buffer qu'on ne veut pas modifier en lecture seule
+</li>
+<li><kbd>C</kbd>-<kbd>F1</kbd> pour <code>revert-buffer</code>, qui permet de revenir à la dernière version sauvegardée du fichier
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">;; À la place de view-order-manuals qui est normalement sur f1
+(global-set-key (kbd "&lt;f1&gt;")  'view-mode)
+(global-set-key (kbd "C-&lt;f1&gt;")    'revert-buffer)
+(global-set-key (kbd "S-&lt;f1&gt;")    'revert-buffer)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F2</kbd> pour <code>bm-toggle</code>, qui insère (ou retire) un marque-page sur la ligne. La ligne marquée est alors surlignée
+</li>
+<li><kbd>C</kbd>-<kbd>F2</kbd> et <kbd>S</kbd>-<kbd>F2</kbd> pour <code>bm-next</code> et <code>bm-previous</code>, qui permettent de parcourir les marques-pages
+</li>
+</ul>
+
+<p>
+En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les marques-pages avec Helm via <kbd>C</kbd>-<kbd>F2</kbd> est plus pratique. Dans tous les cas, <code>helm-bm</code> est disponible via <kbd>C</kbd>-<kbd>c</kbd> <kbd>b</kbd>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f2&gt;")  'bm-toggle)
+(global-set-key (kbd "C-&lt;f2&gt;")    'bm-next)
+(global-set-key (kbd "S-&lt;f2&gt;")    'bm-previous)
+
+(unless window-system
+  (global-set-key (kbd "S-&lt;f2&gt;")  'helm-bm))
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F3</kbd> pour <code>hl-line-mode</code>, bien pratique quand on a besoin de se concentrer sur une ligne, ou lorsqu'on doit traiter un buffer une ligne après l'autre.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f3&gt;")  'hl-line-mode)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F4</kbd> pour <code>projectile-grep</code> (ou <code>helm-projectile-grep</code> si Helm est activé). Si Projectile est disponible pour un projet, permet de chercher interactivement dans les fichiers de ce projet. Vraiment très utile ! Fonctionne particulièrement bien avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>h</kbd> <kbd>b</kbd>, qui comme toujours avec Helm, permet de ramener les dernières propositions&#x2026;
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f4&gt;")  'projectile-grep)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F5</kbd> pour <code>run-compilation</code>, fonction perso qui sauvegarde l'agencement des buffers affichés avant de lancer une compilation
+</li>
+<li><kbd>C</kbd>-<kbd>F5</kbd> pour <code>end-compilation</code>, qui met fin à une session de compilation et restaure l'affichage
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f5&gt;")  'run-compilation)
+(global-set-key (kbd "C-&lt;f5&gt;")    'end-compilation)
+(global-set-key (kbd "S-&lt;f5&gt;")    'end-compilation)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F6</kbd> pour <code>projectile-multi-occur</code>, qui lance <code>occur</code> dans tous les buffers ouverts appartenant au projet du buffer courant
+</li>
+<li><kbd>C</kbd>-<kbd>F6</kbd> pour <code>helm-occur</code>, qui lance une version interactive depuis Helm de <code>occur</code> : La liste des correspondances est construite dynamiquement lors de la frappe, et à tout moment <kbd>↑</kbd> et <kbd>↓</kbd> permettent d'en sélectionner une, pour laquelle <kbd>TAB</kbd> donnera un aperçu.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f6&gt;")  'projectile-multi-occur)
+(global-set-key (kbd "C-&lt;f6&gt;")    'helm-occur)
+(global-set-key (kbd "S-&lt;f6&gt;")    'helm-occur)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><kbd>F8</kbd> pour <a href="#sec-26">Fill column indicator</a>, qui met en évidence la colonne 80 dans les modes de développement.
+</li>
+<li><kbd>C</kbd>-<kbd>F8</kbd> pour désactiver (ou réactiver) <a href="#sec-49">Whitespace</a> lorsqu'il devient trop intrusif, en particulier avec les lignes trop longues.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f8&gt;")  'fci-mode)
+(global-set-key (kbd "C-&lt;f8&gt;")    'whitespace-mode)
+(global-set-key (kbd "S-&lt;f8&gt;")    'whitespace-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">UTF-8</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple <a href="https://stackoverflow.com/a/2903256">cette réponse</a> sur Stack Overflow). Mais la simple directive <code>set-language-environment</code> réalise un paramétrage par défaut satisfaisant.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-language-environment 'utf-8)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Navigation dans les buffers</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Lorsqu'on navigue dans les buffers, on préfère sauter les buffers ouverts automatiquement par Dired, Helm, ou autre, comme <code>*compilation*</code> par exemple. On définit pour cela la fonction <code>navigate-nostar-buffer</code>, qui cherche le prochain buffer ne commençant pas par <code>*</code> (ou le précédent si appelé avec un argument).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun navigate-nostar-buffer (&amp;optional previous)
+  "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
+  (let ((start-buffer (buffer-name)))
+    (cl-flet ((next-f () (if previous (next-buffer) (previous-buffer))))
+      (next-f)
+      (while
+          (and (string-match-p "^\*" (buffer-name))
+               (not (equal start-buffer (buffer-name))))
+        (next-f)))))
+
+(defun navigate-next-nostar-buffer ()
+  "Navigate to next \"no star\" buffer."
+  (interactive)
+  (navigate-nostar-buffer))
+
+(defun navigate-previous-nostar-buffer ()
+  "Navigate to previous \"no star\" buffer."
+  (interactive)
+  (navigate-nostar-buffer t))
+</pre>
+</div>
+
+<p>
+Puis on utilise <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Remapping-Commands.html"><code>remap</code></a> pour réaffecter les raccourcis de <code>next-buffer</code> et <code>previous-buffer</code>, <kbd>C</kbd>-<kbd>x</kbd> <kbd>←</kbd> et <kbd>C</kbd>-<kbd>x</kbd> <kbd>→</kbd> respectivement.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key [remap next-buffer] 'navigate-next-nostar-buffer)
+(global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Compilation</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Définit <code>run-compilation</code> et <code>end-compilation</code> qui sauvegardent et restaurent l'affichage des buffers lors d'une séance de compilation : Si l'on doit faire plusieurs allers / retours entre le buffer de compilation et les sources, pour comprendre et corriger les erreurs, on peut ensuite restaurer son environnement de travail.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun get-compilation-buffer ()
+  "Get the compilation buffer, or nil if it does not exist."
+  ;; Voir aussi `compilation-buffer-name-function'
+  (car (cl-remove-if-not
+        (lambda (b)
+          (equal "*compilation*" (buffer-name b)))
+        (buffer-list))))
+
+(defun get-compilation-layout-register ()
+  "Returns the register used to save the layout before compilation,
+and restore it later."
+  (message "get-compilation-layout-register ()")
+  ;; It seems we can use more than one letter register !
+  'comp-layout-reg)
+
+(defun start-new-compilation ()
+  "Prompt for command and run a new compilation"
+  ;; Passer en plein écran
+  ;; (let ((current-prefix-arg '(4))) ; C-u
+  ;; (call-interactively 'compile)))
+  (call-interactively 'compile))
+
+(defun return-to-compilation ()
+  "Get compilation buffer back in full screen"
+  ;; Relancer la compil automatiquement ?
+  (switch-to-buffer (get-compilation-buffer))
+  (delete-other-windows))
+
+(setq ongoing-compilation-session nil)
+
+(defun start-compilation-session ()
+  "Save layout and start a new compilation session"
+  (frame-configuration-to-register (get-compilation-layout-register))
+  (start-new-compilation)
+  (setq ongoing-compilation-session t))
+
+(defun end-compilation-session ()
+  "Restore pre-compilation layout and terminate compilation session"
+  ;; Supprimer le buffer de compil ?
+  (setq ongoing-compilation-session nil)
+  (jump-to-register (get-compilation-layout-register)))
+
+(defun run-compilation ()
+  "Start new compilation session or restore an old one"
+  (interactive)
+  (if (and ongoing-compilation-session (get-compilation-buffer))
+      (return-to-compilation)
+    (start-compilation-session)))
+
+(defun end-compilation ()
+  "Terminate a compilation session"
+  (interactive)
+  (if ongoing-compilation-session
+      (end-compilation-session)))
+</pre>
+</div>
+
+<p>
+Le buffer <code>*compilation*</code> défile jusqu'à la première erreur
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq compilation-scroll-output 'first-error)
+</pre>
+</div>
+
+<p>
+Dans ce buffer, un clic sur une erreur emmène dans les sources, et <kbd>g</kbd> permet de relancer une nouvelle compilation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Copier/coller</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Le bouton du milieu colle le texte au niveau du point, sans le déplacer
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mouse-yank-at-point t)
+</pre>
+</div>
+
+<p>
+Lorsqu'on copie depuis Emacs alors qu'une autre application avait placé du texte dans le presse-papier, ce texte est ajouté au kill ring avant d'être remplacé. Très pratique, car cela évite de perdre du texte copié, par exemple depuis internet, avant d'avoir eu le temps de l'utiliser.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq save-interprogram-paste-before-kill t)
+</pre>
+</div>
+
+<p>
+Le texte surligné est automatiquement copié dans le kill ring
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mouse-drag-copy-region t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Parenthèses et Cie</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière une parenthèse fermante, la paire de parenthèses est surlignée. De même avec les accolades et les crochets.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(show-paren-mode 1)
+</pre>
+</div>
+
+<p>
+Éventuellement, si on veut surligner également l'expression entre parenthèses
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq show-paren-style 'expression)
+</pre>
+</div>
+
+<p>
+Les parenthèses sont surlignées en bleu. Voir aussi <a href="#sec-39">Rainbow delimiters</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-face-background 'show-paren-match "#b5d5ff")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Suggestions</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il est devenu obsolète, j'ai tenté de le remplacer par <code>icomplete-mode</code>, mais ce n'était convaincant, si bien que j'utilise maintenant <a href="#sec-28">Helm</a>. Cette configuration (que je n'utilise plus) est ce que j'ai pu obtenir de mieux, avec un comportement ressemblant à <code>iswitchb-mode</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(icomplete-mode)
+</pre>
+</div>
+
+<p>
+Suggère les buffers sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>b</kbd> avant qu'on commence à taper
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq icomplete-show-matches-on-no-input t)
+</pre>
+</div>
+
+<p>
+Ignore la casse lorsqu'on demande à compléter avec <kbd>TAB</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq read-buffer-completion-ignore-case t)
+</pre>
+</div>
+
+<p>
+Met en évidence dans le minibuffer le candidat qui pourrait être sélectionné
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(copy-face 'minibuffer-prompt 'icomplete-first-match)
+</pre>
+</div>
+
+<p>
+Contourne les problèmes liés au buffer par défaut. En particulier, prend le premier élément de la liste, sélectionné avec <kbd>C</kbd>-<kbd>s</kbd> et <kbd>C</kbd>-<kbd>r</kbd>, sans qu'on ait commencé à saisir le nom d'un buffer. Voir réouverture du bug <a href="http://lists.gnu.org/archive/html/emacs-devel/2015-05/msg00473.html">#17545</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun my-icomplete-forward-completions ()
+  "Step forward completions by one entry."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (icomplete-forward-completions)))
+
+(defun my-icomplete-backward-completions ()
+  "Step backward completions by one entry."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (icomplete-backward-completions)))
+
+(defun my-minibuffer-force-complete-and-exit ()
+  "Select the current completion."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (minibuffer-force-complete-and-exit)))
+
+;;Configure des raccourcis ressemblant à ceux de iswitchb
+(when (boundp 'icomplete-minibuffer-map)
+  (let ((map icomplete-minibuffer-map))
+    (define-key map (kbd "C-s") 'my-icomplete-forward-completions)
+    (define-key map (kbd "C-r") 'my-icomplete-backward-completions)
+    (define-key map (kbd "C-j") 'my-minibuffer-force-complete-and-exit)
+    (define-key map (kbd "C-&lt;return&gt;") 'my-minibuffer-force-complete-and-exit)
+    ))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Mise à jour du path</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+C'est parfois utile d'enrichir un peu le path utilisé par Emacs. Il y a en fait plusieurs chemins, dont ces deux variables :
+</p>
+
+<ul class="org-ul">
+<li><code>exec-path</code>, qui est le path utilisé par Emacs pour chercher les binaires
+</li>
+<li><code>PATH</code>, qui est le path transmis aux commandes lancées par Emacs
+</li>
+</ul>
+
+<p>
+Pour ma part je les traite ensembles, avec la fonction <code>add-to-exec-paths</code>, qui
+ajoute (s'il existe) à la fin des deux paths le répertoire passé en argument :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">;; TODO - Filtrer les doublons
+(defun add-to-exec-paths(some-folder)
+  (interactive)
+  (cond
+   ((file-exists-p some-folder)
+    (add-to-list 'exec-path some-folder)
+    ;;(message "exec-path=%s" exec-path)
+    (setenv "PATH" (concat (getenv "PATH") ":" some-folder))
+    ;;(message "PATH=%s" (getenv "PATH"))
+    (message "Added '%s' to PATH and exec-path" some-folder))))
+</pre>
+</div>
+
+<p>
+Reste à ajouter quelques répertoires, selon ses habitudes&#x2026;
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-exec-paths "~/scripts")
+(add-to-exec-paths "~/local/bin")
+(add-to-exec-paths "/usr/bin")
+(add-to-exec-paths "/usr/local/bin")
+(add-to-exec-paths "/opt/local/bin")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">Valorisation du proxy</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+On cherche d'abord le proxy dans le fichier de configuration <code>~/.emacs.d/proxy.el</code> :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq my-proxy ())
+
+(if (file-exists-p "~/.emacs.d/proxy.el")
+    (progn
+      (load-file "~/.emacs.d/proxy.el")))
+</pre>
+</div>
+
+<p>
+Si ce fichier existe, il contient une simple ligne, telle que :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq my-proxy 'proxy.mon.domaine.fr:80)
+</pre>
+</div>
+
+<p>
+Si l'on ne l'a pas trouvé, on cherche dans l'environnement la variable <code>http_proxy</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(unless my-proxy (setq my-proxy (getenv "http_proxy")))
+</pre>
+</div>
+
+<p>
+On valorise correctement <code>url-proxy-services</code> et on affiche le proxy utilisé
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(if my-proxy
+    (progn
+      (setq url-proxy-services (list (cons "http" (symbol-name my-proxy))))
+      (message "Set HTTP proxy to '%s'" my-proxy)))
+</pre>
+</div>
+
+<p>
+Voir la doc d'<a href="http://www.emacswiki.org/emacs/UrlPackage#toc6">Url Package</a> sur EmacsWiki pour plus d'infos sur les proxys.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">Ajustements à l'OS</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+Selon la plateforme, on effectue quelques ajustements, en particulier sur les polices de caractères.
+</p>
+</div>
+
+<div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1">Sous Linux</h3>
+<div class="outline-text-3" id="text-12-1">
+<p>
+Fonte du terminal Xfce
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-default-font "Liberation Mono 10" t t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2">Sous Mac</h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+Réaffectation des touches à problèmes sur Mac :
+</p>
+<ul class="org-ul">
+<li><kbd>cmd</kbd> devient <kbd>meta</kbd>
+</li>
+<li><kbd>alt</kbd> permet les raccourcis pour <kbd>|</kbd>, <kbd>~</kbd> et cie.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier nil)
+</pre>
+</div>
+
+<p>
+Fonte Xcode
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(set-face-font
+ 'menu "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
+(set-face-font
+ 'default "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">Require</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+Un wrapper pour <code>require</code>, qui n'empêche pas le chargement du <code>.emacs</code> lorsqu'un module n'est pas disponible, et génère des traces dans <code>*Messages*</code>, avec en cas de succès, le temps passé par Emacs pour charger le module.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun my-require(feature)
+  (condition-case nil
+      (let ((ts (current-time)))
+        (progn
+          (require feature)
+          (let ((elapsed (float-time (time-subtract (current-time) ts))))
+            (message "Successfully load '%s' in %.3fs" feature elapsed))))
+    (file-error
+     (progn (message "Fail to load required feature '%s'" feature) nil))))
+</pre>
+</div>
+
+<p>
+Il s'utilise ainsi :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when (my-require 'package-xxx)
+  (message "Do foo")
+  (message "Do bar")
+  (message "Do baz"))
+</pre>
+</div>
+
+<p>
+<code>my-require</code> est largement utilisé dans la suite de ce fichier, mais afin de ne pas avoir partout un niveau d'indentation, le <code>when</code> est sous-entendu, et n'est pas exporté dans le HTML. Le code apparait donc ainsi :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'package-xxx)
+(message "Do foo")
+(message "Do bar")
+(message "Do baz")
+</pre>
+</div>
+
+<p>
+C'est-à-dire comme avec un <code>require</code> classique. Exemple de traces :
+</p>
+
+<pre class="example">
+Fail to load required feature ’p4’
+Successfully load ’rainbow-mode’ in 0.031s
+</pre>
+
+<p>
+On peut aussi utiliser le <i>soft require</i>, qui ne génère pas d'erreur quand le module n'est pas trouvé :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(require 'package-foobar nil t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14">Gestionnaire de paquets</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+Charge le gestionnaire de paquets
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'package)
+</pre>
+</div>
+
+<p>
+On peut ensuite ajouter des sources de paquets, qui viendront alimenter la liste affichée par <code>package-list-packages</code>.
+</p>
+
+<p>
+Milkypostman’s Emacs Lisp Package Archive (<a href="http://melpa.org">MELPA</a>), une source de paquets à avoir, la seule que j'ajoute systématiquement.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+</pre>
+</div>
+
+<p>
+Pour ceux qui veulent une version bien à jour de <a href="http://orgmode.org">Org</a>, la source dédiée est pratique également.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Org" . "https://orgmode.org/elpa/") t)
+</pre>
+</div>
+
+<p>
+En cas de problème avec les paquets, on peut supprimer le répertoire où tout est installé : <code>~/.emacs.d/elpa/archives/melpa/archive-contents</code>.
+</p>
+
+<p>
+<a href="https://marmalade-repo.org">Marmelade</a> une autre source de paquets intéressante, moins dynamique que Melpa ces derniers temps, mais avec avec un système de validation différent.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Marmalade" . "http://marmalade-repo.org/packages/") t)
+</pre>
+</div>
+
+<p>
+GNU Emacs Lisp Package Archive (<a href="http://elpa.gnu.org">ELPA</a>) est la source de paquets officielle d'Emacs.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("GNU" . "http://elpa.gnu.org/packages/") t)
+</pre>
+</div>
+
+<p>
+<a href="http://orgmode.org">Org</a> dispose également de sa propre source, pour ceux qui veulent garder très à jour ce paquet majeur.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Org" . "http://orgmode.org/elpa/") t)
+</pre>
+</div>
+
+<p>
+Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser <code>helm-list-elisp-packages</code> via <kbd>C</kbd>-<kbd>c</kbd> <kbd>h</kbd> <kbd>@</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(package-initialize)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15">Thème Leuven</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode texte dans un terminal à fond noir, car les couleurs foncées de la mise en évidence de syntaxe ne ressortent pas. Le thème Leuven, sur fond blanc, est très bien intégré à Emacs (et particulièrement à <a href="#sec-34">Org</a>), lisible et agréable en mode texte comme en mode graphique. Le gestionnaire de package initilisé, on regarde si Leuven est disponible, et si oui, on le charge.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(if (member 'leuven-theme (mapcar 'car package-alist))
+    (load-theme 'leuven t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16">TabTab minor mode</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+Une tentative pour changer le comportement de la touche <kbd>TAB</kbd> dans les fichiers CMake :
+</p>
+<ul class="org-ul">
+<li><kbd>TAB</kbd> ne sert plus à indenter la ligne, mais aligne le texte sur le prochain arrêt de tabulation
+</li>
+<li><kbd>S</kbd>-<kbd>TAB</kbd> remplit la fonction opposée, et aligne le texte sur l'arrêt de tabulation précédent
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun prev-tab-to-tab-stop ()
+  "Remove spaces or tabs to next defined tab-stop column."
+  (interactive)
+  (and abbrev-mode (= (char-syntax (preceding-char)) ?w)
+       (expand-abbrev))
+  (let ((nexttab (indent-next-tab-stop (current-column) t)))
+    (delete-horizontal-space t)
+    (indent-to nexttab)))
+
+(define-minor-mode tab-tab-mode
+  "Tab-to-tab in both directions"
+  :lighter " TTm"
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "&lt;tab&gt;") 'tab-to-tab-stop)
+            (define-key map (kbd "S-&lt;tab&gt;") 'prev-tab-to-tab-stop)
+            map))
+
+(add-hook 'cmake-mode-hook 'tab-tab-mode)
+</pre>
+</div>
+
+<p>
+Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas l'air de prendre en compte la <i>key-map</i>. Et d'ailleurs si l'on tente d'installer les raccourcis avec un hook, ça ne fonctionne pas non plus&#x2026;
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (local-set-key (kbd "&lt;tab&gt;") 'tab-to-tab-stop))
+</pre>
+</div>
+
+<p>
+À creuser donc. Voir <a href="http://nullprogram.com/blog/2013/02/06">How to Make an Emacs Minor Mode</a> pour un tutoriel clair et bien fait.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17">Auto Complete</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+<a href="https://github.com/auto-complete/auto-complete/blob/master/doc/manual.md">Auto Complete</a> présente dans un menu en mode texte différents choix pour compléter le texte au point. Simple et efficace !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'auto-complete-config)
+</pre>
+</div>
+
+<p>
+Les choix proposés proviennent d'un certain nombre de sources ; on utilise les sources par défaut, vérifiables avec <kbd>M</kbd>-<kbd>:</kbd> <code>ac-sources</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(ac-config-default)
+</pre>
+</div>
+
+<p>
+Auto Complete ne s'active pas automatiquement dans tous les modes, mais seulement dans ceux listés dans <code>ac-modes</code>. Cette liste contient par défaut la majorité des modes où Auto Complete est intéressant, mais on peut quand même rajouter quelques uns :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'ac-modes 'cmake-mode)
+(add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'text-mode)
+</pre>
+</div>
+
+<p>
+Active Auto Complete dans tous les modes sélectionnés
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-auto-complete-mode t)
+</pre>
+</div>
+
+<p>
+Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habituel <kbd>M</kbd>-<kbd>/</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ac-auto-start nil)
+(global-set-key (kbd "M-/") 'auto-complete)
+</pre>
+</div>
+
+<p>
+<kbd>C</kbd>-<kbd>s</kbd> permet de filtrer une sous-chaine dans le menu
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ac-use-menu-map t)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-17-1" class="outline-3">
+<h3 id="sec-17-1">Recherche approximative</h3>
+<div class="outline-text-3" id="text-17-1">
+<p>
+On souhaite profiter de la recherche approximative, dans le cas d'un préfix mal orthographié ou écrit en abrégé.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ac-use-fuzzy t)
+</pre>
+</div>
+
+<p>
+Cela fonctionne au minimum avec le contenu du buffer courant, mais manifestement pas avec les autres sources. Et même avec le buffer courant, il semblerait que Fuzzy ait ses raisons, que la raison ignore : soit le fichier texte contenant cette seule ligne
+</p>
+
+<pre class="example">
+aaaaaaaabbbbccd
+</pre>
+
+<p>
+Diverses tentatives pour compléter ce mot donnent les résultats suivants
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">préfix erroné</th>
+<th scope="col" class="left">résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">aaaab</td>
+<td class="left">échoue</td>
+</tr>
+
+<tr>
+<td class="left">aaaaab</td>
+<td class="left">ok</td>
+</tr>
+
+<tr>
+<td class="left">aaaabb</td>
+<td class="left">échoue</td>
+</tr>
+
+<tr>
+<td class="left">aaaaabc</td>
+<td class="left">échoue</td>
+</tr>
+
+<tr>
+<td class="left">aaaaabbc</td>
+<td class="left">ok</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Nécessite le paquet <code>fuzzy</code> pour fonctionner une fois de temps en temps.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-17-2" class="outline-3">
+<h3 id="sec-17-2">Intégration à Helm</h3>
+<div class="outline-text-3" id="text-17-2">
+<p>
+Intègre Auto Complete à Helm, et permet d'avoir avec <kbd>C</kbd>-<kbd>:</kbd> dans un buffer helm, le contenu du menu qu'on aurait eu avec <kbd>M</kbd>-<kbd>/</kbd>. Nécessite le paquet <code>ac-helm</code>.
+</p>
+
+<p>
+:NOTE:
+De memoire, en testant, seule la ligne avec <code>ac-complete-mode-map (kbd "C-:")</code> était nécessaire&#x2026; Maintenant il semblerait que le <code>global-set-key</code> soit plus utile (la <a href="https://github.com/yasuyk/ac-helm">doc</a> dit de mettre les deux lignes).
+</p>
+
+<p>
+(global-set-key (kbd "C-:") 'ac-complete-with-helm)
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-:") 'ac-complete-with-helm)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-17-3" class="outline-3">
+<h3 id="sec-17-3">Source pour completion-at-point</h3>
+<div class="outline-text-3" id="text-17-3">
+<p>
+Une source pour <code>completion-at-point</code>, très utile par exemple pour <code>rust-mode</code> avec Racer. Nécessite le paquet <a href="https://github.com/syohex/emacs-ac-capf"><code>ac-capf</code></a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'ac-capf-setup)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18">Bookmarks</h2>
+<div class="outline-text-2" id="text-18">
+<p>
+Marque-pages à la Visual Studio : la ligne marquée est surlignée, et l'on peut ensuite naviguer d'un marque-page à l'autre. Beaucoup d'autres fonctionnalités très pratiques comme mettre les marque-pages automatiquement avec une expression régulière, par exemple pour explorer des logs.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'bm)
+</pre>
+</div>
+
+<p>
+On parcourt avec <code>bm-next</code> et <code>bm-previous</code> l'ensemble des marque-pages de tous les buffers, et pas juste ceux du buffer courant.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq bm-cycle-all-buffers t)
+</pre>
+</div>
+
+<p>
+On surligne les lignes marquées en fuchsia, comme avec un coup de Stabilo !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(custom-set-faces
+ '(bm-face ((t (:background "#ffafff")))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19">C &amp; C++</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+Accolades ouvrantes alignées sous le mot clé
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(c-set-offset (quote substatement-open) 0)
+</pre>
+</div>
+
+<p>
+Ouvre les <code>.h</code> comme du C++, et non comme du C
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-19-1" class="outline-3">
+<h3 id="sec-19-1">Global</h3>
+<div class="outline-text-3" id="text-19-1">
+<p>
+Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'ggtags)
+(add-hook 'c-mode-common-hook 'ggtags-mode)
+</pre>
+</div>
+
+<p>
+Reprend les raccourcis usuels d'Etags:
+</p>
+
+<ul class="org-ul">
+<li><kbd>M</kbd>-<kbd>.</kbd> pour aller à la définition d'un symbole
+</li>
+<li><kbd>M</kbd>-<kbd>*</kbd> pour revenir d'où on vient
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
+(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+</pre>
+</div>
+
+<p>
+Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très bien avec C++, et nécessite en plus d'être configuré et périodiquement relancé&#x2026; Il se trouve que <code>helm-projectile-grep</code> fonctionne tellement bien, que je n'utilise presque plus que ça pour naviguer dans les projets.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20">Column Marker</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+Surligne les caractères qui tombent sur certaines colonnes. On peut configurer plusieurs colonnes, par exemple à 70 et 80 caractères. Visuellement moins réussi que <a href="#sec-26">Fill column indicator</a>, mais cause moins de problèmes de compatibilité que ce dernier. Je le garde dans ma configuration, mais je ne l'utilise plus.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'column-marker)
+</pre>
+</div>
+
+<p>
+Si l'on est dans un mode de programmation, surligne le caractère tombant après la 80<sup>e</sup> colonne.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook
+          (lambda () (interactive) (column-marker-1 80)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-21" class="outline-2">
+<h2 id="sec-21">CMake</h2>
+<div class="outline-text-2" id="text-21">
+<p>
+Le mode majeur pour éditer les fichiers CMake. Perfectible à mon avis, mais utile quand même. Plus d'informations sur le <a href="http://www.cmake.org/Wiki/CMake/Editors/Emacs">wiki</a> de Kitware dédié à CMake.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'cmake-mode)
+</pre>
+</div>
+
+<p>
+Les fichiers CMake habituels s'ouvrent avec <code>cmake-mode</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq auto-mode-alist
+      (append '(("CMakeLists\\.txt\\'" . cmake-mode))
+              '(("\\.cmake\\'" . cmake-mode))
+              auto-mode-alist))
+</pre>
+</div>
+
+<p>
+Pas d'indentation automatique, en particulier après <kbd>Enter</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-22" class="outline-2">
+<h2 id="sec-22">DTrace</h2>
+<div class="outline-text-2" id="text-22">
+<p>
+Un mode majeur pour DTrace, très bel outil d'instrumentation et d'analyse issu de Sun, à l'avenir bien incertain. Il reste utile sur macOS puisqu'il est derrière <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide">Instruments</a>. Plus d'infos sur le <a href="http://dtrace.org/blogs/ahl/tag/dtrace">blog</a> de l'un de ses auteurs.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'dtrace-script-mode)
+</pre>
+</div>
+
+<p>
+Les fichiers <code>.d</code> sont des scripts DTrace et s'ouvrent avec <code>dtrace-script-mode</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq auto-mode-alist
+      (append '(("\\.d\\'" . dtrace-script-mode))
+              auto-mode-alist))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-23" class="outline-2">
+<h2 id="sec-23">EasyPG Assistant</h2>
+<div class="outline-text-2" id="text-23">
+<p>
+Une interface à GnuPG pour Emacs, qui permet entre autres de manipuler des fichiers cryptés. GnuPG doit être installé et configuré sur la machine.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'epa-file)
+</pre>
+</div>
+
+<p>
+Rend transparent la lecture et l'écriture des fichiers <code>.gpg</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(epa-file-enable)
+</pre>
+</div>
+
+<p>
+Indique à EasyPG une clé par défaut, afin qu'il ne pose pas la question à chaque sauvegarde d'un fichier. Je vous laisse mettre la vôtre !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq epa-file-encrypt-to "julien.montmartin@fastmail.fm")
+</pre>
+</div>
+
+<p>
+Fonctionne bien aussi dans une variable en début de fichier :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">-*- epa-file-encrypt-to: ("julien.montmartin@fastmail.fm") -*-
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-24" class="outline-2">
+<h2 id="sec-24">Ediff</h2>
+<div class="outline-text-2" id="text-24">
+<p>
+Un mode très pratique pour gérer les diffs.
+</p>
+
+<p>
+Les fichiers à comparer sont ouverts cote à cote, et non pas l'un en dessous de l'autre. On aurait presque envie de dire que la fenêtre est partagée verticalement, mais pour une obscure raison, la fonction concernée s'appelle au contraire <code>split-window-horizontally</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ediff-split-window-function 'split-window-horizontally)
+</pre>
+</div>
+
+<p>
+Ediff n'ouvre pas de nouvelle fenêtre, tout se passe dans la fenêtre courante, en mode graphique comme en mode texte.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-25" class="outline-2">
+<h2 id="sec-25">Find File At Point</h2>
+<div class="outline-text-2" id="text-25">
+<p>
+Sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>C</kbd>-<kbd>f</kbd> FFAP essaie de deviner le fichier à ouvrir en fonction du texte sous le curseur, ce qui fonctionne avec les includes par exemple.
+</p>
+
+<p>
+Active FFAP et remplace quelques raccourcis comme <kbd>C</kbd>-<kbd>x</kbd> <kbd>C</kbd>-<kbd>f</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(ffap-bindings)
+</pre>
+</div>
+
+<p>
+Avant <a href="#sec-37">Projectile</a>, FFAP était très pratique pour passer d'un <code>.h</code> à un <code>.cpp</code>. Mais comme la recherche s'effectue sur la base de chemins prédéfinis, ça ne fonctionne pas bien avec les hiérarchies un peu compliquées.
+</p>
+
+<p>
+J'utilisais <kbd>C</kbd>-<kbd>t</kbd> (avec un 't' comme <i>toggle</i>) pour basculer entre source et entête, mais je réserve maintenant ce raccourci pour ~'projectile-find-other-file~, plus efficace dès lors qu'on a un dépôt qui puisse faire office de projet.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-t") (quote ff-find-other-file))
+</pre>
+</div>
+
+<p>
+Ajoute quelques chemins usuels pour trouver les sources et les entêtes
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq ff-search-directories
+      '("." ".."
+        "./src" "./include"
+        "../src" "../include"
+        "../src/*"  "../include/*"
+        "../../src" "../../include"))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-26" class="outline-2">
+<h2 id="sec-26">Fill column indicator</h2>
+<div class="outline-text-2" id="text-26">
+<p>
+Mode qui permet de visualiser la 80<sup>e</sup> colonne (ou n'importe quelle autre). Pratique, mais pas sans inconvénients. Mes préférés : <a id="fci-sucks" name="fci-sucks"></a>
+</p>
+
+<ul class="org-ul">
+<li>casse les menus d'<code>auto-complete</code>
+</li>
+<li>casse l'export HTML des fichiers <a href="#sec-34">Org</a>
+</li>
+<li>copie-colle des pipes depuis le terminal
+</li>
+</ul>
+
+<p>
+Avoir besoin de <code>fci-mode</code>, c'est devoir choisir entre la peste et le choléra (n'ayons pas peur des mots !).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'fill-column-indicator)
+</pre>
+</div>
+
+<p>
+Matérialise la colonne 80
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq-default fci-rule-column 80)
+</pre>
+</div>
+
+<p>
+Active FCI dans tous les modes de développement
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'fci-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-27" class="outline-2">
+<h2 id="sec-27">Graphviz</h2>
+<div class="outline-text-2" id="text-27">
+<p>
+Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessiner des graphes ou des diagrammes de classe. S'intègre très bien à <a href="#sec-34">Org</a>, ce qui ne gâche rien !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'graphviz-dot-mode)
+</pre>
+</div>
+
+<p>
+Pour effectuer un rendu depuis Emacs avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>v</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(define-key graphviz-dot-mode-map (kbd "C-c v") 'graphviz-dot-preview)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-28" class="outline-2">
+<h2 id="sec-28">Helm</h2>
+<div class="outline-text-2" id="text-28">
+<p>
+<a href="https://github.com/emacs-helm/helm/wiki">Helm</a> - Un framework plus qu'un simple module, de suggestion et d'aide à la sélection. S'appliquera bientôt à tous les aspects d'Emacs. Beaucoup plus intrusif que son principal concurrent, <a href="https://www.emacswiki.org/emacs/InteractivelyDoThings">Ido</a>, il change radicalement l'expérience utilisateur, et j'ai mis du temps à sauter le pas. Si ce n'est pas déjà fait, je vous encourage à faire de même ! En plus du nombre incroyable de fonctionnalités simplifiées et enrichies, Helm favorise la découverte et l'exploration d'Emacs. Que du bon en fin de compte !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'helm)
+</pre>
+</div>
+
+<p>
+Pas nécessaire d'après la doc, mais certaines versions fonctionnent mieux avec !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(require 'helm-config)
+</pre>
+</div>
+
+<p>
+Préfixe pour les commandes Helm, remplace <kbd>C</kbd>-<kbd>x</kbd> <kbd>c</kbd> (à faire avant que Helm ne soit chargé)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+</pre>
+</div>
+
+<p>
+Le traditionnel <kbd>M</kbd>-<kbd>x</kbd> appelle la version Helm de <code>execute-extended-command</code>. Beaucoup de raccourcis appellent des commandes ainsi redéfinies. En particulier :
+</p>
+
+<ul class="org-ul">
+<li><kbd>C</kbd>-<kbd>x</kbd> <kbd>C</kbd>-<kbd>f</kbd> permet parcourir et sélectionner les fichiers avec <code>helm-find-files</code>
+</li>
+<li><kbd>C</kbd>-<kbd>x</kbd> <kbd>r</kbd> <kbd>b</kbd> permet de parcourir et sélectionner ses marque-pages avec <code>helm-filtered-bookmarks</code>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+</pre>
+</div>
+
+<p>
+Dans un buffer Helm, <kbd>TAB</kbd> essaye de compléter ce qui peut l'être
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(define-key helm-map (kbd "&lt;tab&gt;") 'helm-execute-persistent-action)
+</pre>
+</div>
+
+<p>
+Pour lister les actions, à la place de <kbd>TAB</kbd>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(define-key helm-map (kbd "C-z") 'helm-select-action)
+</pre>
+</div>
+
+<p>
+Dans un chemin, sélectionne immédiatement un répertoire dès lors qu'il est le seul à correspondre à la saisie
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq helm-ff-auto-update-initial-value t)
+</pre>
+</div>
+
+<p>
+S'il est disponible, on utilise cURL pour télécharger des données
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when (executable-find "curl")
+  (setq helm-net-prefer-curl t))
+</pre>
+</div>
+
+<p>
+Ouvre le buffer Helm en partageant le buffer courant (partage horizontal)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq helm-split-window-in-side-p t)
+</pre>
+</div>
+
+<p>
+Quand on arrive à la fin des candidats, on boucle et on retourne au début
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq helm-move-to-line-cycle-in-source t)
+</pre>
+</div>
+
+<p>
+:NOTE:
+Garder ça ?
+(setq helm-ff-search-library-in-sexp t)
+(setq helm-scroll-amount 8)
+(setq helm-ff-file-name-history-use-recentf t)
+</p>
+
+<p>
+Essayer ça ?
+</p>
+<ul class="org-ul">
+<li>helm-ls-git
+</li>
+<li>helm-ls-hg
+</li>
+<li>helm-descbinds
+</li>
+<li>helm-firefox
+</li>
+</ul>
+<p>
+:END:
+</p>
+
+<p>
+Une couleur plus discrète pour les répertoires <code>.</code> et <code>..</code>. La couleur par défaut est trop foncée : Elle donne l'impression qu'ils sont toujours sélectionnés quand on préfèrerait au contraire moins les voir.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(custom-set-faces
+ '(helm-ff-dotted-directory ((t (:foreground "DimGrey")))))
+</pre>
+</div>
+
+<p>
+Finalement, on active Helm
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(helm-mode t)
+</pre>
+</div>
+
+<p>
+Pour plus de lecture, voir cette introduction à Helm : <a href="http://tuhdo.github.io/helm-intro.html">A Package in a league of its own</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-29" class="outline-2">
+<h2 id="sec-29">Htmlize</h2>
+<div class="outline-text-2" id="text-29">
+<p>
+Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer en HTML, tout en respectant la mise en évidence de syntaxe réalisée par Emacs. Simple et efficace, même si <a href="#sec-34">Org</a>, avec ses blocs <code>#+BEGIN_SRC</code> et <code>#+END_SRC</code>, offre souvent une bonne alternative.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'htmlize)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-30" class="outline-2">
+<h2 id="sec-30">Idle HighLight Mode</h2>
+<div class="outline-text-2" id="text-30">
+<p>
+Après un petit temps d'inactivité, surligne toutes les occurrences du mot se trouvant sous le curseur. Notepad++ fait cela par défaut. Très pratique pour voir où un symbole est utilisé, et repérer les fautes de frappe.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'idle-highlight-mode)
+</pre>
+</div>
+
+<p>
+Ce mode mineur est activé dans tous les modes de développement.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook (lambda () (idle-highlight-mode t)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-31" class="outline-2">
+<h2 id="sec-31">Emacs Lisp</h2>
+<div class="outline-text-2" id="text-31">
+<p>
+Dans les contextes où il y a du Lisp, on affiche les éventuelles informations disponibles sur une fonction ou une variable dans la zone d'écho, c.à.d à l'emplacement du minibuffer.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+(add-hook 'ielm-mode-hook 'eldoc-mode)
+</pre>
+</div>
+
+<p>
+IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'un Read-Eval-Print-Loop comme en ont la plupart des langages interprétés. Une très courte introduction dans ce billet <a href="http://emacs-fu.blogspot.fr/2011/03/ielm-repl-for-emacs.html">IELM: a REPL for emacs</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-32" class="outline-2">
+<h2 id="sec-32">Magit</h2>
+<div class="outline-text-2" id="text-32">
+<p>
+:NOTE:
+Pour éviter l'erreur suivante (qui paralyse Emacs !), on ne charge Magit que si git est présent&#x2026;
+Error in post-command-hook (magit-auto-revert-mode-check-buffers): (file-error "Searching for program" "Aucun fichier ou dossier de ce type" "git")
+:END:
+</p>
+
+<p>
+Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'magit)
+</pre>
+</div>
+
+<p>
+La plupart des opérations dans Magit commencent par le buffer <code>status</code> accessible par le raccourci <kbd>C</kbd>-<kbd>x</kbd> <kbd>g</kbd>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-x g") 'magit-status)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-33" class="outline-2">
+<h2 id="sec-33">MMM Mode</h2>
+<div class="outline-text-2" id="text-33">
+<p>
+Permet de faire cohabiter plusieurs modes majeurs dans un même buffer.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'mmm-auto)
+</pre>
+</div>
+
+<p>
+Reparse un buffer qui a été modifié dès qu'Emacs a un peu de temps
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mmm-parse-when-idle t)
+</pre>
+</div>
+
+<p>
+Ce mode n'est pas activé automatiquement, mais uniquement dans les buffer pour lesquels on va définir une règle de sous mode
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mmm-global-mode 'sometimes)
+</pre>
+</div>
+
+<p>
+Définit la règle here-doc qui active le mode <code>shell-script-mode</code> entre les motifs <code>&lt;&lt;EOF</code> et <code>^EOF</code>, qui délimitent habituellement un <i>here document</i>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(mmm-add-classes
+ '((here-doc
+    :submode shell-script-mode
+    :front "&lt;&lt;EOF"
+    :back "^EOF")))
+</pre>
+</div>
+
+<p>
+La règle here-doc est activée dans les buffers qui sont dans le très élémentaire mode <code>text-mode</code> (sans critère d'extension)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(mmm-add-mode-ext-class 'text-mode nil 'here-doc)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-34" class="outline-2">
+<h2 id="sec-34">Org</h2>
+<div class="outline-text-2" id="text-34">
+<p>
+Un autre mode exceptionnel. Au départ un <i>outliner</i>, puis un outil de publication avec environnement de <i>literate programming</i>, mais aussi de GTD, de suivi de temps, un agenda, etc.
+</p>
+
+<p>
+Les lignes ne sont pas tronquées. Plus pratique comme ça, tant pis pour les tableaux !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-startup-truncated nil)
+</pre>
+</div>
+
+<p>
+Les lignes sont indentées selon leur profondeur dans l'arborescence
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-startup-indented t)
+</pre>
+</div>
+
+<p>
+Dans les blocs de code, on veut la mise en évidence de syntaxe, et l'on utilise la touche <kbd>TAB</kbd> pour indenter (et non pour insérer une tabulation)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+</pre>
+</div>
+
+<p>
+Les blocs de code sont évalués sans demande de confirmation, ainsi que les liens spéciaux qui exécutent du shell ou du Lisp
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-confirm-babel-evaluate nil)
+(setq org-confirm-shell-link-function nil)
+(setq org-confirm-elisp-link-function nil)
+</pre>
+</div>
+
+<p>
+Sauf indication contraire, les éléments de texte générés par Org sont en français
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-export-default-language "fr")
+</pre>
+</div>
+
+<p>
+Concernant l'export (en HTML par exemple) :
+</p>
+<ul class="org-ul">
+<li>On ne veut pas que les titres des sections soient numérotés
+</li>
+<li>Au-delà de trois niveaux de titres, on préfère des listes
+</li>
+<li>On ne veut pas d'auteur (valorisé par Org avec le nom de l'utilisateur)
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-export-with-section-numbers nil)
+(setq org-export-headline-levels 3)
+(setq org-export-with-author nil)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-34-1" class="outline-3">
+<h3 id="sec-34-1">Mise à jour</h3>
+<div class="outline-text-3" id="text-34-1">
+<p>
+La dernière version d'Org n'est en général pas celle qui est livrée avec Emacs. Il faut la mettre à jour avec le gestionnaire de paquets. Pour une raison que j'ignore, Org n'est pas listé comme <i>built-in</i>, mais quand on l'installe manuellement, le gestionnaire de paquet indique bien "shadowing a built-in package".
+</p>
+
+<p>
+Ensuite, en cas de bug suspect, il se peut qu'il faille supprimer les fichiers lisp précompilés se trouvant dans <code>~/.emacs.d/elpa/org-x.y.z</code>, relancer Emacs, puis les générer à nouveau avec <code>byte-recompile-directory</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-35" class="outline-2">
+<h2 id="sec-35">Perforce</h2>
+<div class="outline-text-2" id="text-35">
+<p>
+Permet d'utiliser Perforce depuis Emacs, principalement pour sortir des fichiers. Conventionnellement, les fichiers sont en lecture seule. Lorsqu'il les sort, Perforce les passe en lecture / écriture.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'p4)
+</pre>
+</div>
+
+<p>
+Le client Perforce en ligne de commande doit être correctement configuré. Le fichier caché <code>.P4CONFIG</code> contient les informations de connexion.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setenv "P4CONFIG" ".P4CONFIG")
+</pre>
+</div>
+
+<p>
+Lorsqu'elle doit sortir un fichier, la commande Perforce cherche les informations de connexion dans le répertoire du fichier, puis dans son répertoire parent, etc. Jusqu'à la racine. Un bon endroit pour placer le fichier <code>.P4CONFIG</code> est donc la racine du dépôt Perforce.
+</p>
+
+<p>
+Ce fichier contient par exemple les informations de connexion suivantes :
+</p>
+
+<pre class="example">
+P4PASSWD=xxxxxxxx
+P4CLIENT=precise-dell-jmo
+P4USER=julien.montmartin
+P4PORT=srv-sources:1666
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-36" class="outline-2">
+<h2 id="sec-36">Prettify Symbols</h2>
+<div class="outline-text-2" id="text-36">
+<p>
+<code>prettify-symbols-mode</code> permet de remplacer certaines séquences par un caractère composé (ou de faire des ligatures, pour reprendre la terminologie d'autres éditeurs). Par exemple, lorsqu'on écrit <code>a&lt;=b</code>, Emacs affiche <code>a≤b</code>. Les séquences à <i>enjoliver</i> sont définies par la liste <code>prettify-symbols-alist</code>, que chaque mode majeur est susceptible d'enrichir. Dans la pratique toutefois, elle semble vide la plupart du temps. Voici donc quelques ajouts  faits au niveau de <code>prog-mode</code>, dont tous les modes de développement dérivés profiteront.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook
+          (lambda ()
+            (push '("/=" . ?≠) prettify-symbols-alist)
+            (push '("!=" . ?≠) prettify-symbols-alist)
+            (push '("==" . ?⩵) prettify-symbols-alist)
+            (push '("&amp;&amp;" . ?∧) prettify-symbols-alist)
+            (push '("||" . ?∨) prettify-symbols-alist)
+            (push '("&lt;=" . ?≤) prettify-symbols-alist)
+            (push '("&gt;=" . ?≥) prettify-symbols-alist)
+            (push '("&lt;&lt;" . ?≪) prettify-symbols-alist)
+            (push '("&gt;&gt;" . ?≫) prettify-symbols-alist)
+            (push '("::" . ?∷) prettify-symbols-alist)
+            (push '("-&gt;" . ?→) prettify-symbols-alist)
+            (push '("=&gt;" . ?⇒) prettify-symbols-alist)
+            (push '("and" . ?∧) prettify-symbols-alist)
+            (push '("not" . ?¬) prettify-symbols-alist)
+            (push '("or" . ?∨) prettify-symbols-alist)
+            ))
+</pre>
+</div>
+
+<p>
+Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-C++">void foo(std∷pair&lt;int, int&gt;* p)
+{
+    //Print something if first != second
+    if(p ≠ nullptr ∧ (p→first ≠ p→second))
+        std∷cout ≪ p→first « "!=" ≪ p→second « std∷endl;
+}
+</pre>
+</div>
+
+<p>
+On note que les séquences ne sont pas remplacées dans les chaines de caractères ni dans les commentaires. Elles ne sont pas non plus exportées par <a href="#sec-34">Org</a> (j'ai modifié cet exemple à la main). Par ailleurs, la longueur des lignes reste correctement calculée, ce qui <i>facilite</i> la cohabitation avec les paquets comme <code>fci-mode</code>. Il reste quelques petits problèmes, comme une petite <i>marche</i> sur la limite pour les lignes trop longues, mais avec <code>fci-mode</code>, il faut savoir faire des <a href="#fci-sucks">compromis</a>&#x2026;
+</p>
+
+<p>
+J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de test. Pour l'instant, on l'active dans tous les modes qui le supportent.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-prettify-symbols-mode t)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-37" class="outline-2">
+<h2 id="sec-37">Projectile</h2>
+<div class="outline-text-2" id="text-37">
+<p>
+Un module qui fournit une fonctionnalité bien pratique : regrouper les fichiers d'un même projet. Lorsqu'on ouvre un fichier, Projectile cherche un dépôt (via la présence d'un <code>.git</code> ou autre) dans le répertoire du fichier ouvert, puis dans ses répertoires parents.
+</p>
+
+<p>
+S'il identifie un dépôt, Projectile considère que tous les fichiers du dépôt font partie d'un même projet, et fournit des fonctions pour les traiter ensemble.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'projectile)
+</pre>
+</div>
+
+<p>
+Active Projectile dans tous les modes le supportant
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(projectile-global-mode)
+</pre>
+</div>
+
+<p>
+Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code> qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant <code>foo.h</code>, Projectile cherche dans le projet <code>foo.c</code>, et l'ouvre s'il le trouve. J'utilisais avant <a href="#sec-25">Find File At Point</a> pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
+</p>
+
+<p>
+:NOTE:
+</p>
+<ul class="org-ul">
+<li>ne fonctionne pas sous Windows entre foo.org et foo.el ?
+</li>
+<li>est-ce à cause de (projectile-indexing-method 'alien) ?
+</li>
+<li>faut-il passer 't' à la fin pour le flex matching ?
+</li>
+</ul>
+<p>
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-t") 'projectile-find-other-file)
+</pre>
+</div>
+
+<p>
+Projectile utilise Helm pour l'aide à la sélection
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq projectile-completion-system 'helm)
+</pre>
+</div>
+
+<p>
+Active les raccourcis Helm pour les fonctions Projectile
+</p>
+
+<p>
+:NOTE:
+Il semblerait qu'il faille installer le paquet helm-projectile, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus&#x2026;
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(helm-projectile-on)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-38" class="outline-2">
+<h2 id="sec-38">Qt</h2>
+<div class="outline-text-2" id="text-38">
+<p>
+Pour ceux qui développent avec Qt, la fonction <code>generate-qt-includes</code> appelle un petit morceau de shell qui essaie de générer la liste des entêtes nécessaires aux types Qt utilisés. Sans doute pas parfait (tente régulièrement d'inclure QStringLiteral), mais mieux que rien !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun generate-qt-includes ()
+    "Insert a list of Qt includes matching Qt types found in this buffer"
+    (interactive)
+    (shell-command-on-region
+     (point-min) (point-max)
+     ;; Pourquoi ne peut-on pas mettre le pipe en début de ligne ?
+     "sed 's/\#.*include.*&lt;.*&gt;/#include &lt;header&gt;/' |
+sed 's://.*:// comment:' |
+sed -n 's/.*\\(Q[A-Z][a-zA-Z]*\\).*/#include &lt;\\1&gt;/p' |
+sort | uniq" )
+  (insert-buffer "*Shell Command Output*"))
+</pre>
+</div>
+
+<p>
+Le raccourci <kbd>M</kbd>-<kbd>#</kbd> appelle <code>generate-qt-includes</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-#") 'generate-qt-includes)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-39" class="outline-2">
+<h2 id="sec-39">Rainbow delimiters</h2>
+<div class="outline-text-2" id="text-39">
+<p>
+Met en évidence les symboles ouvrants et fermants, comme les parenthèses, les accolades ou les crochets, avec des couleurs appariées. Raffiné et élégant !
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'rainbow-delimiters)
+</pre>
+</div>
+
+<p>
+Exemple avec des parenthèses :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(when (foo (bar (baz t))))
+</pre>
+</div>
+
+<p>
+Active cette fonctionnalité dans tous les modes de développement
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-40" class="outline-2">
+<h2 id="sec-40">Rainbow mode</h2>
+<div class="outline-text-2" id="text-40">
+<p>
+Cherche dans un buffer les chaines représentant une couleur, et les surligne avec cette couleur. Quelquefois il devine mal et surligne des couleurs qui n'en sont pas, mais ça reste très pratique, et joli, ce qui ne gâche rien ! L'essayer c'est l'adopter.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'rainbow-mode)
+</pre>
+</div>
+
+<p>
+Quelques exemples de couleurs reconnues :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(message "De la couleur ! #ffafff #F5DEB3 #def DeepPink")
+</pre>
+</div>
+
+<p>
+Active cette fonctionnalité dans tous les modes de développement
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-41" class="outline-2">
+<h2 id="sec-41">Related</h2>
+<div class="outline-text-2" id="text-41">
+<p>
+Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
+</p>
+
+<ul class="org-ul">
+<li><kbd>C</kbd>-<kbd>x</kbd> <kbd>↑</kbd> appelle <code>related-switch-forward</code> et passe au prochain buffer du groupe
+</li>
+<li><kbd>C</kbd>-<kbd>x</kbd> <kbd>↓</kbd> appelle <code>related-switch-backward</code> et revient au précédent buffer du groupe
+</li>
+</ul>
+
+<p>
+Related permet de naviguer facilement parmi des buffers qui vont ensemble. Par exemple si les trois fichiers suivants sont ouverts :
+</p>
+
+<ul class="org-ul">
+<li><code>/path/to/include/foo.h</code>
+</li>
+<li><code>/path/to/source/foo.c</code>
+</li>
+<li><code>/path/to/doc/foo.org</code>
+</li>
+</ul>
+
+<p>
+On peut passer de l'un à l'autre avec <kbd>C</kbd>-<kbd>x</kbd> <kbd>↑</kbd> : <code>foo.h</code> → <code>foo.c</code> → <code>foo.org</code> → <code>foo.h</code> etc.
+</p>
+
+<p>
+:NOTE:
+Faire fonctionner le SVG, réussir à ce que les caractères ne soient pas énormes, et correspondent au reste du document
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-dot">digraph RelatedFooForward {
+    rankdir=LR;
+    node [shape=box];
+  graph [fontname="Courrier new" fontsize=8];
+  node [fontname="Courrier new" fontsize=8];
+  edge [fontname="Courrier new" fontsize=8];
+
+    "foo.h" -&gt; "foo.c" [label="C-x ↑"];
+    "foo.c" -&gt; "foo.org" [label="C-x ↑"];
+    "foo.org" -&gt; "foo.h" [label="C-x ↑"];
+}
+</pre>
+</div>
+<p>
+:END:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'related)
+</pre>
+</div>
+
+<p>
+Active Related, qui est un mode mineur global
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(related-mode)
+</pre>
+</div>
+
+<p>
+<kbd>C</kbd>-<kbd>x</kbd> <kbd>END</kbd> propose de choisir un buffer du groupe, en utilisant Helm, s'il est activé
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-x &lt;end&gt;") 'related-switch-buffer )
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-42" class="outline-2">
+<h2 id="sec-42">Rust</h2>
+<div class="outline-text-2" id="text-42">
+<p>
+Rust dispose d'un très bon support dans Emacs, au travers des paquets suivants :
+</p>
+<ul class="org-ul">
+<li><code>rust-mode</code> : mode majeur pour Rust, mise en évidence de syntaxe et c<sup>ie</sup>.
+</li>
+<li><code>cargo</code> : raccourcis clavier pour piloter Cargo, le <i>front-end</i> à tout faire de Rust
+</li>
+<li><code>flycheck-rust</code> : mise en évidence des erreurs au fil de la saisie
+</li>
+<li><code>ob-rust</code> : exécution des blocs de code Rust dans Org avec Babel
+</li>
+<li><code>racer</code> : support de Racer, outil externe d'indexation du code
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'rust-mode)
+(my-require 'cargo)
+(my-require 'flycheck-rust)
+(my-require 'ob-rust)
+(my-require 'racer)
+</pre>
+</div>
+
+<p>
+On ajoute un peu de configuration pour Racer afin d'avoir les raccourcis habituels <kbd>M</kbd>-<kbd>.</kbd> et <kbd>M</kbd>-<kbd>*</kbd> pour aller à la définition d'un symbol et revenir.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-.") 'racer-find-definition)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+</pre>
+</div>
+
+<p>
+On peut également utiliser <kbd>C</kbd>-<kbd>M</kbd>-<kbd>i</kbd> pour invoquer <code>completion-at-point</code>, qui ouvre dans un buffer Helm une liste des définitions appropriées trouvées par Racer. Cette liste est plus intéressante que le menu d'Auto Complete, qui se contente des symboles, et non de leurs définitions complètes.
+</p>
+
+<p>
+Racer doit évidemment être installé, configuré, et sur le PATH. On peut vérifier que son installation est fonctionnelle en lançant depuis le terminal une commande <code>racer complete</code> :
+</p>
+
+<pre class="example">
+racer complete std::io::B
+MATCH BufRead,1375,10,[...]/rust/src/libstd/io/mod.rs,Trait,pub trait BufRead: Read
+MATCH Bytes,1995,11,[...]/rust/src/libstd/io/mod.rs,Struct,pub struct Bytes&lt;R&gt;
+MATCH BufReader,56,11,[...]/rust/src/libstd/io/buffered.rs,Struct,pub struct BufReader&lt;R&gt;
+MATCH BufWriter,420,11,[...]/rust/src/libstd/io/buffered.rs,Struct,pub struct BufWriter&lt;W: Write&gt;
+</pre>
+
+<p>
+rust-indent-offset to equal tab-width
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-43" class="outline-2">
+<h2 id="sec-43">Shell scripts</h2>
+<div class="outline-text-2" id="text-43">
+<p>
+Les fichiers en <code>.sh</code> s'ouvrent avec <code>shell-script-mode</code>, indépendamment de leur <i>shebang</i>. Pour une raison qui reste à déterminer, cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier de configuration.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-44" class="outline-2">
+<h2 id="sec-44">Souris</h2>
+<div class="outline-text-2" id="text-44">
+<p>
+La molette de la souris fait défiler les lignes deux par deux
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mouse-wheel-scroll-amount '(2))
+</pre>
+</div>
+
+<p>
+Le défilement à l'écran suit la molette, et le pas reste constant quand elle accélère
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mouse-wheel-progressive-speed nil)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-45" class="outline-2">
+<h2 id="sec-45">Tcl</h2>
+<div class="outline-text-2" id="text-45">
+<p>
+Ouvre les <code>.tm</code> comme des modules Tcl
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq auto-mode-alist (append '(("\.tm$" . tcl-mode)) auto-mode-alist))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-46" class="outline-2">
+<h2 id="sec-46">Tramp</h2>
+<div class="outline-text-2" id="text-46">
+<p>
+Transfère les fichiers en utilisant ssh, plutôt que ftp
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq tramp-default-method "ssh")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-47" class="outline-2">
+<h2 id="sec-47">Unfill</h2>
+<div class="outline-text-2" id="text-47">
+<p>
+La fonction <code>fill</code> permet de découper correctement les lignes trop longues, et le paquet <code>unfill</code> fournit la fonction inverse, celle qui recolle les lignes. Et même mieux, ce paquet fournit également <code>unfill-toggle</code>, qui passe d'un état à l'autre. Si simple et tellement utile ! Travaille sur la région si elle est définie, sur le paragraphe sinon.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'unfill)
+</pre>
+</div>
+
+<p>
+Le raccourci par défaut pour <code>fill</code> est remplacé sans états d'âme
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-q") 'unfill-toggle)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-48" class="outline-2">
+<h2 id="sec-48">Uniquify</h2>
+<div class="outline-text-2" id="text-48">
+<p>
+Génère des libellés plus pertinents pour les buffers de mêmes noms
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'uniquify)
+</pre>
+</div>
+
+<p>
+Soit les fichiers <code>xxx/yyy/foo.txt</code> et <code>zzz/ttt/foo.txt</code> tous les deux ouverts dans des buffers. Plutôt que d'avoir deux buffers affichant <code>foo.txt</code>, on aura avec la méthode <code>post-forward</code> les libellés <code>foo.txt|xxx/yyy</code> et <code>foo.txt|zzz/ttt</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq uniquify-buffer-name-style 'post-forward)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-49" class="outline-2">
+<h2 id="sec-49">Whitespace</h2>
+<div class="outline-text-2" id="text-49">
+<p>
+Un mode mineur qui permet de visualiser les espaces, de nettoyer les lignes blanches, ou encore de visualiser les lignes trop longues. Très paramétrable.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(my-require 'whitespace)
+</pre>
+</div>
+
+<p>
+La variable <code>whitespace-style</code> contrôle les types d'espaces qui seront affichés. La première valeur, <code>face</code>, est particulière et active la mise en évidence des espaces en changeant leur couleur de fond. Viennent ensuite :
+</p>
+
+<ul class="org-ul">
+<li><code>trailing</code>, qui met en évidence les espaces inutiles en fin de ligne
+</li>
+<li><code>lines</code>, qui met en évidence les lignes, essentiellement vides, ne contenant que des espaces, ainsi que les lignes trop longues (voir <code>whitespace-line-column</code>)
+</li>
+<li><code>empty</code>, qui met en évidence les lignes vides en début et fin de fichier
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq whitespace-style '(face trailing lines empty))
+</pre>
+</div>
+
+<p>
+<kbd>C</kbd>-<kbd>h</kbd> <kbd>o</kbd> avec le curseur sur <code>whitespace-style</code> vous emmènera vers la doc qui énumère toutes les catégories d'espaces. À noter que les espaces ne sont pas nécessairement mis en évidence en surlignant leur couleur de fond : on peut également les remplacer et afficher par exemple "›" à la place d'une tabulation.
+</p>
+
+<p>
+Lorsqu'on sauvegarde un fichier, on veut que les espaces soient automatiquement remis en ordre : Suppression des lignes vides en début ou fin de fichier, des espaces qui ne servent à rien, application des politiques de tabulation vs espace, etc. Attention au diff la première fois qu'on fait ça sur un fichier.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'before-save-hook 'whitespace-cleanup)
+</pre>
+</div>
+
+<p>
+Active whitespace-mode dans tous les modes de développement
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'whitespace-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-50" class="outline-2">
+<h2 id="sec-50">XML</h2>
+<div class="outline-text-2" id="text-50">
+<p>
+Une fonction pour remettre en forme du XML. Prise sur le site de <a href="http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html">Benjamin Ferrari</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun pretty-print-xml-region (begin end)
+  "Pretty format XML markup in region. You need to have nxml-mode
+http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
+this.  The function inserts linebreaks to separate tags that have
+nothing but whitespace between them.  It then indents the markup
+by using nxml's indentation rules."
+  (interactive "r")
+  (save-excursion
+    (nxml-mode)
+    (goto-char begin)
+    ;; split &lt;foo&gt;&lt;foo&gt; or &lt;/foo&gt;&lt;foo&gt;, but not &lt;foo&gt;&lt;/foo&gt;
+    (while (search-forward-regexp "&gt;[ \t]*&lt;[^/]" end t)
+      (backward-char 2) (insert "\n") (incf end))
+    ;; split &lt;foo/&gt;&lt;/foo&gt; and &lt;/foo&gt;&lt;/foo&gt;
+    (goto-char begin)
+    (while (search-forward-regexp "&lt;.*?/.*?&gt;[ \t]*&lt;" end t)
+      (backward-char) (insert "\n") (incf end))
+    (indent-region begin end nil)
+    (normal-mode))
+  (message "All indented!"))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-51" class="outline-2">
+<h2 id="sec-51">Installation automatique</h2>
+<div class="outline-text-2" id="text-51">
+<p>
+Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de <a href="https://stackoverflow.com/a/10093312">cette réponse</a> sur Stack Overflow.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun my-setup()
+  (add-to-list 'package-archives
+               '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (dolist (package '(ac-capf
+                     ac-helm
+                     auto-complete-config
+                     bm
+                     cargo
+                     cmake-mode
+                     column-marker
+                     epa-file
+                     fill-column-indicator
+                     flycheck-rust
+                     fuzzy
+                     ggtags
+                     graphviz-dot-mode
+                     helm
+                     helm-projectile
+                     htmlize
+                     idle-highlight-mode
+                     leuven
+                     magit
+                     mmm-mode
+                     ob-rust
+                     projectile
+                     racer
+                     rainbow-delimiters
+                     rainbow-mode
+                     related
+                     rust-mode
+                     unfill
+                     uniquify
+                     whitespace))
+      (message "---&gt; %s" package)
+      (unless (package-installed-p package)
+        (ignore-errors
+          (package-install package)))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
