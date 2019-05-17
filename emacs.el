@@ -355,11 +355,15 @@ and restore it later."
 
 (last-step-duration "C & C++")
 
+(when
+
 (my-require 'ggtags)
 (add-hook 'c-mode-common-hook 'ggtags-mode)
 
 (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
 (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+
+)
 
 (last-step-duration "Global")
 
@@ -421,7 +425,7 @@ and restore it later."
 
 (last-step-duration "Find File At Point")
 
-(my-require 'fill-column-indicator)
+(ignore-errors (my-require 'fill-column-indicator))
 
 (setq-default fci-rule-column 80)
 

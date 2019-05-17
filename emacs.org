@@ -949,6 +949,10 @@ Ouvre les ~.h~ comme du C++, et non comme du C
 
 ** Global
 
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
 Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -967,6 +971,10 @@ Reprend les raccourcis usuels d'Etags:
 #+END_SRC
 
 Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très bien avec C++, et nécessite en plus d'être configuré et périodiquement relancé... Il se trouve que ~helm-projectile-grep~ fonctionne tellement bien, que je n'utilise presque plus que ça pour naviguer dans les projets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Global")
@@ -1164,7 +1172,7 @@ Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Prati
 Avoir besoin de ~fci-mode~, c'est devoir choisir entre la peste et le choléra (n'ayons pas peur des mots !).
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (my-require 'fill-column-indicator)
+  (ignore-errors (my-require 'fill-column-indicator))
 #+END_SRC
 
 Matérialise la colonne 80
