@@ -723,8 +723,9 @@ by using nxml's indentation rules."
 (defun my-setup()
   (add-to-list 'package-archives
                '("MELPA" . "http://melpa.milkbox.net/packages/") t)
-  (unless package-archive-contents
-    (package-refresh-contents))
+  ;;(unless package-archive-contents
+  ;;  (package-refresh-contents))
+  (package-refresh-contents)
   (dolist (package '(ac-capf
                      ac-helm
                      auto-complete-config

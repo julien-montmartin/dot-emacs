@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <title>Une Configuration Emacs</title>
-<!-- 2019-05-17 Fri 13:47 -->
+<!-- 2019-05-17 Fri 14:35 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <style type="text/css">
@@ -2958,8 +2958,9 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 <pre class="src src-emacs-lisp">(defun my-setup()
   (add-to-list 'package-archives
                '("MELPA" . "http://melpa.milkbox.net/packages/") t)
-  (unless package-archive-contents
-    (package-refresh-contents))
+  ;;(unless package-archive-contents
+  ;;  (package-refresh-contents))
+  (package-refresh-contents)
   (dolist (package '(ac-capf
                      ac-helm
                      auto-complete-config
