@@ -2095,7 +2095,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 - Générer [[elisp:(org-html-export-to-html)][emacs.html]]
 
 
-#+OPTIONS: toc:nil d:(not "NOTE") html-postamble:nil
+#+OPTIONS: toc:nil d:(not "NOTE") html-postamble:nil with-drawers:nil
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/org.css"/>
 
