@@ -7,6 +7,8 @@ copy : all
 	cp emacs.org emacs.el loader.el emacs.html ${DIST}
 
 emacs.el : emacs.org
+	#On installe les paquets nécessaire en partant d'un fichier minimal
+	emacs --batch -l .travis.el -f my-setup
 	#On génère un emacs.el fonctionnel mais pas forcément bien formaté. Ce
 	#fichier permet de paramètrer Emacs correctement, et de relancer une
 	#nouvelle génération. (Le premier emacs.el est écrasé par le deuxième)
