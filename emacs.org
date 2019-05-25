@@ -1513,6 +1513,12 @@ Concernant l'export (en HTML par exemple) :
   (setq org-export-with-author nil)
 #+END_SRC
 
+Dans le cas particulier de l'export HTML, on veut également que la mise en évidence de syntaxe soit faite à l'aide d'un fichier CSS à part. C'est particulièrement utile avec le mode batch dans lequel les attributs des polices ne sont pas chargés. On peut produire un fichier CSS de référence avec la commande `org-html-htmlize-generate-css`.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-html-htmlize-output-type 'css)
+#+END_SRC
+
 ** Mise à jour
 
 La dernière version d'Org n'est en général pas celle qui est livrée avec Emacs. Il faut la mettre à jour avec le gestionnaire de paquets. Pour une raison que j'ignore, Org n'est pas listé comme /built-in/, mais quand on l'installe manuellement, le gestionnaire de paquet indique bien "shadowing a built-in package".
@@ -2094,6 +2100,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 - Générer [[elisp:(org-babel-tangle)][emacs.el]]
 - Générer [[elisp:(org-html-export-to-html)][emacs.html]]
 
+#+BIND: org-html-htmlize-output-type:css
 
 #+OPTIONS: toc:nil d:nil html-postamble:nil
 

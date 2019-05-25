@@ -542,6 +542,8 @@ and restore it later."
 (setq org-export-headline-levels 3)
 (setq org-export-with-author nil)
 
+(setq org-html-htmlize-output-type 'css)
+
 (last-step-duration "Org Mode")
 
 (when
