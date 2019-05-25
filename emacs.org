@@ -2,7 +2,7 @@
 
 
 #+BEGIN_abstract
-Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[http://dist.jmontmartin.net/emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[file:emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 
 C'est également un essai pour voir ce qu'on peut faire avec [[http://orgmode.org/][Org]]. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à [[http://gongzhitaao.org/orgcss][Zhitao Gong]] pour le CSS qui habille les exports HTML.
 #+END_abstract
@@ -1718,7 +1718,7 @@ Active cette fonctionnalité dans tous les modes de développement
   (when
 #+END_SRC
 
-Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
+Package [[https://github.com/julien-montmartin/related][perso]], disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
 
 - {{{CTRL-(x)}}} {{{KBD-(↑)}}} appelle ~related-switch-forward~ et passe au prochain buffer du groupe
 - {{{CTRL-(x)}}} {{{KBD-(↓)}}} appelle ~related-switch-backward~ et revient au précédent buffer du groupe
@@ -2025,6 +2025,17 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
           (ignore-errors
             (package-install package)))))
 #+END_SRC
+
+#+BEGIN_EXPORT html
+<br/>
+<p class="my-footer"><small>
+Valider les
+<a href="http://validator.w3.org/checklink?uri=jmontmartin.net">liens</a>, le
+<a href="http://validator.w3.org/check?uri=jmontmartin.net">markup</a>, ou le
+<a href="http://jigsaw.w3.org/css-validator/validator?uri=jmontmartin.net">css</a>
+</small></p>
+<br/>
+#+END_EXPORT
 
 * Générer les fichiers :noexport:
 
