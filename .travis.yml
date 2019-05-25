@@ -7,7 +7,7 @@ addons:
     - emacs
 
 script:
-  - make all
+  - ./travis.sh
 
 deploy:
   provider: pages

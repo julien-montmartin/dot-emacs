@@ -8,8 +8,10 @@ emacs.el : emacs.org travis.el
 	emacs --batch -l emacs.el $< -f org-babel-tangle
 
 emacs.html : emacs.org emacs.el
-	#emacs --batch -l emacs.el $< -f org-html-export-to-html
-	emacs -nw -l emacs.el $< --eval "(org-html-export-to-html)" --eval "(kill-emacs)"
+	#Fonctionne, mais pas de couleur
+	emacs --batch -l emacs.el $< -f org-html-export-to-html
+	#Fonctionne, mais couleurs criardes
+	#emacs -nw -l emacs.el $< --eval "(org-html-export-to-html)" --eval "(kill-emacs)"
 
 travis.el :
 	rm -f travis.el

@@ -1,14 +1,6 @@
 #+TITLE: Une Configuration Emacs
 
 
-:NOTE:
-;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
-
-Voir le manuel à la section Specifying File Variables pour la définition des variables locales à un buffer sur la première ligne de ce dernier.
-
-Utiliser C-u 1 M-x byte-recompile-directory pour produire des ~.elc~. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
-:END:
-
 #+BEGIN_abstract
 Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[http://dist.jmontmartin.net/emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 
@@ -75,11 +67,7 @@ En mode graphique, cache la barre d'outils
   (when window-system (tool-bar-mode -1))
 #+END_SRC
 
-En mode graphique, gouttière réduite à gauche uniquement (nil pour remettre la taille par défaut).
-
-:NOTE:
-Cohabite mal avec ~fill-column-mode~.
-:END:
+En mode graphique, gouttière réduite et à gauche uniquement (nil pour remettre la taille par défaut). Cohabite mal avec ~fill-column-mode~.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (when window-system (set-fringe-mode '(4 . 0)))
@@ -137,10 +125,6 @@ Désactive la transient mark. La région est toujours active, mais pas surligné
 #+END_SRC
 
 Dans un environnement graphique, lance Emacs en mode serveur
-
-:NOTE:
-Voir l'opportunité du mode démon si pas d'environnement graphique.
-:END:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when window-system (server-start))
@@ -872,13 +856,6 @@ Nécessite le paquet ~fuzzy~ pour fonctionner une fois de temps en temps.
 
 Intègre Auto Complete à Helm, et permet d'avoir avec {{{CTRL-(:)}}} dans un buffer helm, le contenu du menu qu'on aurait eu avec {{{META-(/)}}}. Nécessite le paquet ~ac-helm~.
 
-:NOTE:
-De memoire, en testant, seule la ligne avec ~ac-complete-mode-map (kbd "C-:")~ était nécessaire... Maintenant il semblerait que le ~global-set-key~ soit plus utile (la [[https://github.com/yasuyk/ac-helm][doc]] dit de mettre les deux lignes).
-
-(global-set-key (kbd "C-:") 'ac-complete-with-helm)
-(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-:") 'ac-complete-with-helm)
 #+END_SRC
@@ -1294,19 +1271,6 @@ Quand on arrive à la fin des candidats, on boucle et on retourne au début
   (setq helm-move-to-line-cycle-in-source t)
 #+END_SRC
 
-:NOTE:
-Garder ça ?
-(setq helm-ff-search-library-in-sexp t)
-(setq helm-scroll-amount 8)
-(setq helm-ff-file-name-history-use-recentf t)
-
-Essayer ça ?
- - helm-ls-git
- - helm-ls-hg
- - helm-descbinds
- - helm-firefox
-:END:
-
 Une couleur plus discrète pour les répertoires ~.~ et ~..~. La couleur par défaut est trop foncée : Elle donne l'impression qu'ils sont toujours sélectionnés quand on préfèrerait au contraire moins les voir.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1387,17 +1351,12 @@ IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'u
 
 * Magit
 
-:NOTE:
-Pour éviter l'erreur suivante (qui paralyse Emacs !), on ne charge Magit que si git est présent...
-Error in post-command-hook (magit-auto-revert-mode-check-buffers): (file-error "Searching for program" "Aucun fichier ou dossier de ce type" "git")
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (if (executable-find "git")
       (progn (when
 #+END_SRC
 
-Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
+Un module à essayer si vous êtes utilisateur de Git et d'Emacs. On ne charge ce module que si la commande ~git~ est présente, pour éviter une bête erreur qui paralyse Emacs au démarrage.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (my-require 'magit)
@@ -1637,12 +1596,6 @@ Active Projectile dans tous les modes le supportant
 
 Raccourci {{{CTRL-(t)}}} pour ~projectile-find-other-file~ qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant ~foo.h~, Projectile cherche dans le projet ~foo.c~, et l'ouvre s'il le trouve. J'utilisais avant [[*Find File At Point]] pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
 
-:NOTE:
-- ne fonctionne pas sous Windows entre foo.org et foo.el ?
-- est-ce à cause de (projectile-indexing-method 'alien) ?
-- faut-il passer 't' à la fin pour le flex matching ?
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-t") 'projectile-find-other-file)
 #+END_SRC
@@ -1653,11 +1606,7 @@ Projectile utilise Helm pour l'aide à la sélection
   (setq projectile-completion-system 'helm)
 #+END_SRC
 
-Active les raccourcis Helm pour les fonctions Projectile
-
-:NOTE:
-Il semblerait qu'il faille installer le paquet helm-projectile, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus...
-:END:
+Active les raccourcis Helm pour les fonctions Projectile. Il semblerait qu'il faille installer le paquet ~helm-projectile~, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus...
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (helm-projectile-on)
@@ -1781,24 +1730,6 @@ Related permet de naviguer facilement parmi des buffers qui vont ensemble. Par e
 - ~/path/to/doc/foo.org~
 
 On peut passer de l'un à l'autre avec {{{CTRL-(x)}}} {{{KBD-(↑)}}} : ~foo.h~ → ~foo.c~ → ~foo.org~ → ~foo.h~ etc.
-
-:NOTE:
-Faire fonctionner le SVG, réussir à ce que les caractères ne soient pas énormes, et correspondent au reste du document
-
-#+BEGIN_SRC dot :file RelatedFooForward.png :cmdline -Kdot -Tpng
-digraph RelatedFooForward {
-	rankdir=LR;
-	node [shape=box];
-  graph [fontname="Courrier new" fontsize=8];
-  node [fontname="Courrier new" fontsize=8];
-  edge [fontname="Courrier new" fontsize=8];
-
-	"foo.h" -> "foo.c" [label="C-x ↑"];
-	"foo.c" -> "foo.org" [label="C-x ↑"];
-	"foo.org" -> "foo.h" [label="C-x ↑"];
-}
-#+END_SRC
-:END:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (my-require 'related)
