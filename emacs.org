@@ -2026,10 +2026,6 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
             (package-install package)))))
 #+END_SRC
 
-* Générer les fichiers :noexport:
-
-- Générer [[elisp:(org-babel-tangle)][emacs.el]]
-- Générer [[elisp:(org-html-export-to-html)][emacs.html]]
 
 #+BEGIN_EXPORT html
 <br/>
@@ -2068,3 +2064,8 @@ Valider les
 #+MACRO: SHIFT- @@html:<kbd>S</kbd>-<kbd>$1</kbd>@@@@ascii:S-$1​@@
 #+MACRO: META- @@html:<kbd>M</kbd>-<kbd>$1</kbd>@@@@ascii:M-$1​@@
 #+MACRO: CTRL-META- @@html:<kbd>C</kbd>-<kbd>M</kbd>-<kbd>$1</kbd>@@@@ascii:C-$1​@@
+
+* Générer les fichiers :noexport:
+
+- Générer [[elisp:(org-babel-tangle)][emacs.el]]
+- Générer [[elisp:(org-html-export-to-html)][emacs.html]]
