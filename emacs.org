@@ -2026,17 +2026,9 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
             (package-install package)))))
 #+END_SRC
 
+-----
 
-#+BEGIN_EXPORT html
-<br/>
-<p class="my-footer"><small>
-Valider les
-<a href="http://validator.w3.org/checklink?uri=julien-montmartin.github.io/dot.emacs">liens</a>, le
-<a href="http://validator.w3.org/check?uri=julien-montmartin.github.io/dot.emacs">markup</a>, ou le
-<a href="http://jigsaw.w3.org/css-validator/validator?uri=julien-montmartin.github.io/dot.emacs">css</a>
-</small></p>
-<br/>
-#+END_EXPORT
+Valider les [[http://validator.w3.org/checklink?uri=julien-montmartin.github.io/dot.emacs][liens]], le [[http://validator.w3.org/check?uri=julien-montmartin.github.io/dot.emacs][markup]]markup, ou le [[http://jigsaw.w3.org/css-validator/validator?uri=julien-montmartin.github.io/dot.emacs][css]].
 
 #+OPTIONS: toc:nil d:nil html-postamble:nil
 
