@@ -1,16 +1,8 @@
 #+TITLE: Une Configuration Emacs
 
 
-:NOTE:
-;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
-
-Voir le manuel à la section Specifying File Variables pour la définition des variables locales à un buffer sur la première ligne de ce dernier.
-
-Utiliser C-u 1 M-x byte-recompile-directory pour produire des ~.elc~. Attention cependant, les fichiers compilés avec une version d'Emacs peuvent poser problème si utilisés avec une autre version.
-:END:
-
 #+BEGIN_abstract
-Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[http://dist.jmontmartin.net/emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[file:emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 
 C'est également un essai pour voir ce qu'on peut faire avec [[http://orgmode.org/][Org]]. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à [[http://gongzhitaao.org/orgcss][Zhitao Gong]] pour le CSS qui habille les exports HTML.
 #+END_abstract
@@ -75,11 +67,7 @@ En mode graphique, cache la barre d'outils
   (when window-system (tool-bar-mode -1))
 #+END_SRC
 
-En mode graphique, gouttière réduite à gauche uniquement (nil pour remettre la taille par défaut).
-
-:NOTE:
-Cohabite mal avec ~fill-column-mode~.
-:END:
+En mode graphique, gouttière réduite et à gauche uniquement (nil pour remettre la taille par défaut). Cohabite mal avec ~fill-column-mode~.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   (when window-system (set-fringe-mode '(4 . 0)))
@@ -137,10 +125,6 @@ Désactive la transient mark. La région est toujours active, mais pas surligné
 #+END_SRC
 
 Dans un environnement graphique, lance Emacs en mode serveur
-
-:NOTE:
-Voir l'opportunité du mode démon si pas d'environnement graphique.
-:END:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when window-system (server-start))
@@ -872,13 +856,6 @@ Nécessite le paquet ~fuzzy~ pour fonctionner une fois de temps en temps.
 
 Intègre Auto Complete à Helm, et permet d'avoir avec {{{CTRL-(:)}}} dans un buffer helm, le contenu du menu qu'on aurait eu avec {{{META-(/)}}}. Nécessite le paquet ~ac-helm~.
 
-:NOTE:
-De memoire, en testant, seule la ligne avec ~ac-complete-mode-map (kbd "C-:")~ était nécessaire... Maintenant il semblerait que le ~global-set-key~ soit plus utile (la [[https://github.com/yasuyk/ac-helm][doc]] dit de mettre les deux lignes).
-
-(global-set-key (kbd "C-:") 'ac-complete-with-helm)
-(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-helm)
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes
 (global-set-key (kbd "C-:") 'ac-complete-with-helm)
 #+END_SRC
@@ -949,6 +926,10 @@ Ouvre les ~.h~ comme du C++, et non comme du C
 
 ** Global
 
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
 Une configuration simple pour GNU Global, en remplacement du vénérable Etags, et qui fonctionne un peu moins mal que ce dernier avec C++.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -967,6 +948,10 @@ Reprend les raccourcis usuels d'Etags:
 #+END_SRC
 
 Global, comme la plupart des autres outils d'indexation, ne fonctionne pas très bien avec C++, et nécessite en plus d'être configuré et périodiquement relancé... Il se trouve que ~helm-projectile-grep~ fonctionne tellement bien, que je n'utilise presque plus que ça pour naviguer dans les projets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Global")
@@ -1164,7 +1149,7 @@ Mode qui permet de visualiser la 80^e colonne (ou n'importe quelle autre). Prati
 Avoir besoin de ~fci-mode~, c'est devoir choisir entre la peste et le choléra (n'ayons pas peur des mots !).
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (my-require 'fill-column-indicator)
+  (ignore-errors (my-require 'fill-column-indicator))
 #+END_SRC
 
 Matérialise la colonne 80
@@ -1286,19 +1271,6 @@ Quand on arrive à la fin des candidats, on boucle et on retourne au début
   (setq helm-move-to-line-cycle-in-source t)
 #+END_SRC
 
-:NOTE:
-Garder ça ?
-(setq helm-ff-search-library-in-sexp t)
-(setq helm-scroll-amount 8)
-(setq helm-ff-file-name-history-use-recentf t)
-
-Essayer ça ?
- - helm-ls-git
- - helm-ls-hg
- - helm-descbinds
- - helm-firefox
-:END:
-
 Une couleur plus discrète pour les répertoires ~.~ et ~..~. La couleur par défaut est trop foncée : Elle donne l'impression qu'ils sont toujours sélectionnés quand on préfèrerait au contraire moins les voir.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1379,17 +1351,12 @@ IELM est un mode assez utile pour tester des petits bouts de Lisp. Il s'agit d'u
 
 * Magit
 
-:NOTE:
-Pour éviter l'erreur suivante (qui paralyse Emacs !), on ne charge Magit que si git est présent...
-Error in post-command-hook (magit-auto-revert-mode-check-buffers): (file-error "Searching for program" "Aucun fichier ou dossier de ce type" "git")
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (if (executable-find "git")
       (progn (when
 #+END_SRC
 
-Un module exceptionnel, à essayer absolument si vous êtes utilisateur de Git et d'Emacs !
+Un module à essayer si vous êtes utilisateur de Git et d'Emacs. On ne charge ce module que si la commande ~git~ est présente, pour éviter une bête erreur qui paralyse Emacs au démarrage.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (my-require 'magit)
@@ -1503,6 +1470,12 @@ Concernant l'export (en HTML par exemple) :
   (setq org-export-with-section-numbers nil)
   (setq org-export-headline-levels 3)
   (setq org-export-with-author nil)
+#+END_SRC
+
+Dans le cas particulier de l'export HTML, on veut également que la mise en évidence de syntaxe soit faite à l'aide d'un fichier CSS à part. C'est particulièrement utile avec le mode batch dans lequel les attributs des polices ne sont pas chargés. On peut produire un fichier CSS de référence avec la commande `org-html-htmlize-generate-css`.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-html-htmlize-output-type 'css)
 #+END_SRC
 
 ** Mise à jour
@@ -1623,12 +1596,6 @@ Active Projectile dans tous les modes le supportant
 
 Raccourci {{{CTRL-(t)}}} pour ~projectile-find-other-file~ qui ouvre un fichier associé : Si, par exemple, on est dans un buffer visitant ~foo.h~, Projectile cherche dans le projet ~foo.c~, et l'ouvre s'il le trouve. J'utilisais avant [[*Find File At Point]] pour cette fonctionnalité, mais je trouve maintenant Projectile plus efficace.
 
-:NOTE:
-- ne fonctionne pas sous Windows entre foo.org et foo.el ?
-- est-ce à cause de (projectile-indexing-method 'alien) ?
-- faut-il passer 't' à la fin pour le flex matching ?
-:END:
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key (kbd "C-t") 'projectile-find-other-file)
 #+END_SRC
@@ -1639,11 +1606,7 @@ Projectile utilise Helm pour l'aide à la sélection
   (setq projectile-completion-system 'helm)
 #+END_SRC
 
-Active les raccourcis Helm pour les fonctions Projectile
-
-:NOTE:
-Il semblerait qu'il faille installer le paquet helm-projectile, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus...
-:END:
+Active les raccourcis Helm pour les fonctions Projectile. Il semblerait qu'il faille installer le paquet ~helm-projectile~, mais qu'il ne soit pas nécessaire ensuite de faire un require dessus...
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (helm-projectile-on)
@@ -1755,7 +1718,7 @@ Active cette fonctionnalité dans tous les modes de développement
   (when
 #+END_SRC
 
-Package perso, disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
+Package [[https://github.com/julien-montmartin/related][perso]], disponible sur Melpa. Related simplifie les noms des buffers pour obtenir une base, et tous les buffers ayant la même base forment un groupe.
 
 - {{{CTRL-(x)}}} {{{KBD-(↑)}}} appelle ~related-switch-forward~ et passe au prochain buffer du groupe
 - {{{CTRL-(x)}}} {{{KBD-(↓)}}} appelle ~related-switch-backward~ et revient au précédent buffer du groupe
@@ -1767,24 +1730,6 @@ Related permet de naviguer facilement parmi des buffers qui vont ensemble. Par e
 - ~/path/to/doc/foo.org~
 
 On peut passer de l'un à l'autre avec {{{CTRL-(x)}}} {{{KBD-(↑)}}} : ~foo.h~ → ~foo.c~ → ~foo.org~ → ~foo.h~ etc.
-
-:NOTE:
-Faire fonctionner le SVG, réussir à ce que les caractères ne soient pas énormes, et correspondent au reste du document
-
-#+BEGIN_SRC dot :file RelatedFooForward.png :cmdline -Kdot -Tpng
-digraph RelatedFooForward {
-	rankdir=LR;
-	node [shape=box];
-  graph [fontname="Courrier new" fontsize=8];
-  node [fontname="Courrier new" fontsize=8];
-  edge [fontname="Courrier new" fontsize=8];
-
-	"foo.h" -> "foo.c" [label="C-x ↑"];
-	"foo.c" -> "foo.org" [label="C-x ↑"];
-	"foo.org" -> "foo.h" [label="C-x ↑"];
-}
-#+END_SRC
-:END:
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (my-require 'related)
@@ -2039,54 +1984,52 @@ Une fonction pour remettre en forme du XML. Prise sur le site de [[http://blog.b
 Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, la fonction my-setup installe automatiquement la plupart des paquets utilisés ici. La plupart seulement, car pour certains, il est quand même préférable de voir au cas par cas s'ils sont nécessaires. Inspiré de [[https://stackoverflow.com/a/10093312][cette réponse]] sur Stack Overflow.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (defun my-setup()
-      (add-to-list 'package-archives
-                   '("MELPA" . "http://melpa.milkbox.net/packages/") t)
-      (unless package-archive-contents
-        (package-refresh-contents))
-      (dolist (package '(ac-capf
-                         ac-helm
-                         auto-complete-config
-                         bm
-                         cargo
-                         cmake-mode
-                         column-marker
-                         epa-file
-                         fill-column-indicator
-                         flycheck-rust
-                         fuzzy
-                         ggtags
-                         graphviz-dot-mode
-                         helm
-                         helm-projectile
-                         htmlize
-                         idle-highlight-mode
-                         leuven
-                         magit
-                         mmm-mode
-                         ob-rust
-                         projectile
-                         racer
-                         rainbow-delimiters
-                         rainbow-mode
-                         related
-                         rust-mode
-                         unfill
-                         uniquify
-                         whitespace))
-          (message "---> %s" package)
-          (unless (package-installed-p package)
-            (ignore-errors
-              (package-install package)))))
+  (defun my-setup()
+    (add-to-list 'package-archives
+                 '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (dolist (package '(ac-capf
+                       ac-helm
+                       auto-complete-config
+                       bm
+                       cargo
+                       cmake-mode
+                       column-marker
+                       epa-file
+                       fill-column-indicator
+                       flycheck-rust
+                       fuzzy
+                       ggtags
+                       graphviz-dot-mode
+                       helm
+                       helm-projectile
+                       htmlize
+                       idle-highlight-mode
+                       leuven
+                       magit
+                       mmm-mode
+                       ob-rust
+                       projectile
+                       racer
+                       rainbow-delimiters
+                       rainbow-mode
+                       related
+                       rust-mode
+                       unfill
+                       uniquify
+                       whitespace))
+        (message "---> %s" package)
+        (unless (package-installed-p package)
+          (ignore-errors
+            (package-install package)))))
 #+END_SRC
 
-* Générer les fichiers :noexport:
+-----
 
-- Générer [[elisp:(org-babel-tangle)][emacs.el]]
-- Générer [[elisp:(org-html-export-to-html)][emacs.html]]
+Valider les [[http://validator.w3.org/checklink?uri=julien-montmartin.github.io/dot-emacs][liens]], les [[http://validator.w3.org/check?uri=julien-montmartin.github.io/dot-emacs][balises]], ou le [[http://jigsaw.w3.org/css-validator/validator?uri=julien-montmartin.github.io/dot-emacs][style]].
 
-
-#+OPTIONS: toc:nil d:(not "NOTE") html-postamble:nil
+#+OPTIONS: toc:nil d:nil html-postamble:nil
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/org.css"/>
 
@@ -2112,3 +2055,8 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 #+MACRO: SHIFT- @@html:<kbd>S</kbd>-<kbd>$1</kbd>@@@@ascii:S-$1​@@
 #+MACRO: META- @@html:<kbd>M</kbd>-<kbd>$1</kbd>@@@@ascii:M-$1​@@
 #+MACRO: CTRL-META- @@html:<kbd>C</kbd>-<kbd>M</kbd>-<kbd>$1</kbd>@@@@ascii:C-$1​@@
+
+* Générer les fichiers :noexport:
+
+- Générer [[elisp:(org-babel-tangle)][emacs.el]]
+- Générer [[elisp:(org-html-export-to-html)][emacs.html]]
