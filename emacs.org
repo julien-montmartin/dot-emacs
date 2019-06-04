@@ -2027,7 +2027,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 
 -----
 
-Valider les [[http://validator.w3.org/checklink?uri=julien-montmartin.github.io/dot.emacs][liens]], les [[http://validator.w3.org/check?uri=julien-montmartin.github.io/dot.emacs][balises]], ou le [[http://jigsaw.w3.org/css-validator/validator?uri=julien-montmartin.github.io/dot.emacs][style]].
+Valider les [[http://validator.w3.org/checklink?uri=julien-montmartin.github.io/dot-emacs][liens]], les [[http://validator.w3.org/check?uri=julien-montmartin.github.io/dot-emacs][balises]], ou le [[http://jigsaw.w3.org/css-validator/validator?uri=julien-montmartin.github.io/dot-emacs][style]].
 
 #+OPTIONS: toc:nil d:nil html-postamble:nil
 
