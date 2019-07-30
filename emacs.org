@@ -2,7 +2,7 @@
 
 
 #+BEGIN_abstract
-Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[file:emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[https://github.com/julien-montmartin/dot-emacs/blob/master/emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 
 C'est également un essai pour voir ce qu'on peut faire avec [[http://orgmode.org/][Org]]. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à [[http://gongzhitaao.org/orgcss][Zhitao Gong]] pour le CSS qui habille les exports HTML.
 #+END_abstract
