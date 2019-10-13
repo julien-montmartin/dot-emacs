@@ -36,6 +36,7 @@
                    related
                    rust-mode
                    unfill
+					 unicode-fonts
                    uniquify
                    whitespace))
     (message "---> %s" package)

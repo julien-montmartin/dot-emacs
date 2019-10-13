@@ -93,9 +93,17 @@
 
 (last-step-duration "Raccourcis Fn")
 
-(set-language-environment 'utf-8)
+(defun my-require(feature)
+  (condition-case nil
+      (let ((ts (current-time)))
+        (progn
+          (require feature)
+          (let ((elapsed (float-time (time-subtract (current-time) ts))))
+            (message "Successfully load '%s' in %.3fs" feature elapsed))))
+    (file-error
+     (progn (message "Fail to load required feature '%s'" feature) nil))))
 
-(last-step-duration "UTF-8")
+(last-step-duration "Require")
 
 (defun navigate-nostar-buffer (&optional previous)
   "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
@@ -211,6 +219,8 @@ and restore it later."
 (add-to-exec-paths "/usr/bin")
 (add-to-exec-paths "/usr/local/bin")
 (add-to-exec-paths "/opt/local/bin")
+(add-to-exec-paths "c:/msys64/mingw64/bin")
+(add-to-exec-paths "c:/msys64/usr/bin/")
 
 (last-step-duration "Maj du path")
 
@@ -256,18 +266,6 @@ and restore it later."
 )))
 
 (last-step-duration "Ajustements à l'OS")
-
-(defun my-require(feature)
-  (condition-case nil
-      (let ((ts (current-time)))
-        (progn
-          (require feature)
-          (let ((elapsed (float-time (time-subtract (current-time) ts))))
-            (message "Successfully load '%s' in %.3fs" feature elapsed))))
-    (file-error
-     (progn (message "Fail to load required feature '%s'" feature) nil))))
-
-(last-step-duration "Require")
 
 (when
 
@@ -683,6 +681,20 @@ sort | uniq" )
 
 (when
 
+(my-require 'unicode-fonts)
+
+(unicode-fonts-setup)
+
+)
+
+(setq inhibit-compacting-font-caches t)
+
+(set-language-environment 'utf-8)
+
+(last-step-duration "Unicode et UTF-8")
+
+(when
+
 (my-require 'uniquify)
 
 (setq uniquify-buffer-name-style 'post-forward)
@@ -759,6 +771,7 @@ by using nxml's indentation rules."
                      related
                      rust-mode
                      unfill
+                       unicode-fonts
                      uniquify
                      whitespace))
       (message "---> %s" package)
