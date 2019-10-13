@@ -1,11 +1,11 @@
 #+TITLE: Une Configuration Emacs
 
 
-#+BEGIN_abstract
+#+BEGIN_ABSTRACT
 Voici ma configuration Emacs - un chantier jamais fini - au {{{time(%d/%m/%Y)}}}. Cette configuration prend la forme d'un [[https://github.com/julien-montmartin/dot-emacs/blob/master/emacs.org][fichier Org]], à partir duquel sont générés une [[file:emacs.html][documentation HTML]], ainsi que le [[file:emacs.el][fichier Lisp]] qui constituait auparavant mon ~.emacs~. Ce dernier s'est transformé en un petit [[file:loader.el][fichier de chargement]], qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 
 C'est également un essai pour voir ce qu'on peut faire avec [[http://orgmode.org/][Org]]. Ce fichier n'a pas fini de se transformer, et peut-être retournera-t-il à sa forme originelle, à savoir un simple fichier Lisp. Un attendant, un grand merci à [[http://gongzhitaao.org/orgcss][Zhitao Gong]] pour le CSS qui habille les exports HTML.
-#+END_abstract
+#+END_ABSTRACT
 
 #+TOC: headlines 4
 
@@ -244,16 +244,55 @@ En mode terminal {{{CTRL-(f2)}}} ne fonctionne pas, et parcourir les marques-pag
   (last-step-duration "Raccourcis Fn")
 #+END_SRC
 
-* UTF-8
+* Require
 
-Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple [[https://stackoverflow.com/a/2903256][cette réponse]] sur Stack Overflow). Mais la simple directive ~set-language-environment~ réalise un paramétrage par défaut satisfaisant.
+Un wrapper pour ~require~, qui n'empêche pas le chargement du ~.emacs~ lorsqu'un module n'est pas disponible, et génère des traces dans ~*Messages*~, avec en cas de succès, le temps passé par Emacs pour charger le module.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (set-language-environment 'utf-8)
+  (defun my-require(feature)
+    (condition-case nil
+	    (let ((ts (current-time)))
+		  (progn
+		    (require feature)
+		    (let ((elapsed (float-time (time-subtract (current-time) ts))))
+			  (message "Successfully load '%s' in %.3fs" feature elapsed))))
+	  (file-error
+	   (progn (message "Fail to load required feature '%s'" feature) nil))))
+#+END_SRC
+
+Il s'utilise ainsi :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (when (my-require 'package-xxx)
+    (message "Do foo")
+    (message "Do bar")
+    (message "Do baz"))
+#+END_SRC
+
+~my-require~ est largement utilisé dans la suite de ce fichier, mais afin de ne pas avoir partout un niveau d'indentation, le ~when~ est sous-entendu, et n'est pas exporté dans le HTML. Le code apparait donc ainsi :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (my-require 'package-xxx)
+  (message "Do foo")
+  (message "Do bar")
+  (message "Do baz")
+#+END_SRC
+
+C'est-à-dire comme avec un ~require~ classique. Exemple de traces :
+
+#+BEGIN_EXAMPLE
+Fail to load required feature ’p4’
+Successfully load ’rainbow-mode’ in 0.031s
+#+END_EXAMPLE
+
+On peut aussi utiliser le /soft require/, qui ne génère pas d'erreur quand le module n'est pas trouvé :
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (require 'package-foobar nil t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
-  (last-step-duration "UTF-8")
+  (last-step-duration "Require")
 #+END_SRC
 
 * Navigation dans les buffers
@@ -506,6 +545,8 @@ Reste à ajouter quelques répertoires, selon ses habitudes...
   (add-to-exec-paths "/usr/bin")
   (add-to-exec-paths "/usr/local/bin")
   (add-to-exec-paths "/opt/local/bin")
+  (add-to-exec-paths "c:/msys64/mingw64/bin")
+  (add-to-exec-paths "c:/msys64/usr/bin/")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
@@ -611,57 +652,6 @@ Fonte Xcode
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
   (last-step-duration "Ajustements à l'OS")
-#+END_SRC
-
-* Require
-
-Un wrapper pour ~require~, qui n'empêche pas le chargement du ~.emacs~ lorsqu'un module n'est pas disponible, et génère des traces dans ~*Messages*~, avec en cas de succès, le temps passé par Emacs pour charger le module.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun my-require(feature)
-    (condition-case nil
-	    (let ((ts (current-time)))
-		  (progn
-		    (require feature)
-		    (let ((elapsed (float-time (time-subtract (current-time) ts))))
-			  (message "Successfully load '%s' in %.3fs" feature elapsed))))
-	  (file-error
-	   (progn (message "Fail to load required feature '%s'" feature) nil))))
-#+END_SRC
-
-Il s'utilise ainsi :
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (when (my-require 'package-xxx)
-    (message "Do foo")
-    (message "Do bar")
-    (message "Do baz"))
-#+END_SRC
-
-~my-require~ est largement utilisé dans la suite de ce fichier, mais afin de ne pas avoir partout un niveau d'indentation, le ~when~ est sous-entendu, et n'est pas exporté dans le HTML. Le code apparait donc ainsi :
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (my-require 'package-xxx)
-  (message "Do foo")
-  (message "Do bar")
-  (message "Do baz")
-#+END_SRC
-
-C'est-à-dire comme avec un ~require~ classique. Exemple de traces :
-
-#+BEGIN_EXAMPLE
-Fail to load required feature ’p4’
-Successfully load ’rainbow-mode’ in 0.031s
-#+END_EXAMPLE
-
-On peut aussi utiliser le /soft require/, qui ne génère pas d'erreur quand le module n'est pas trouvé :
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (require 'package-foobar nil t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes :exports none
-  (last-step-duration "Require")
 #+END_SRC
 
 * Gestionnaire de paquets
@@ -1878,6 +1868,44 @@ Le raccourci par défaut pour ~fill~ est remplacé sans états d'âme
   (last-step-duration "Unfill")
 #+END_SRC
 
+* Unicode et UTF-8
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (when
+#+END_SRC
+
+[[https://github.com/rolandwalker/unicode-fonts][Unicode Fonts]] améliore l'affichage de certains caractères Unicode en choisissant des correspondances entre fontes plus appropriées que l'algorithme par défaut d'Emacs. Particulièrement utile avec [[* Prettify Symbols]] car sans ça Emacs sous Windows 10 est incapable par exemple d'afficher l'opérateur d'égalité ~⩵~.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (my-require 'unicode-fonts)
+#+END_SRC
+
+Résous les différents caractères Unicode avec les fontes les plus appropriées du système.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unicode-fonts-setup)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  )
+#+END_SRC
+
+Sous Windows, on ne fait surtout pas d'économie de mémoire sur le cache des fontes, sans quoi l'affichage des buffers contenant certains caractères Unicode est si lent qu'Emacs en devient inutilisable. Là encore, particulièrement utile avec [[* Prettify Symbols]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq inhibit-compacting-font-caches t)
+#+END_SRC
+
+Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de configurer finement les divers comportements d'Emacs en matière d'encodage (voir par exemple [[https://stackoverflow.com/a/2903256][cette réponse]] sur Stack Overflow). Mais la simple directive ~set-language-environment~ réalise un paramétrage par défaut satisfaisant.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-language-environment 'utf-8)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes :exports none
+  (last-step-duration "Unicode et UTF-8")
+#+END_SRC
+
 * Uniquify
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
@@ -2017,6 +2045,7 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
                        related
                        rust-mode
                        unfill
+					     unicode-fonts
                        uniquify
                        whitespace))
         (message "---> %s" package)

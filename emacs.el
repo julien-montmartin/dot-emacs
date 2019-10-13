@@ -92,9 +92,17 @@
 
 (last-step-duration "Raccourcis Fn")
 
-(set-language-environment 'utf-8)
+(defun my-require(feature)
+  (condition-case nil
+	  (let ((ts (current-time)))
+		(progn
+		  (require feature)
+		  (let ((elapsed (float-time (time-subtract (current-time) ts))))
+			(message "Successfully load '%s' in %.3fs" feature elapsed))))
+	(file-error
+	 (progn (message "Fail to load required feature '%s'" feature) nil))))
 
-(last-step-duration "UTF-8")
+(last-step-duration "Require")
 
 (defun navigate-nostar-buffer (&optional previous)
   "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
@@ -210,6 +218,8 @@ and restore it later."
 (add-to-exec-paths "/usr/bin")
 (add-to-exec-paths "/usr/local/bin")
 (add-to-exec-paths "/opt/local/bin")
+(add-to-exec-paths "c:/msys64/mingw64/bin")
+(add-to-exec-paths "c:/msys64/usr/bin/")
 
 (last-step-duration "Maj du path")
 
@@ -255,18 +265,6 @@ and restore it later."
 )))
 
 (last-step-duration "Ajustements à l'OS")
-
-(defun my-require(feature)
-  (condition-case nil
-	  (let ((ts (current-time)))
-		(progn
-		  (require feature)
-		  (let ((elapsed (float-time (time-subtract (current-time) ts))))
-			(message "Successfully load '%s' in %.3fs" feature elapsed))))
-	(file-error
-	 (progn (message "Fail to load required feature '%s'" feature) nil))))
-
-(last-step-duration "Require")
 
 (when
 
@@ -354,11 +352,15 @@ and restore it later."
 
 (last-step-duration "C & C++")
 
+(when
+
 (my-require 'ggtags)
 (add-hook 'c-mode-common-hook 'ggtags-mode)
 
 (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
 (add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+
+)
 
 (last-step-duration "Global")
 
@@ -420,7 +422,7 @@ and restore it later."
 
 (last-step-duration "Find File At Point")
 
-(my-require 'fill-column-indicator)
+(ignore-errors (my-require 'fill-column-indicator))
 
 (setq-default fci-rule-column 80)
 
@@ -536,6 +538,8 @@ and restore it later."
 (setq org-export-with-section-numbers nil)
 (setq org-export-headline-levels 3)
 (setq org-export-with-author nil)
+
+(setq org-html-htmlize-output-type 'css)
 
 (last-step-duration "Org Mode")
 
@@ -676,6 +680,20 @@ sort | uniq" )
 
 (when
 
+(my-require 'unicode-fonts)
+
+(unicode-fonts-setup)
+
+)
+
+(setq inhibit-compacting-font-caches t)
+
+(set-language-environment 'utf-8)
+
+(last-step-duration "Unicode et UTF-8")
+
+(when
+
 (my-require 'uniquify)
 
 (setq uniquify-buffer-name-style 'post-forward)
@@ -752,6 +770,7 @@ by using nxml's indentation rules."
                      related
                      rust-mode
                      unfill
+					   unicode-fonts
                      uniquify
                      whitespace))
       (message "---> %s" package)
