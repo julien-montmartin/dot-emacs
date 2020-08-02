@@ -139,7 +139,7 @@ Des modules peuvent se trouver dans ~site-lisp~. On ajoute ce répertoire à la 
 Place les /backups/ (copie d'un fichier avant modifications) et les sauvegardes automatiques (faites périodiquement pendant qu'on édite un fichier) dans un répertoire temporaire, selon la plateforme :
 
 - sur Mac : ~/var/folders/xxx~
-- sur Windows : ~c:/Users/yyy/AppData/Local/Temp~
+- sur Windows : ~C:/Users/yyy/AppData/Local/Temp~
 - sur Linux : ~/tmp~
 
 L'expression régulière ~".*"~ ci-après indique que la règle concerne tous les fichiers, car on peut faire, par exemple, des règles différentes selon l'extension.
@@ -545,8 +545,9 @@ Reste à ajouter quelques répertoires, selon ses habitudes...
   (add-to-exec-paths "/usr/bin")
   (add-to-exec-paths "/usr/local/bin")
   (add-to-exec-paths "/opt/local/bin")
-  (add-to-exec-paths "c:/msys64/mingw64/bin")
-  (add-to-exec-paths "c:/msys64/usr/bin/")
+  (add-to-exec-paths "C:/msys64/mingw64/bin")
+  (add-to-exec-paths "C:/msys64/usr/bin/")
+  (add-to-exec-paths "C:/Program Files/Git/usr/bin")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes :exports none
