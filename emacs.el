@@ -219,8 +219,9 @@ and restore it later."
 (add-to-exec-paths "/usr/bin")
 (add-to-exec-paths "/usr/local/bin")
 (add-to-exec-paths "/opt/local/bin")
-(add-to-exec-paths "c:/msys64/mingw64/bin")
-(add-to-exec-paths "c:/msys64/usr/bin/")
+(add-to-exec-paths "C:/msys64/mingw64/bin")
+(add-to-exec-paths "C:/msys64/usr/bin/")
+(add-to-exec-paths "C:/Program Files/Git/usr/bin")
 
 (last-step-duration "Maj du path")
 

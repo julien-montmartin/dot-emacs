@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 <title>Une Configuration Emacs</title>
-<!-- 2019-10-13 Sun 21:59 -->
+<!-- 2020-08-02 Sun 20:53 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <style type="text/css">
@@ -156,7 +156,7 @@ for the JavaScript code in this tag.
 <h1 class="title">Une Configuration Emacs</h1>
 <div class="abstract">
 <p>
-Voici ma configuration Emacs - un chantier jamais fini - au 13/10/2019. Cette configuration prend la forme d'un <a href="https://github.com/julien-montmartin/dot-emacs/blob/master/emacs.org">fichier Org</a>, à partir duquel sont générés une <a href="emacs.html">documentation HTML</a>, ainsi que le <a href="emacs.el">fichier Lisp</a> qui constituait auparavant mon <code>.emacs</code>. Ce dernier s'est transformé en un petit <a href="loader.el">fichier de chargement</a>, qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
+Voici ma configuration Emacs - un chantier jamais fini - au 02/08/2020. Cette configuration prend la forme d'un <a href="https://github.com/julien-montmartin/dot-emacs/blob/master/emacs.org">fichier Org</a>, à partir duquel sont générés une <a href="emacs.html">documentation HTML</a>, ainsi que le <a href="emacs.el">fichier Lisp</a> qui constituait auparavant mon <code>.emacs</code>. Ce dernier s'est transformé en un petit <a href="loader.el">fichier de chargement</a>, qui valorise quelques raccourcis (et autres détails spécifiques au poste sur lequel il se trouve) avant de charger le Lisp généré.
 </p>
 
 <p>
@@ -252,25 +252,25 @@ La fonction <code>last-step-duration</code>, appelée régulièrement, permet de
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">reset-ts</span><span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>setq first-ts <span class="org-rainbow-delimiters-depth-3">(</span>current-time<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>setq last-ts first-ts<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun reset-ts()
+  (setq first-ts (current-time))
+  (setq last-ts first-ts))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">step-duration</span><span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let*</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>ts <span class="org-rainbow-delimiters-depth-5">(</span>current-time<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-         <span class="org-rainbow-delimiters-depth-4">(</span>elapsed <span class="org-rainbow-delimiters-depth-5">(</span>float-time <span class="org-rainbow-delimiters-depth-6">(</span>time-subtract ts last-ts<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>setq last-ts ts<span class="org-rainbow-delimiters-depth-3">)</span>
-    elapsed<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun step-duration()
+  (let* ((ts (current-time))
+         (elapsed (float-time (time-subtract ts last-ts))))
+    (setq last-ts ts)
+    elapsed))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">total-duration</span><span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let*</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>ts <span class="org-rainbow-delimiters-depth-5">(</span>current-time<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-         <span class="org-rainbow-delimiters-depth-4">(</span>elapsed <span class="org-rainbow-delimiters-depth-5">(</span>float-time <span class="org-rainbow-delimiters-depth-6">(</span>time-subtract ts first-ts<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    elapsed<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun total-duration()
+  (let* ((ts (current-time))
+         (elapsed (float-time (time-subtract ts first-ts))))
+    elapsed))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">last-step-duration</span><span class="org-rainbow-delimiters-depth-2">(</span>title<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"&#932;=%.3fs\t&#916;=%.3fs\t%s"</span> <span class="org-rainbow-delimiters-depth-3">(</span>total-duration<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>step-duration<span class="org-rainbow-delimiters-depth-3">)</span> title<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun last-step-duration(title)
+  (message "Τ=%.3fs\tΔ=%.3fs\t%s" (total-duration) (step-duration) title))
 
-<span class="org-rainbow-delimiters-depth-1">(</span>reset-ts<span class="org-rainbow-delimiters-depth-1">)</span>
+(reset-ts)
 </pre>
 </div>
 
@@ -293,7 +293,7 @@ Désactive l'écran d'accueil, Emacs s'ouvre avec le buffer <code>scratch</code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq inhibit-startup-screen t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq inhibit-startup-screen t)
 </pre>
 </div>
 
@@ -303,7 +303,7 @@ Affichage du nom du buffer dans la barre de titre
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq frame-title-format '<span class="org-rainbow-delimiters-depth-2">(</span>buffer-file-name <span class="org-string">"Emacs: %b (%f)"</span> <span class="org-string">"Emacs: %b"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
 </pre>
 </div>
 
@@ -313,7 +313,7 @@ Dans le terminal, pas de barre de menu
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">unless</span> window-system <span class="org-rainbow-delimiters-depth-2">(</span>menu-bar-mode -1<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(unless window-system (menu-bar-mode -1))
 </pre>
 </div>
 
@@ -323,7 +323,7 @@ En mode graphique, cache la barre d'outils
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> window-system <span class="org-rainbow-delimiters-depth-2">(</span>tool-bar-mode -1<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when window-system (tool-bar-mode -1))
 </pre>
 </div>
 
@@ -333,7 +333,7 @@ En mode graphique, gouttière réduite et à gauche uniquement (nil pour remettr
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> window-system <span class="org-rainbow-delimiters-depth-2">(</span>set-fringe-mode '<span class="org-rainbow-delimiters-depth-3">(</span>4 . 0<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when window-system (set-fringe-mode '(4 . 0)))
 </pre>
 </div>
 
@@ -343,7 +343,7 @@ En mode graphique, barre de défilement à droite (-1 pour désactiver)
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> window-system <span class="org-rainbow-delimiters-depth-2">(</span>set-scroll-bar-mode 'right<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when window-system (set-scroll-bar-mode 'right))
 </pre>
 </div>
 
@@ -353,7 +353,7 @@ Un buffer pour lequel Emacs n'a attribué aucun mode majeur s'ouvre en mode text
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq-default major-mode 'text-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq-default major-mode 'text-mode)
 </pre>
 </div>
 
@@ -363,7 +363,7 @@ Une ligne de 80 caractères est suffisamment longue. La variable <code>default-f
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq default-fill-column 80<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq default-fill-column 80)
 </pre>
 </div>
 
@@ -373,9 +373,9 @@ Indentation avec des tabulations de 4 caractères
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq-default c-basic-offset 4
+<pre class="src src-emacs-lisp">(setq-default c-basic-offset 4
               tab-width 4
-              indent-tabs-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
+              indent-tabs-mode t)
 </pre>
 </div>
 
@@ -385,7 +385,7 @@ En fin de buffer, les touches flèches ne créent pas une nouvelle ligne
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq-default next-line-add-newlines nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq-default next-line-add-newlines nil)
 </pre>
 </div>
 
@@ -395,8 +395,8 @@ Affichage de la ligne et de la colonne du curseur dans la mode line
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>line-number-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>column-number-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(line-number-mode t)
+(column-number-mode t)
 </pre>
 </div>
 
@@ -406,7 +406,7 @@ Pour utiliser <code>narrow-to-region</code> via son raccourci clavier <kbd>C</kb
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>put 'narrow-to-region 'disabled nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(put 'narrow-to-region 'disabled nil)
 </pre>
 </div>
 
@@ -416,7 +416,7 @@ Désactive la transient mark. La région est toujours active, mais pas surligné
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq transient-mark-mode nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq transient-mark-mode nil)
 </pre>
 </div>
 
@@ -426,7 +426,7 @@ Dans un environnement graphique, lance Emacs en mode serveur
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> window-system <span class="org-rainbow-delimiters-depth-2">(</span>server-start<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when window-system (server-start))
 </pre>
 </div>
 
@@ -436,7 +436,7 @@ Des modules peuvent se trouver dans <code>site-lisp</code>. On ajoute ce répert
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'load-path <span class="org-string">"~/.emacs.d/site-lisp/"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'load-path "~/.emacs.d/site-lisp/")
 </pre>
 </div>
 
@@ -447,7 +447,7 @@ Place les <i>backups</i> (copie d'un fichier avant modifications) et les sauvega
 <ul class="org-ul">
 <li>sur Mac : <code>/var/folders/xxx</code>
 </li>
-<li>sur Windows : <code>c:/Users/yyy/AppData/Local/Temp</code>
+<li>sur Windows : <code>C:/Users/yyy/AppData/Local/Temp</code>
 </li>
 <li>sur Linux : <code>/tmp</code>
 </li>
@@ -459,8 +459,8 @@ L'expression régulière ~".*"~ ci-après indique que la règle concerne tous le
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq backup-directory-alist `<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-string">".*"</span> . ,temporary-file-directory<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq auto-save-file-name-transforms `<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span><span class="org-string">".*"</span> ,temporary-file-directory t<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 </pre>
 </div>
 
@@ -470,7 +470,7 @@ Mise en évidence de la ligne en cours dans Dired
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'dired-mode-hook 'hl-line-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'dired-mode-hook 'hl-line-mode)
 </pre>
 </div>
 
@@ -480,9 +480,9 @@ Sur Mac, Dired utilise GNU <code>ls</code> si disponible
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> <span class="org-rainbow-delimiters-depth-2">(</span>eq system-type 'darwin<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>file-executable-p <span class="org-string">"/usr/local/bin/gls"</span><span class="org-rainbow-delimiters-depth-3">)</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>setq insert-directory-program <span class="org-string">"/usr/local/bin/gls"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when (eq system-type 'darwin)
+  (if (file-executable-p "/usr/local/bin/gls")
+      (setq insert-directory-program "/usr/local/bin/gls")))
 </pre>
 </div>
 
@@ -492,7 +492,7 @@ Common Lisp, pour <code>ignore-errors</code> et d'autres
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">require</span> '<span class="org-constant">cl</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(require 'cl)
 </pre>
 </div>
 </div>
@@ -514,10 +514,10 @@ Quelques raccourcis pratiquent sur les touches fonctions, certains inspirés de 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">&#192; la place de view-order-manuals qui est normalement sur f1</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f1&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'view-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-&lt;f1&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'revert-buffer<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"S-&lt;f1&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'revert-buffer<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">;; À la place de view-order-manuals qui est normalement sur f1
+(global-set-key (kbd "&lt;f1&gt;")  'view-mode)
+(global-set-key (kbd "C-&lt;f1&gt;")    'revert-buffer)
+(global-set-key (kbd "S-&lt;f1&gt;")    'revert-buffer)
 </pre>
 </div>
 
@@ -534,12 +534,12 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f2&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'bm-toggle<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-&lt;f2&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'bm-next<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"S-&lt;f2&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'bm-previous<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f2&gt;")  'bm-toggle)
+(global-set-key (kbd "C-&lt;f2&gt;")    'bm-next)
+(global-set-key (kbd "S-&lt;f2&gt;")    'bm-previous)
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">unless</span> window-system
-  <span class="org-rainbow-delimiters-depth-2">(</span>global-set-key <span class="org-rainbow-delimiters-depth-3">(</span>kbd <span class="org-string">"S-&lt;f2&gt;"</span><span class="org-rainbow-delimiters-depth-3">)</span>  'helm-bm<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(unless window-system
+  (global-set-key (kbd "S-&lt;f2&gt;")  'helm-bm))
 </pre>
 </div>
 
@@ -550,7 +550,7 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f3&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'hl-line-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f3&gt;")  'hl-line-mode)
 </pre>
 </div>
 
@@ -561,7 +561,7 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f4&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'projectile-grep<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f4&gt;")  'projectile-grep)
 </pre>
 </div>
 
@@ -574,9 +574,9 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f5&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'run-compilation<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-&lt;f5&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'end-compilation<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"S-&lt;f5&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'end-compilation<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f5&gt;")  'run-compilation)
+(global-set-key (kbd "C-&lt;f5&gt;")    'end-compilation)
+(global-set-key (kbd "S-&lt;f5&gt;")    'end-compilation)
 </pre>
 </div>
 
@@ -589,9 +589,9 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f6&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'projectile-multi-occur<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-&lt;f6&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'helm-occur<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"S-&lt;f6&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'helm-occur<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f6&gt;")  'projectile-multi-occur)
+(global-set-key (kbd "C-&lt;f6&gt;")    'helm-occur)
+(global-set-key (kbd "S-&lt;f6&gt;")    'helm-occur)
 </pre>
 </div>
 
@@ -604,9 +604,9 @@ En mode terminal <kbd>C</kbd>-<kbd>f2</kbd> ne fonctionne pas, et parcourir les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;f8&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>  'fci-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-&lt;f8&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'whitespace-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"S-&lt;f8&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span>    'whitespace-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;f8&gt;")  'fci-mode)
+(global-set-key (kbd "C-&lt;f8&gt;")    'whitespace-mode)
+(global-set-key (kbd "S-&lt;f8&gt;")    'whitespace-mode)
 </pre>
 </div>
 </div>
@@ -621,15 +621,15 @@ Un wrapper pour <code>require</code>, qui n'empêche pas le chargement du <code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-require</span><span class="org-rainbow-delimiters-depth-2">(</span>feature<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">condition-case</span> nil
-      <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">(</span>ts <span class="org-rainbow-delimiters-depth-6">(</span>current-time<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-        <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">progn</span>
-          <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-keyword">require</span> <span class="org-constant">feature</span><span class="org-rainbow-delimiters-depth-5">)</span>
-          <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-6">(</span><span class="org-rainbow-delimiters-depth-7">(</span>elapsed <span class="org-rainbow-delimiters-depth-8">(</span>float-time <span class="org-rainbow-delimiters-depth-9">(</span>time-subtract <span class="org-rainbow-delimiters-depth-1">(</span>current-time<span class="org-rainbow-delimiters-depth-1">)</span> ts<span class="org-rainbow-delimiters-depth-9">)</span><span class="org-rainbow-delimiters-depth-8">)</span><span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span>
-            <span class="org-rainbow-delimiters-depth-6">(</span>message <span class="org-string">"Successfully load '%s' in %.3fs"</span> feature elapsed<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>file-error
-     <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">progn</span> <span class="org-rainbow-delimiters-depth-5">(</span>message <span class="org-string">"Fail to load required feature '%s'"</span> feature<span class="org-rainbow-delimiters-depth-5">)</span> nil<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun my-require(feature)
+  (condition-case nil
+      (let ((ts (current-time)))
+        (progn
+          (require feature)
+          (let ((elapsed (float-time (time-subtract (current-time) ts))))
+            (message "Successfully load '%s' in %.3fs" feature elapsed))))
+    (file-error
+     (progn (message "Fail to load required feature '%s'" feature) nil))))
 </pre>
 </div>
 
@@ -639,10 +639,10 @@ Il s'utilise ainsi :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> <span class="org-rainbow-delimiters-depth-2">(</span>my-require 'package-xxx<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Do foo"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Do bar"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Do baz"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when (my-require 'package-xxx)
+  (message "Do foo")
+  (message "Do bar")
+  (message "Do baz"))
 </pre>
 </div>
 
@@ -652,10 +652,10 @@ Il s'utilise ainsi :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'package-xxx<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>message <span class="org-string">"Do foo"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>message <span class="org-string">"Do bar"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>message <span class="org-string">"Do baz"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'package-xxx)
+(message "Do foo")
+(message "Do bar")
+(message "Do baz")
 </pre>
 </div>
 
@@ -674,7 +674,7 @@ On peut aussi utiliser le <i>soft require</i>, qui ne génère pas d'erreur quan
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">require</span> '<span class="org-constant">package-foobar</span> nil t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(require 'package-foobar nil t)
 </pre>
 </div>
 </div>
@@ -689,25 +689,25 @@ Lorsqu'on navigue dans les buffers, on préfère sauter les buffers ouverts auto
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">navigate-nostar-buffer</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;optional</span> previous<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-doc">"Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>start-buffer <span class="org-rainbow-delimiters-depth-5">(</span>buffer-name<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">cl-flet</span> <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">(</span>next-f <span class="org-rainbow-delimiters-depth-6">()</span> <span class="org-rainbow-delimiters-depth-6">(</span><span class="org-keyword">if</span> previous <span class="org-rainbow-delimiters-depth-7">(</span>next-buffer<span class="org-rainbow-delimiters-depth-7">)</span> <span class="org-rainbow-delimiters-depth-7">(</span>previous-buffer<span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-      <span class="org-rainbow-delimiters-depth-4">(</span>next-f<span class="org-rainbow-delimiters-depth-4">)</span>
-      <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">while</span>
-          <span class="org-rainbow-delimiters-depth-5">(</span>and <span class="org-rainbow-delimiters-depth-6">(</span>string-match-p <span class="org-string">"^\*"</span> <span class="org-rainbow-delimiters-depth-7">(</span>buffer-name<span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span>
-               <span class="org-rainbow-delimiters-depth-6">(</span>not <span class="org-rainbow-delimiters-depth-7">(</span>equal start-buffer <span class="org-rainbow-delimiters-depth-8">(</span>buffer-name<span class="org-rainbow-delimiters-depth-8">)</span><span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span>
-        <span class="org-rainbow-delimiters-depth-5">(</span>next-f<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun navigate-nostar-buffer (&amp;optional previous)
+  "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
+  (let ((start-buffer (buffer-name)))
+    (cl-flet ((next-f () (if previous (next-buffer) (previous-buffer))))
+      (next-f)
+      (while
+          (and (string-match-p "^\*" (buffer-name))
+               (not (equal start-buffer (buffer-name))))
+        (next-f)))))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">navigate-next-nostar-buffer</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Navigate to next \"no star\" buffer."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>navigate-nostar-buffer<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun navigate-next-nostar-buffer ()
+  "Navigate to next \"no star\" buffer."
+  (interactive)
+  (navigate-nostar-buffer))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">navigate-previous-nostar-buffer</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Navigate to previous \"no star\" buffer."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>navigate-nostar-buffer t<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun navigate-previous-nostar-buffer ()
+  "Navigate to previous \"no star\" buffer."
+  (interactive)
+  (navigate-nostar-buffer t))
 </pre>
 </div>
 
@@ -717,8 +717,8 @@ Puis on utilise <a href="https://www.gnu.org/software/emacs/manual/html_node/eli
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">[</span>remap next-buffer<span class="org-rainbow-delimiters-depth-2">]</span> 'navigate-next-nostar-buffer<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">[</span>remap previous-buffer<span class="org-rainbow-delimiters-depth-2">]</span> 'navigate-previous-nostar-buffer<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key [remap next-buffer] 'navigate-next-nostar-buffer)
+(global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
 </pre>
 </div>
 </div>
@@ -733,60 +733,60 @@ Définit <code>run-compilation</code> et <code>end-compilation</code> qui sauveg
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">get-compilation-buffer</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Get the compilation buffer, or nil if it does not exist."</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Voir aussi `</span><span class="org-comment"><span class="org-constant">compilation-buffer-name-function</span></span><span class="org-comment">'</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>car <span class="org-rainbow-delimiters-depth-3">(</span>cl-remove-if-not
-        <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-5">(</span>b<span class="org-rainbow-delimiters-depth-5">)</span>
-          <span class="org-rainbow-delimiters-depth-5">(</span>equal <span class="org-string">"*compilation*"</span> <span class="org-rainbow-delimiters-depth-6">(</span>buffer-name b<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-        <span class="org-rainbow-delimiters-depth-4">(</span>buffer-list<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun get-compilation-buffer ()
+  "Get the compilation buffer, or nil if it does not exist."
+  ;; Voir aussi `compilation-buffer-name-function'
+  (car (cl-remove-if-not
+        (lambda (b)
+          (equal "*compilation*" (buffer-name b)))
+        (buffer-list))))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">get-compilation-layout-register</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Returns the register used to save the layout before compilation,</span>
-<span class="org-doc">and restore it later."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"get-compilation-layout-register ()"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">It seems we can use more than one letter register !</span>
-  'comp-layout-reg<span class="org-rainbow-delimiters-depth-1">)</span>
+(defun get-compilation-layout-register ()
+  "Returns the register used to save the layout before compilation,
+and restore it later."
+  (message "get-compilation-layout-register ()")
+  ;; It seems we can use more than one letter register !
+  'comp-layout-reg)
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">start-new-compilation</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Prompt for command and run a new compilation"</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Passer en plein &#233;cran</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">(let ((current-prefix-arg '(4))) ; C-u</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">(call-interactively 'compile)))</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>call-interactively 'compile<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun start-new-compilation ()
+  "Prompt for command and run a new compilation"
+  ;; Passer en plein écran
+  ;; (let ((current-prefix-arg '(4))) ; C-u
+  ;; (call-interactively 'compile)))
+  (call-interactively 'compile))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">return-to-compilation</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Get compilation buffer back in full screen"</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Relancer la compil automatiquement ?</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>switch-to-buffer <span class="org-rainbow-delimiters-depth-3">(</span>get-compilation-buffer<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>delete-other-windows<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun return-to-compilation ()
+  "Get compilation buffer back in full screen"
+  ;; Relancer la compil automatiquement ?
+  (switch-to-buffer (get-compilation-buffer))
+  (delete-other-windows))
 
-<span class="org-rainbow-delimiters-depth-1">(</span>setq ongoing-compilation-session nil<span class="org-rainbow-delimiters-depth-1">)</span>
+(setq ongoing-compilation-session nil)
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">start-compilation-session</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Save layout and start a new compilation session"</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>frame-configuration-to-register <span class="org-rainbow-delimiters-depth-3">(</span>get-compilation-layout-register<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>start-new-compilation<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>setq ongoing-compilation-session t<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun start-compilation-session ()
+  "Save layout and start a new compilation session"
+  (frame-configuration-to-register (get-compilation-layout-register))
+  (start-new-compilation)
+  (setq ongoing-compilation-session t))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">end-compilation-session</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Restore pre-compilation layout and terminate compilation session"</span>
-  <span class="org-comment-delimiter">;; </span><span class="org-comment">Supprimer le buffer de compil ?</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>setq ongoing-compilation-session nil<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>jump-to-register <span class="org-rainbow-delimiters-depth-3">(</span>get-compilation-layout-register<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun end-compilation-session ()
+  "Restore pre-compilation layout and terminate compilation session"
+  ;; Supprimer le buffer de compil ?
+  (setq ongoing-compilation-session nil)
+  (jump-to-register (get-compilation-layout-register)))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">run-compilation</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Start new compilation session or restore an old one"</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>and ongoing-compilation-session <span class="org-rainbow-delimiters-depth-4">(</span>get-compilation-buffer<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>return-to-compilation<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>start-compilation-session<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun run-compilation ()
+  "Start new compilation session or restore an old one"
+  (interactive)
+  (if (and ongoing-compilation-session (get-compilation-buffer))
+      (return-to-compilation)
+    (start-compilation-session)))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">end-compilation</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Terminate a compilation session"</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">if</span> ongoing-compilation-session
-      <span class="org-rainbow-delimiters-depth-3">(</span>end-compilation-session<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun end-compilation ()
+  "Terminate a compilation session"
+  (interactive)
+  (if ongoing-compilation-session
+      (end-compilation-session)))
 </pre>
 </div>
 
@@ -796,7 +796,7 @@ Le buffer <code>*compilation*</code> défile jusqu'à la première erreur
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq compilation-scroll-output 'first-error<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq compilation-scroll-output 'first-error)
 </pre>
 </div>
 
@@ -815,7 +815,7 @@ Le bouton du milieu colle le texte au niveau du point, sans le déplacer
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mouse-yank-at-point t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mouse-yank-at-point t)
 </pre>
 </div>
 
@@ -825,7 +825,7 @@ Lorsqu'on copie depuis Emacs alors qu'une autre application avait placé du text
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq save-interprogram-paste-before-kill t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq save-interprogram-paste-before-kill t)
 </pre>
 </div>
 
@@ -835,7 +835,7 @@ Le texte surligné est automatiquement copié dans le kill ring
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mouse-drag-copy-region t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mouse-drag-copy-region t)
 </pre>
 </div>
 </div>
@@ -850,7 +850,7 @@ Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>show-paren-mode 1<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(show-paren-mode 1)
 </pre>
 </div>
 
@@ -860,7 +860,7 @@ Lorsque le curseur est sur une parenthèse ouvrante, ou immédiatement derrière
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq show-paren-style 'expression<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq show-paren-style 'expression)
 </pre>
 </div>
 
@@ -870,7 +870,7 @@ Les parenthèses sont surlignées en bleu. Voir aussi <a href="#sec-38">Rainbow 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>set-face-background 'show-paren-match <span class="org-string">"</span><span class="custom-1"><span class="custom">#b5d5ff</span></span><span class="org-string">"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(set-face-background 'show-paren-match "#b5d5ff")
 </pre>
 </div>
 </div>
@@ -885,7 +885,7 @@ J'ai beaucoup utilisé (et apprécié) <code>iswitchb-mode</code>, et lorsqu'il 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>icomplete-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(icomplete-mode)
 </pre>
 </div>
 
@@ -895,7 +895,7 @@ Suggère les buffers sur un <kbd>C</kbd>-<kbd>x</kbd> <kbd>b</kbd> avant qu'on c
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq icomplete-show-matches-on-no-input t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq icomplete-show-matches-on-no-input t)
 </pre>
 </div>
 
@@ -905,7 +905,7 @@ Ignore la casse lorsqu'on demande à compléter avec <kbd>TAB</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq read-buffer-completion-ignore-case t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq read-buffer-completion-ignore-case t)
 </pre>
 </div>
 
@@ -915,7 +915,7 @@ Met en évidence dans le minibuffer le candidat qui pourrait être sélectionné
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>copy-face 'minibuffer-prompt 'icomplete-first-match<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(copy-face 'minibuffer-prompt 'icomplete-first-match)
 </pre>
 </div>
 
@@ -925,32 +925,32 @@ Contourne les problèmes liés au buffer par défaut. En particulier, prend le p
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-icomplete-forward-completions</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Step forward completions by one entry."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">progn</span> <span class="org-rainbow-delimiters-depth-3">(</span>setq minibuffer-default nil<span class="org-rainbow-delimiters-depth-3">)</span>
-         <span class="org-rainbow-delimiters-depth-3">(</span>icomplete-forward-completions<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun my-icomplete-forward-completions ()
+  "Step forward completions by one entry."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (icomplete-forward-completions)))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-icomplete-backward-completions</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Step backward completions by one entry."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">progn</span> <span class="org-rainbow-delimiters-depth-3">(</span>setq minibuffer-default nil<span class="org-rainbow-delimiters-depth-3">)</span>
-         <span class="org-rainbow-delimiters-depth-3">(</span>icomplete-backward-completions<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun my-icomplete-backward-completions ()
+  "Step backward completions by one entry."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (icomplete-backward-completions)))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-minibuffer-force-complete-and-exit</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Select the current completion."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">progn</span> <span class="org-rainbow-delimiters-depth-3">(</span>setq minibuffer-default nil<span class="org-rainbow-delimiters-depth-3">)</span>
-         <span class="org-rainbow-delimiters-depth-3">(</span>minibuffer-force-complete-and-exit<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(defun my-minibuffer-force-complete-and-exit ()
+  "Select the current completion."
+  (interactive)
+  (progn (setq minibuffer-default nil)
+         (minibuffer-force-complete-and-exit)))
 
-<span class="org-comment-delimiter">;;</span><span class="org-comment">Configure des raccourcis ressemblant &#224; ceux de iswitchb</span>
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> <span class="org-rainbow-delimiters-depth-2">(</span>boundp 'icomplete-minibuffer-map<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map icomplete-minibuffer-map<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"C-s"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'my-icomplete-forward-completions<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"C-r"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'my-icomplete-backward-completions<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"C-j"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'my-minibuffer-force-complete-and-exit<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"C-&lt;return&gt;"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'my-minibuffer-force-complete-and-exit<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+;;Configure des raccourcis ressemblant à ceux de iswitchb
+(when (boundp 'icomplete-minibuffer-map)
+  (let ((map icomplete-minibuffer-map))
+    (define-key map (kbd "C-s") 'my-icomplete-forward-completions)
+    (define-key map (kbd "C-r") 'my-icomplete-backward-completions)
+    (define-key map (kbd "C-j") 'my-minibuffer-force-complete-and-exit)
+    (define-key map (kbd "C-&lt;return&gt;") 'my-minibuffer-force-complete-and-exit)
+    ))
 </pre>
 </div>
 </div>
@@ -977,16 +977,16 @@ ajoute (s'il existe) à la fin des deux paths le répertoire passé en argument 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">TODO - Filtrer les doublons</span>
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">add-to-exec-paths</span><span class="org-rainbow-delimiters-depth-2">(</span>some-folder<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">cond</span>
-   <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>file-exists-p some-folder<span class="org-rainbow-delimiters-depth-4">)</span>
-    <span class="org-rainbow-delimiters-depth-4">(</span>add-to-list 'exec-path some-folder<span class="org-rainbow-delimiters-depth-4">)</span>
-    <span class="org-comment-delimiter">;;</span><span class="org-comment">(message "exec-path=%s" exec-path)</span>
-    <span class="org-rainbow-delimiters-depth-4">(</span>setenv <span class="org-string">"PATH"</span> <span class="org-rainbow-delimiters-depth-5">(</span>concat <span class="org-rainbow-delimiters-depth-6">(</span>getenv <span class="org-string">"PATH"</span><span class="org-rainbow-delimiters-depth-6">)</span> <span class="org-string">":"</span> some-folder<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
-    <span class="org-comment-delimiter">;;</span><span class="org-comment">(message "PATH=%s" (getenv "PATH"))</span>
-    <span class="org-rainbow-delimiters-depth-4">(</span>message <span class="org-string">"Added '%s' to PATH and exec-path"</span> some-folder<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">;; TODO - Filtrer les doublons
+(defun add-to-exec-paths(some-folder)
+  (interactive)
+  (cond
+   ((file-exists-p some-folder)
+    (add-to-list 'exec-path some-folder)
+    ;;(message "exec-path=%s" exec-path)
+    (setenv "PATH" (concat (getenv "PATH") ":" some-folder))
+    ;;(message "PATH=%s" (getenv "PATH"))
+    (message "Added '%s' to PATH and exec-path" some-folder))))
 </pre>
 </div>
 
@@ -996,13 +996,14 @@ Reste à ajouter quelques répertoires, selon ses habitudes&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"~/scripts"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"~/local/bin"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"/usr/bin"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"/usr/local/bin"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"/opt/local/bin"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"c:/msys64/mingw64/bin"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-exec-paths <span class="org-string">"c:/msys64/usr/bin/"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-exec-paths "~/scripts")
+(add-to-exec-paths "~/local/bin")
+(add-to-exec-paths "/usr/bin")
+(add-to-exec-paths "/usr/local/bin")
+(add-to-exec-paths "/opt/local/bin")
+(add-to-exec-paths "C:/msys64/mingw64/bin")
+(add-to-exec-paths "C:/msys64/usr/bin/")
+(add-to-exec-paths "C:/Program Files/Git/usr/bin")
 </pre>
 </div>
 </div>
@@ -1017,11 +1018,11 @@ On cherche d'abord le proxy dans le fichier de configuration <code>~/.emacs.d/pr
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq my-proxy <span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq my-proxy ())
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span>file-exists-p <span class="org-string">"~/.emacs.d/proxy.el"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-    <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">progn</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>load-file <span class="org-string">"~/.emacs.d/proxy.el"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(if (file-exists-p "~/.emacs.d/proxy.el")
+    (progn
+      (load-file "~/.emacs.d/proxy.el")))
 </pre>
 </div>
 
@@ -1031,7 +1032,7 @@ Si ce fichier existe, il contient une simple ligne, telle que :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq my-proxy 'proxy.mon.domaine.fr:80<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq my-proxy 'proxy.mon.domaine.fr:80)
 </pre>
 </div>
 
@@ -1041,7 +1042,7 @@ Si l'on ne l'a pas trouvé, on cherche dans l'environnement la variable <code>ht
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">unless</span> my-proxy <span class="org-rainbow-delimiters-depth-2">(</span>setq my-proxy <span class="org-rainbow-delimiters-depth-3">(</span>getenv <span class="org-string">"http_proxy"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(unless my-proxy (setq my-proxy (getenv "http_proxy")))
 </pre>
 </div>
 
@@ -1051,10 +1052,10 @@ On valorise correctement <code>url-proxy-services</code> et on affiche le proxy 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">if</span> my-proxy
-    <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">progn</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>setq url-proxy-services <span class="org-rainbow-delimiters-depth-4">(</span>list <span class="org-rainbow-delimiters-depth-5">(</span>cons <span class="org-string">"http"</span> <span class="org-rainbow-delimiters-depth-6">(</span>symbol-name my-proxy<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>message <span class="org-string">"Set HTTP proxy to '%s'"</span> my-proxy<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(if my-proxy
+    (progn
+      (setq url-proxy-services (list (cons "http" (symbol-name my-proxy))))
+      (message "Set HTTP proxy to '%s'" my-proxy)))
 </pre>
 </div>
 
@@ -1081,7 +1082,7 @@ Fonte du terminal Xfce
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>set-default-font <span class="org-string">"Liberation Mono 10"</span> t t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(set-default-font "Liberation Mono 10" t t)
 </pre>
 </div>
 </div>
@@ -1102,10 +1103,10 @@ Réaffectation des touches à problèmes sur Mac :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mac-option-key-is-meta nil<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq mac-command-key-is-meta t<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq mac-command-modifier 'meta<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq mac-option-modifier nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier nil)
 </pre>
 </div>
 
@@ -1115,10 +1116,10 @@ Fonte Xcode
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>set-face-font
- 'menu <span class="org-string">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>set-face-font
- 'default <span class="org-string">"-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(set-face-font
+ 'menu "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
+(set-face-font
+ 'default "-apple-menlo-medium-r-normal--11-110-72-72-m-110-iso10646-1")
 </pre>
 </div>
 </div>
@@ -1134,7 +1135,7 @@ Charge le gestionnaire de paquets
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'package<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'package)
 </pre>
 </div>
 
@@ -1148,8 +1149,8 @@ Milkypostman’s Emacs Lisp Package Archive (<a href="http://melpa.org">MELPA</a
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'package-archives
-             '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"MELPA"</span> . <span class="org-string">"http://melpa.milkbox.net/packages/"</span><span class="org-rainbow-delimiters-depth-2">)</span> t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("MELPA" . "http://melpa.milkbox.net/packages/") t)
 </pre>
 </div>
 
@@ -1159,8 +1160,8 @@ Pour ceux qui veulent une version bien à jour de <a href="http://orgmode.org">O
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'package-archives
-             '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"Org"</span> . <span class="org-string">"https://orgmode.org/elpa/"</span><span class="org-rainbow-delimiters-depth-2">)</span> t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Org" . "https://orgmode.org/elpa/") t)
 </pre>
 </div>
 
@@ -1174,8 +1175,8 @@ En cas de problème avec les paquets, on peut supprimer le répertoire où tout 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'package-archives
-             '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"Marmalade"</span> . <span class="org-string">"http://marmalade-repo.org/packages/"</span><span class="org-rainbow-delimiters-depth-2">)</span> t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Marmalade" . "http://marmalade-repo.org/packages/") t)
 </pre>
 </div>
 
@@ -1185,8 +1186,8 @@ GNU Emacs Lisp Package Archive (<a href="http://elpa.gnu.org">ELPA</a>) est la s
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'package-archives
-             '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"GNU"</span> . <span class="org-string">"http://elpa.gnu.org/packages/"</span><span class="org-rainbow-delimiters-depth-2">)</span> t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("GNU" . "http://elpa.gnu.org/packages/") t)
 </pre>
 </div>
 
@@ -1196,8 +1197,8 @@ GNU Emacs Lisp Package Archive (<a href="http://elpa.gnu.org">ELPA</a>) est la s
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'package-archives
-             '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"Org"</span> . <span class="org-string">"http://orgmode.org/elpa/"</span><span class="org-rainbow-delimiters-depth-2">)</span> t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'package-archives
+             '("Org" . "http://orgmode.org/elpa/") t)
 </pre>
 </div>
 
@@ -1207,7 +1208,7 @@ Initialise le gestionnaire de paquet. Avec Helm, on peut utiliser <code>helm-lis
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>package-initialize<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(package-initialize)
 </pre>
 </div>
 </div>
@@ -1222,8 +1223,8 @@ Les couleurs par défaut d'Emacs fonctionnent mal lorsqu'il est lancé en mode t
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span>member 'leuven-theme <span class="org-rainbow-delimiters-depth-3">(</span>mapcar 'car package-alist<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-    <span class="org-rainbow-delimiters-depth-2">(</span>load-theme 'leuven t<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(if (member 'leuven-theme (mapcar 'car package-alist))
+    (load-theme 'leuven t))
 </pre>
 </div>
 </div>
@@ -1244,24 +1245,24 @@ Une tentative pour changer le comportement de la touche <kbd>TAB</kbd> dans les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">prev-tab-to-tab-stop</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-doc">"Remove spaces or tabs to next defined tab-stop column."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>and abbrev-mode <span class="org-rainbow-delimiters-depth-3">(</span>= <span class="org-rainbow-delimiters-depth-4">(</span>char-syntax <span class="org-rainbow-delimiters-depth-5">(</span>preceding-char<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span> ?w<span class="org-rainbow-delimiters-depth-3">)</span>
-       <span class="org-rainbow-delimiters-depth-3">(</span>expand-abbrev<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>nexttab <span class="org-rainbow-delimiters-depth-5">(</span>indent-next-tab-stop <span class="org-rainbow-delimiters-depth-6">(</span>current-column<span class="org-rainbow-delimiters-depth-6">)</span> t<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>delete-horizontal-space t<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>indent-to nexttab<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun prev-tab-to-tab-stop ()
+  "Remove spaces or tabs to next defined tab-stop column."
+  (interactive)
+  (and abbrev-mode (= (char-syntax (preceding-char)) ?w)
+       (expand-abbrev))
+  (let ((nexttab (indent-next-tab-stop (current-column) t)))
+    (delete-horizontal-space t)
+    (indent-to nexttab)))
 
-<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">define-minor-mode</span> <span class="org-function-name">tab-tab-mode</span>
-  <span class="org-doc">"Tab-to-tab in both directions"</span>
-  <span class="org-builtin">:lighter</span> <span class="org-string">" TTm"</span>
-  <span class="org-builtin">:keymap</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"&lt;tab&gt;"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'tab-to-tab-stop<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"S-&lt;tab&gt;"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'prev-tab-to-tab-stop<span class="org-rainbow-delimiters-depth-3">)</span>
-            map<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+(define-minor-mode tab-tab-mode
+  "Tab-to-tab in both directions"
+  :lighter " TTm"
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "&lt;tab&gt;") 'tab-to-tab-stop)
+            (define-key map (kbd "S-&lt;tab&gt;") 'prev-tab-to-tab-stop)
+            map))
 
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'cmake-mode-hook 'tab-tab-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+(add-hook 'cmake-mode-hook 'tab-tab-mode)
 </pre>
 </div>
 
@@ -1271,7 +1272,7 @@ Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'cmake-mode-hook <span class="org-rainbow-delimiters-depth-2">(</span>local-set-key <span class="org-rainbow-delimiters-depth-3">(</span>kbd <span class="org-string">"&lt;tab&gt;"</span><span class="org-rainbow-delimiters-depth-3">)</span> 'tab-to-tab-stop<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (local-set-key (kbd "&lt;tab&gt;") 'tab-to-tab-stop))
 </pre>
 </div>
 
@@ -1290,7 +1291,7 @@ Cependant ça ne fonctionne pas très bien, car <code>cmake-mode</code> n'a pas 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'auto-complete-config<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'auto-complete-config)
 </pre>
 </div>
 
@@ -1300,7 +1301,7 @@ Les choix proposés proviennent d'un certain nombre de sources ; on utilise les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>ac-config-default<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(ac-config-default)
 </pre>
 </div>
 
@@ -1310,9 +1311,9 @@ Auto Complete ne s'active pas automatiquement dans tous les modes, mais seulemen
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'ac-modes 'cmake-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'ac-modes 'org-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'ac-modes 'text-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'ac-modes 'cmake-mode)
+(add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'text-mode)
 </pre>
 </div>
 
@@ -1322,7 +1323,7 @@ Active Auto Complete dans tous les modes sélectionnés
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-auto-complete-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-auto-complete-mode t)
 </pre>
 </div>
 
@@ -1332,8 +1333,8 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ac-auto-start nil<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"M-/"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'auto-complete<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ac-auto-start nil)
+(global-set-key (kbd "M-/") 'auto-complete)
 </pre>
 </div>
 
@@ -1343,7 +1344,7 @@ Le menu s'affiche sur demande, et non sur temporisation, avec le raccourci habit
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ac-use-menu-map t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ac-use-menu-map t)
 </pre>
 </div>
 </div>
@@ -1357,7 +1358,7 @@ On souhaite profiter de la recherche approximative, dans le cas d'un préfix mal
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ac-use-fuzzy t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ac-use-fuzzy t)
 </pre>
 </div>
 
@@ -1430,7 +1431,7 @@ Intègre Auto Complete à Helm, et permet d'avoir avec <kbd>C</kbd>-<kbd>:</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-:"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'ac-complete-with-helm<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-:") 'ac-complete-with-helm)
 </pre>
 </div>
 </div>
@@ -1445,7 +1446,7 @@ Une source pour <code>completion-at-point</code>, très utile par exemple pour <
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook 'ac-capf-setup<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'ac-capf-setup)
 </pre>
 </div>
 </div>
@@ -1462,7 +1463,7 @@ Marque-pages à la Visual Studio : la ligne marquée est surlignée, et l'on peu
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'bm<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'bm)
 </pre>
 </div>
 
@@ -1472,7 +1473,7 @@ On parcourt avec <code>bm-next</code> et <code>bm-previous</code> l'ensemble des
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq bm-cycle-all-buffers t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq bm-cycle-all-buffers t)
 </pre>
 </div>
 
@@ -1482,8 +1483,8 @@ On surligne les lignes marquées en fuchsia, comme avec un coup de Stabilo !
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>custom-set-faces
- '<span class="org-rainbow-delimiters-depth-2">(</span>bm-face <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>t <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-builtin">:background</span> <span class="org-string">"</span><span class="custom"><span class="custom-1">#ffafff</span></span><span class="org-string">"</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(custom-set-faces
+ '(bm-face ((t (:background "#ffafff")))))
 </pre>
 </div>
 </div>
@@ -1498,7 +1499,7 @@ Accolades ouvrantes alignées sous le mot clé
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>c-set-offset <span class="org-rainbow-delimiters-depth-2">(</span>quote substatement-open<span class="org-rainbow-delimiters-depth-2">)</span> 0<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(c-set-offset (quote substatement-open) 0)
 </pre>
 </div>
 
@@ -1508,7 +1509,7 @@ Ouvre les <code>.h</code> comme du C++, et non comme du C
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq auto-mode-alist <span class="org-rainbow-delimiters-depth-2">(</span>append '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"\.h$"</span> . c++-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span> auto-mode-alist<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
 </pre>
 </div>
 </div>
@@ -1522,8 +1523,8 @@ Une configuration simple pour GNU Global, en remplacement du vénérable Etags, 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'ggtags<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'c-mode-common-hook 'ggtags-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'ggtags)
+(add-hook 'c-mode-common-hook 'ggtags-mode)
 </pre>
 </div>
 
@@ -1540,8 +1541,8 @@ Reprend les raccourcis usuels d'Etags:
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'c-mode-common-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>local-set-key <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"M-."</span><span class="org-rainbow-delimiters-depth-4">)</span> 'gtags-find-tag<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'c-mode-common-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>local-set-key <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"M-*"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'pop-tag-mark<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-.") 'gtags-find-tag)))
+(add-hook 'c-mode-common-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 </pre>
 </div>
 
@@ -1561,7 +1562,7 @@ Surligne les caractères qui tombent sur certaines colonnes. On peut configurer 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'column-marker<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'column-marker)
 </pre>
 </div>
 
@@ -1571,8 +1572,8 @@ Si l'on est dans un mode de programmation, surligne le caractère tombant après
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook
-          <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>interactive<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>column-marker-1 80<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook
+          (lambda () (interactive) (column-marker-1 80)))
 </pre>
 </div>
 </div>
@@ -1587,7 +1588,7 @@ Le mode majeur pour éditer les fichiers CMake. Perfectible à mon avis, mais ut
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'cmake-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'cmake-mode)
 </pre>
 </div>
 
@@ -1597,10 +1598,10 @@ Les fichiers CMake habituels s'ouvrent avec <code>cmake-mode</code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq auto-mode-alist
-      <span class="org-rainbow-delimiters-depth-2">(</span>append '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"CMakeLists\\.txt\\'"</span> . cmake-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-              '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"\\.cmake\\'"</span> . cmake-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-              auto-mode-alist<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq auto-mode-alist
+      (append '(("CMakeLists\\.txt\\'" . cmake-mode))
+              '(("\\.cmake\\'" . cmake-mode))
+              auto-mode-alist))
 </pre>
 </div>
 
@@ -1610,7 +1611,7 @@ Pas d'indentation automatique, en particulier après <kbd>Enter</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'cmake-mode-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>electric-indent-mode -1<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1)))
 </pre>
 </div>
 </div>
@@ -1625,7 +1626,7 @@ Un mode majeur pour DTrace, très bel outil d'instrumentation et d'analyse issu 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'dtrace-script-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'dtrace-script-mode)
 </pre>
 </div>
 
@@ -1635,9 +1636,9 @@ Les fichiers <code>.d</code> sont des scripts DTrace et s'ouvrent avec <code>dtr
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq auto-mode-alist
-      <span class="org-rainbow-delimiters-depth-2">(</span>append '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"\\.d\\'"</span> . dtrace-script-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-              auto-mode-alist<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq auto-mode-alist
+      (append '(("\\.d\\'" . dtrace-script-mode))
+              auto-mode-alist))
 </pre>
 </div>
 </div>
@@ -1652,7 +1653,7 @@ Une interface à GnuPG pour Emacs, qui permet entre autres de manipuler des fich
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'epa-file<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'epa-file)
 </pre>
 </div>
 
@@ -1662,7 +1663,7 @@ Rend transparent la lecture et l'écriture des fichiers <code>.gpg</code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>epa-file-enable<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(epa-file-enable)
 </pre>
 </div>
 
@@ -1672,7 +1673,7 @@ Indique à EasyPG une clé par défaut, afin qu'il ne pose pas la question à ch
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq epa-file-encrypt-to <span class="org-string">"julien.montmartin@fastmail.fm"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq epa-file-encrypt-to "julien.montmartin@fastmail.fm")
 </pre>
 </div>
 
@@ -1682,7 +1683,7 @@ Fonctionne bien aussi dans une variable en début de fichier :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">-*- epa-file-encrypt-to: <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">"julien.montmartin@fastmail.fm"</span><span class="org-rainbow-delimiters-depth-1">)</span> -*-
+<pre class="src src-emacs-lisp">-*- epa-file-encrypt-to: ("julien.montmartin@fastmail.fm") -*-
 </pre>
 </div>
 </div>
@@ -1701,7 +1702,7 @@ Les fichiers à comparer sont ouverts cote à cote, et non pas l'un en dessous d
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ediff-split-window-function 'split-window-horizontally<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ediff-split-window-function 'split-window-horizontally)
 </pre>
 </div>
 
@@ -1711,7 +1712,7 @@ Ediff n'ouvre pas de nouvelle fenêtre, tout se passe dans la fenêtre courante,
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ediff-window-setup-function 'ediff-setup-windows-plain<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 </pre>
 </div>
 </div>
@@ -1730,7 +1731,7 @@ Active FFAP et remplace quelques raccourcis comme <kbd>C</kbd>-<kbd>x</kbd> <kbd
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>ffap-bindings<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(ffap-bindings)
 </pre>
 </div>
 
@@ -1744,7 +1745,7 @@ J'utilisais <kbd>C</kbd>-<kbd>t</kbd> (avec un 't' comme <i>toggle</i>) pour bas
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-t"</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>quote ff-find-other-file<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-t") (quote ff-find-other-file))
 </pre>
 </div>
 
@@ -1754,12 +1755,12 @@ Ajoute quelques chemins usuels pour trouver les sources et les entêtes
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq ff-search-directories
-      '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"."</span> <span class="org-string">".."</span>
-        <span class="org-string">"./src"</span> <span class="org-string">"./include"</span>
-        <span class="org-string">"../src"</span> <span class="org-string">"../include"</span>
-        <span class="org-string">"../src/*"</span>  <span class="org-string">"../include/*"</span>
-        <span class="org-string">"../../src"</span> <span class="org-string">"../../include"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq ff-search-directories
+      '("." ".."
+        "./src" "./include"
+        "../src" "../include"
+        "../src/*"  "../include/*"
+        "../../src" "../../include"))
 </pre>
 </div>
 </div>
@@ -1787,7 +1788,7 @@ Avoir besoin de <code>fci-mode</code>, c'est devoir choisir entre la peste et le
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">ignore-errors</span> <span class="org-rainbow-delimiters-depth-2">(</span>my-require 'fill-column-indicator<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(ignore-errors (my-require 'fill-column-indicator))
 </pre>
 </div>
 
@@ -1797,7 +1798,7 @@ Matérialise la colonne 80
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq-default fci-rule-column 80<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq-default fci-rule-column 80)
 </pre>
 </div>
 
@@ -1807,7 +1808,7 @@ Active FCI dans tous les modes de développement
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook 'fci-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'fci-mode)
 </pre>
 </div>
 </div>
@@ -1822,7 +1823,7 @@ Mode majeur pour éditer les fichiers Graphviz, outil très pratique pour dessin
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'graphviz-dot-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'graphviz-dot-mode)
 </pre>
 </div>
 
@@ -1832,7 +1833,7 @@ Pour effectuer un rendu depuis Emacs avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>v</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>define-key graphviz-dot-mode-map <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-c v"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'graphviz-dot-preview<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(define-key graphviz-dot-mode-map (kbd "C-c v") 'graphviz-dot-preview)
 </pre>
 </div>
 </div>
@@ -1847,7 +1848,7 @@ Pour effectuer un rendu depuis Emacs avec <kbd>C</kbd>-<kbd>c</kbd> <kbd>v</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'helm<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'helm)
 </pre>
 </div>
 
@@ -1857,7 +1858,7 @@ Pas nécessaire d'après la doc, mais certaines versions fonctionnent mieux avec
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">require</span> '<span class="org-constant">helm-config</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(require 'helm-config)
 </pre>
 </div>
 
@@ -1867,8 +1868,8 @@ Préfixe pour les commandes Helm, remplace <kbd>C</kbd>-<kbd>x</kbd> <kbd>c</kbd
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-c h"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-command-prefix<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-unset-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-x c"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
 </pre>
 </div>
 
@@ -1885,9 +1886,9 @@ Le traditionnel <kbd>M</kbd>-<kbd>x</kbd> appelle la version Helm de <code>execu
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"M-x"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-M-x<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-x C-f"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-find-files<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-x r b"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-filtered-bookmarks<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
 </pre>
 </div>
 
@@ -1897,7 +1898,7 @@ Dans un buffer Helm, <kbd>TAB</kbd> essaye de compléter ce qui peut l'être
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>define-key helm-map <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"&lt;tab&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-execute-persistent-action<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(define-key helm-map (kbd "&lt;tab&gt;") 'helm-execute-persistent-action)
 </pre>
 </div>
 
@@ -1907,7 +1908,7 @@ Pour lister les actions, à la place de <kbd>TAB</kbd>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>define-key helm-map <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-z"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'helm-select-action<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(define-key helm-map (kbd "C-z") 'helm-select-action)
 </pre>
 </div>
 
@@ -1917,7 +1918,7 @@ Dans un chemin, sélectionne immédiatement un répertoire dès lors qu'il est l
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq helm-ff-auto-update-initial-value t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq helm-ff-auto-update-initial-value t)
 </pre>
 </div>
 
@@ -1927,8 +1928,8 @@ S'il est disponible, on utilise cURL pour télécharger des données
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> <span class="org-rainbow-delimiters-depth-2">(</span>executable-find <span class="org-string">"curl"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>setq helm-net-prefer-curl t<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when (executable-find "curl")
+  (setq helm-net-prefer-curl t))
 </pre>
 </div>
 
@@ -1938,7 +1939,7 @@ Ouvre le buffer Helm en partageant le buffer courant (partage horizontal)
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq helm-split-window-in-side-p t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq helm-split-window-in-side-p t)
 </pre>
 </div>
 
@@ -1948,7 +1949,7 @@ Quand on arrive à la fin des candidats, on boucle et on retourne au début
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq helm-move-to-line-cycle-in-source t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq helm-move-to-line-cycle-in-source t)
 </pre>
 </div>
 
@@ -1958,8 +1959,8 @@ Une couleur plus discrète pour les répertoires <code>.</code> et <code>..</cod
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>custom-set-faces
- '<span class="org-rainbow-delimiters-depth-2">(</span>helm-ff-dotted-directory <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>t <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-builtin">:foreground</span> <span class="org-string">"DimGrey"</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(custom-set-faces
+ '(helm-ff-dotted-directory ((t (:foreground "DimGrey")))))
 </pre>
 </div>
 
@@ -1969,7 +1970,7 @@ Finalement, on active Helm
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>helm-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(helm-mode t)
 </pre>
 </div>
 
@@ -1988,7 +1989,7 @@ Ce paquet définit <code>htmlize-buffer</code>, qui permet d'exporter un buffer 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'htmlize<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'htmlize)
 </pre>
 </div>
 </div>
@@ -2003,7 +2004,7 @@ Après un petit temps d'inactivité, surligne toutes les occurrences du mot se t
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'idle-highlight-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'idle-highlight-mode)
 </pre>
 </div>
 
@@ -2013,7 +2014,7 @@ Ce mode mineur est activé dans tous les modes de développement.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>idle-highlight-mode t<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook (lambda () (idle-highlight-mode t)))
 </pre>
 </div>
 </div>
@@ -2028,9 +2029,9 @@ Dans les contextes où il y a du Lisp, on affiche les éventuelles informations 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'emacs-lisp-mode-hook 'eldoc-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'lisp-interaction-mode-hook 'eldoc-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'ielm-mode-hook 'eldoc-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
+(add-hook 'ielm-mode-hook 'eldoc-mode)
 </pre>
 </div>
 
@@ -2049,7 +2050,7 @@ Un module à essayer si vous êtes utilisateur de Git et d'Emacs. On ne charge c
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'magit<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'magit)
 </pre>
 </div>
 
@@ -2059,7 +2060,7 @@ La plupart des opérations dans Magit commencent par le buffer <code>status</cod
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-x g"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'magit-status<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-x g") 'magit-status)
 </pre>
 </div>
 </div>
@@ -2074,7 +2075,7 @@ Permet de faire cohabiter plusieurs modes majeurs dans un même buffer.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'mmm-auto<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'mmm-auto)
 </pre>
 </div>
 
@@ -2084,7 +2085,7 @@ Reparse un buffer qui a été modifié dès qu'Emacs a un peu de temps
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mmm-parse-when-idle t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mmm-parse-when-idle t)
 </pre>
 </div>
 
@@ -2094,7 +2095,7 @@ Ce mode n'est pas activé automatiquement, mais uniquement dans les buffer pour 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mmm-global-mode 'sometimes<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mmm-global-mode 'sometimes)
 </pre>
 </div>
 
@@ -2104,11 +2105,11 @@ Définit la règle here-doc qui active le mode <code>shell-script-mode</code> en
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>mmm-add-classes
- '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>here-doc
-    <span class="org-builtin">:submode</span> shell-script-mode
-    <span class="org-builtin">:front</span> <span class="org-string">"&lt;&lt;EOF"</span>
-    <span class="org-builtin">:back</span> <span class="org-string">"^EOF"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(mmm-add-classes
+ '((here-doc
+    :submode shell-script-mode
+    :front "&lt;&lt;EOF"
+    :back "^EOF")))
 </pre>
 </div>
 
@@ -2118,7 +2119,7 @@ La règle here-doc est activée dans les buffers qui sont dans le très élémen
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>mmm-add-mode-ext-class 'text-mode nil 'here-doc<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(mmm-add-mode-ext-class 'text-mode nil 'here-doc)
 </pre>
 </div>
 </div>
@@ -2137,7 +2138,7 @@ Les lignes ne sont pas tronquées. Plus pratique comme ça, tant pis pour les ta
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-startup-truncated nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-startup-truncated nil)
 </pre>
 </div>
 
@@ -2147,7 +2148,7 @@ Les lignes sont indentées selon leur profondeur dans l'arborescence
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-startup-indented t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-startup-indented t)
 </pre>
 </div>
 
@@ -2157,8 +2158,8 @@ Dans les blocs de code, on veut la mise en évidence de syntaxe, et l'on utilise
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-src-fontify-natively t<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq org-src-tab-acts-natively t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 </pre>
 </div>
 
@@ -2168,9 +2169,9 @@ Les blocs de code sont évalués sans demande de confirmation, ainsi que les lie
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-confirm-babel-evaluate nil<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq org-confirm-shell-link-function nil<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq org-confirm-elisp-link-function nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-confirm-babel-evaluate nil)
+(setq org-confirm-shell-link-function nil)
+(setq org-confirm-elisp-link-function nil)
 </pre>
 </div>
 
@@ -2180,7 +2181,7 @@ Sauf indication contraire, les éléments de texte générés par Org sont en fr
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-export-default-language <span class="org-string">"fr"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-export-default-language "fr")
 </pre>
 </div>
 
@@ -2198,9 +2199,9 @@ Concernant l'export (en HTML par exemple) :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-export-with-section-numbers nil<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq org-export-headline-levels 3<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>setq org-export-with-author nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-export-with-section-numbers nil)
+(setq org-export-headline-levels 3)
+(setq org-export-with-author nil)
 </pre>
 </div>
 
@@ -2210,7 +2211,7 @@ Dans le cas particulier de l'export HTML, on veut également que la mise en évi
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq org-html-htmlize-output-type 'css<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq org-html-htmlize-output-type 'css)
 </pre>
 </div>
 </div>
@@ -2238,7 +2239,7 @@ Permet d'utiliser Perforce depuis Emacs, principalement pour sortir des fichiers
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'p4<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'p4)
 </pre>
 </div>
 
@@ -2248,7 +2249,7 @@ Le client Perforce en ligne de commande doit être correctement configuré. Le f
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setenv <span class="org-string">"P4CONFIG"</span> <span class="org-string">".P4CONFIG"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setenv "P4CONFIG" ".P4CONFIG")
 </pre>
 </div>
 
@@ -2278,24 +2279,24 @@ P4PORT=srv-sources:1666
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook
-          <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"/="</span> . ?&#8800;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"!="</span> . ?&#8800;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"=="</span> . ?&#10869;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"&amp;&amp;"</span> . ?&#8743;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"||"</span> . ?&#8744;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"&lt;="</span> . ?&#8804;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"&gt;="</span> . ?&#8805;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"&lt;&lt;"</span> . ?&#8810;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"&gt;&gt;"</span> . ?&#8811;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"::"</span> . ?&#8759;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"-&gt;"</span> . ?&#8594;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"=&gt;"</span> . ?&#8658;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"and"</span> . ?&#8743;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"not"</span> . ?&#172;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-3">(</span>push '<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"or"</span> . ?&#8744;<span class="org-rainbow-delimiters-depth-4">)</span> prettify-symbols-alist<span class="org-rainbow-delimiters-depth-3">)</span>
-            <span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook
+          (lambda ()
+            (push '("/=" . ?≠) prettify-symbols-alist)
+            (push '("!=" . ?≠) prettify-symbols-alist)
+            (push '("==" . ?⩵) prettify-symbols-alist)
+            (push '("&amp;&amp;" . ?∧) prettify-symbols-alist)
+            (push '("||" . ?∨) prettify-symbols-alist)
+            (push '("&lt;=" . ?≤) prettify-symbols-alist)
+            (push '("&gt;=" . ?≥) prettify-symbols-alist)
+            (push '("&lt;&lt;" . ?≪) prettify-symbols-alist)
+            (push '("&gt;&gt;" . ?≫) prettify-symbols-alist)
+            (push '("::" . ?∷) prettify-symbols-alist)
+            (push '("-&gt;" . ?→) prettify-symbols-alist)
+            (push '("=&gt;" . ?⇒) prettify-symbols-alist)
+            (push '("and" . ?∧) prettify-symbols-alist)
+            (push '("not" . ?¬) prettify-symbols-alist)
+            (push '("or" . ?∨) prettify-symbols-alist)
+            ))
 </pre>
 </div>
 
@@ -2305,12 +2306,12 @@ Pour fixer les idées, voici ce à quoi ça ressemble sur quelques lignes de C++
 
 <div class="org-src-container">
 
-<pre class="src src-C++"><span class="org-type">void</span> <span class="org-function-name">foo</span><span class="org-rainbow-delimiters-depth-1">(</span>std&#8759;<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">int</span>, <span class="org-type">int</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>* p<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-comment-delimiter">//</span><span class="org-comment">Print something if first != second</span>
-    <span class="org-keyword">if</span><span class="org-rainbow-delimiters-depth-2">(</span>p &#8800; nullptr &#8743; <span class="org-rainbow-delimiters-depth-3">(</span>p&#8594;first &#8800; p&#8594;second<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-        std&#8759;cout &#8810; p&#8594;first &#171; <span class="org-string">"!="</span> &#8810; p&#8594;second &#171; std&#8759;endl;
-<span class="org-rainbow-delimiters-depth-1">}</span>
+<pre class="src src-C++">void foo(std∷pair&lt;int, int&gt;* p)
+{
+    //Print something if first != second
+    if(p ≠ nullptr ∧ (p→first ≠ p→second))
+        std∷cout ≪ p→first « "!=" ≪ p→second « std∷endl;
+}
 </pre>
 </div>
 
@@ -2324,7 +2325,7 @@ J'utilise Prettify Symbols depuis peu de temps, il est donc encore en phase de t
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-prettify-symbols-mode t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-prettify-symbols-mode t)
 </pre>
 </div>
 </div>
@@ -2344,7 +2345,7 @@ S'il identifie un dépôt, Projectile considère que tous les fichiers du dépô
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'projectile<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'projectile)
 </pre>
 </div>
 
@@ -2354,7 +2355,7 @@ Active Projectile dans tous les modes le supportant
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>projectile-global-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(projectile-global-mode)
 </pre>
 </div>
 
@@ -2364,7 +2365,7 @@ Raccourci <kbd>C</kbd>-<kbd>t</kbd> pour <code>projectile-find-other-file</code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-t"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'projectile-find-other-file<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-t") 'projectile-find-other-file)
 </pre>
 </div>
 
@@ -2374,7 +2375,7 @@ Projectile utilise Helm pour l'aide à la sélection
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq projectile-completion-system 'helm<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq projectile-completion-system 'helm)
 </pre>
 </div>
 
@@ -2384,7 +2385,7 @@ Active les raccourcis Helm pour les fonctions Projectile. Il semblerait qu'il fa
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>helm-projectile-on<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(helm-projectile-on)
 </pre>
 </div>
 </div>
@@ -2399,17 +2400,17 @@ Pour ceux qui développent avec Qt, la fonction <code>generate-qt-includes</code
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">generate-qt-includes</span> <span class="org-rainbow-delimiters-depth-2">()</span>
-    <span class="org-doc">"Insert a list of Qt includes matching Qt types found in this buffer"</span>
-    <span class="org-rainbow-delimiters-depth-2">(</span>interactive<span class="org-rainbow-delimiters-depth-2">)</span>
-    <span class="org-rainbow-delimiters-depth-2">(</span>shell-command-on-region
-     <span class="org-rainbow-delimiters-depth-3">(</span>point-min<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>point-max<span class="org-rainbow-delimiters-depth-3">)</span>
-     <span class="org-comment-delimiter">;; </span><span class="org-comment">Pourquoi ne peut-on pas mettre le pipe en d&#233;but de ligne ?</span>
-     <span class="org-string">"sed 's/\#.*include.*&lt;.*&gt;/#include &lt;header&gt;/' |</span>
-<span class="org-string">sed 's://.*:// comment:' |</span>
-<span class="org-string">sed -n 's/.*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">Q[A-Z][a-zA-Z]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">.*/#include &lt;\\1&gt;/p' |</span>
-<span class="org-string">sort | uniq"</span> <span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>insert-buffer <span class="org-string">"*Shell Command Output*"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun generate-qt-includes ()
+    "Insert a list of Qt includes matching Qt types found in this buffer"
+    (interactive)
+    (shell-command-on-region
+     (point-min) (point-max)
+     ;; Pourquoi ne peut-on pas mettre le pipe en début de ligne ?
+     "sed 's/\#.*include.*&lt;.*&gt;/#include &lt;header&gt;/' |
+sed 's://.*:// comment:' |
+sed -n 's/.*\\(Q[A-Z][a-zA-Z]*\\).*/#include &lt;\\1&gt;/p' |
+sort | uniq" )
+  (insert-buffer "*Shell Command Output*"))
 </pre>
 </div>
 
@@ -2419,7 +2420,7 @@ Le raccourci <kbd>M</kbd>-<kbd>#</kbd> appelle <code>generate-qt-includes</code>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"M-#"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'generate-qt-includes<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-#") 'generate-qt-includes)
 </pre>
 </div>
 </div>
@@ -2434,7 +2435,7 @@ Met en évidence les symboles ouvrants et fermants, comme les parenthèses, les 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'rainbow-delimiters<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'rainbow-delimiters)
 </pre>
 </div>
 
@@ -2444,7 +2445,7 @@ Exemple avec des parenthèses :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">when</span> <span class="org-rainbow-delimiters-depth-2">(</span>foo <span class="org-rainbow-delimiters-depth-3">(</span>bar <span class="org-rainbow-delimiters-depth-4">(</span>baz t<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(when (foo (bar (baz t))))
 </pre>
 </div>
 
@@ -2454,7 +2455,7 @@ Active cette fonctionnalité dans tous les modes de développement
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook 'rainbow-delimiters-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 </pre>
 </div>
 </div>
@@ -2469,7 +2470,7 @@ Cherche dans un buffer les chaines représentant une couleur, et les surligne av
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'rainbow-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'rainbow-mode)
 </pre>
 </div>
 
@@ -2479,7 +2480,7 @@ Quelques exemples de couleurs reconnues :
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>message <span class="org-string">"De la couleur ! </span><span class="custom-4"><span class="custom-3">#ffafff</span></span><span class="org-string"> </span><span class="custom-1"><span class="custom-2">#F5DEB3</span></span><span class="org-string"> </span><span class="custom"><span class="custom-2">#def</span></span><span class="org-string"> DeepPink"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(message "De la couleur ! #ffafff #F5DEB3 #def DeepPink")
 </pre>
 </div>
 
@@ -2489,7 +2490,7 @@ Active cette fonctionnalité dans tous les modes de développement
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook 'rainbow-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'rainbow-mode)
 </pre>
 </div>
 </div>
@@ -2528,7 +2529,7 @@ On peut passer de l'un à l'autre avec <kbd>C</kbd>-<kbd>x</kbd> <kbd>↑</kbd> 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'related<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'related)
 </pre>
 </div>
 
@@ -2538,7 +2539,7 @@ Active Related, qui est un mode mineur global
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>related-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(related-mode)
 </pre>
 </div>
 
@@ -2548,7 +2549,7 @@ Active Related, qui est un mode mineur global
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"C-x &lt;end&gt;"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'related-switch-buffer <span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "C-x &lt;end&gt;") 'related-switch-buffer )
 </pre>
 </div>
 </div>
@@ -2575,11 +2576,11 @@ Rust dispose d'un très bon support dans Emacs, au travers des paquets suivants 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'rust-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>my-require 'cargo<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>my-require 'flycheck-rust<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>my-require 'ob-rust<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>my-require 'racer<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'rust-mode)
+(my-require 'cargo)
+(my-require 'flycheck-rust)
+(my-require 'ob-rust)
+(my-require 'racer)
 </pre>
 </div>
 
@@ -2589,9 +2590,9 @@ On ajoute un peu de configuration pour Racer afin d'avoir les raccourcis habitue
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'rust-mode-hook 'racer-mode<span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'rust-mode-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>local-set-key <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"M-."</span><span class="org-rainbow-delimiters-depth-4">)</span> 'racer-find-definition<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
-<span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'rust-mode-hook <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-3">()</span> <span class="org-rainbow-delimiters-depth-3">(</span>local-set-key <span class="org-rainbow-delimiters-depth-4">(</span>kbd <span class="org-string">"M-*"</span><span class="org-rainbow-delimiters-depth-4">)</span> 'pop-tag-mark<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'rust-mode-hook 'racer-mode)
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-.") 'racer-find-definition)))
+(add-hook 'rust-mode-hook (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 </pre>
 </div>
 
@@ -2626,7 +2627,7 @@ Les fichiers en <code>.sh</code> s'ouvrent avec <code>shell-script-mode</code>, 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-to-list 'auto-mode-alist '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.sh\\'"</span> . sh-mode<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
 </pre>
 </div>
 </div>
@@ -2641,7 +2642,7 @@ La molette de la souris fait défiler les lignes deux par deux
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mouse-wheel-scroll-amount '<span class="org-rainbow-delimiters-depth-2">(</span>2<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mouse-wheel-scroll-amount '(2))
 </pre>
 </div>
 
@@ -2651,7 +2652,7 @@ Le défilement à l'écran suit la molette, et le pas reste constant quand elle 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq mouse-wheel-progressive-speed nil<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq mouse-wheel-progressive-speed nil)
 </pre>
 </div>
 </div>
@@ -2666,7 +2667,7 @@ Ouvre les <code>.tm</code> comme des modules Tcl
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq auto-mode-alist <span class="org-rainbow-delimiters-depth-2">(</span>append '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"\.tm$"</span> . tcl-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span> auto-mode-alist<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq auto-mode-alist (append '(("\.tm$" . tcl-mode)) auto-mode-alist))
 </pre>
 </div>
 </div>
@@ -2681,7 +2682,7 @@ Transfère les fichiers en utilisant ssh, plutôt que ftp
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq tramp-default-method <span class="org-string">"ssh"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq tramp-default-method "ssh")
 </pre>
 </div>
 </div>
@@ -2696,7 +2697,7 @@ La fonction <code>fill</code> permet de découper correctement les lignes trop l
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'unfill<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'unfill)
 </pre>
 </div>
 
@@ -2706,7 +2707,7 @@ Le raccourci par défaut pour <code>fill</code> est remplacé sans états d'âme
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>global-set-key <span class="org-rainbow-delimiters-depth-2">(</span>kbd <span class="org-string">"M-q"</span><span class="org-rainbow-delimiters-depth-2">)</span> 'unfill-toggle<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(global-set-key (kbd "M-q") 'unfill-toggle)
 </pre>
 </div>
 </div>
@@ -2721,7 +2722,7 @@ Le raccourci par défaut pour <code>fill</code> est remplacé sans états d'âme
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'unicode-fonts<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'unicode-fonts)
 </pre>
 </div>
 
@@ -2731,7 +2732,7 @@ Résous les différents caractères Unicode avec les fontes les plus appropriée
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>unicode-fonts-setup<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(unicode-fonts-setup)
 </pre>
 </div>
 
@@ -2741,7 +2742,7 @@ Sous Windows, on ne fait surtout pas d'économie de mémoire sur le cache des fo
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq inhibit-compacting-font-caches t<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq inhibit-compacting-font-caches t)
 </pre>
 </div>
 
@@ -2751,7 +2752,7 @@ Autant que possible, on veut de l'UTF-8. De nombreuses variables permettent de c
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>set-language-environment 'utf-8<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(set-language-environment 'utf-8)
 </pre>
 </div>
 </div>
@@ -2766,7 +2767,7 @@ Génère des libellés plus pertinents pour les buffers de mêmes noms
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'uniquify<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'uniquify)
 </pre>
 </div>
 
@@ -2776,7 +2777,7 @@ Soit les fichiers <code>xxx/yyy/foo.txt</code> et <code>zzz/ttt/foo.txt</code> t
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq uniquify-buffer-name-style 'post-forward<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq uniquify-buffer-name-style 'post-forward)
 </pre>
 </div>
 </div>
@@ -2791,7 +2792,7 @@ Un mode mineur qui permet de visualiser les espaces, de nettoyer les lignes blan
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>my-require 'whitespace<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(my-require 'whitespace)
 </pre>
 </div>
 
@@ -2810,7 +2811,7 @@ La variable <code>whitespace-style</code> contrôle les types d'espaces qui sero
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>setq whitespace-style '<span class="org-rainbow-delimiters-depth-2">(</span>face trailing lines empty<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(setq whitespace-style '(face trailing lines empty))
 </pre>
 </div>
 
@@ -2824,7 +2825,7 @@ Lorsqu'on sauvegarde un fichier, on veut que les espaces soient automatiquement 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'before-save-hook 'whitespace-cleanup<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'before-save-hook 'whitespace-cleanup)
 </pre>
 </div>
 
@@ -2834,7 +2835,7 @@ Active whitespace-mode dans tous les modes de développement
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'prog-mode-hook 'whitespace-mode<span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(add-hook 'prog-mode-hook 'whitespace-mode)
 </pre>
 </div>
 </div>
@@ -2849,26 +2850,26 @@ Une fonction pour remettre en forme du XML. Prise sur le site de <a href="http:/
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">pretty-print-xml-region</span> <span class="org-rainbow-delimiters-depth-2">(</span>begin end<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-doc">"Pretty format XML markup in region. You need to have nxml-mode</span>
-<span class="org-doc">http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do</span>
-<span class="org-doc">this.  The function inserts linebreaks to separate tags that have</span>
-<span class="org-doc">nothing but whitespace between them.  It then indents the markup</span>
-<span class="org-doc">by using nxml's indentation rules."</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>interactive <span class="org-string">"r"</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">save-excursion</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>nxml-mode<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>goto-char begin<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-comment-delimiter">;; </span><span class="org-comment">split &lt;foo&gt;&lt;foo&gt; or &lt;/foo&gt;&lt;foo&gt;, but not &lt;foo&gt;&lt;/foo&gt;</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-4">(</span>search-forward-regexp <span class="org-string">"&gt;[ \t]*&lt;[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">/]"</span> end t<span class="org-rainbow-delimiters-depth-4">)</span>
-      <span class="org-rainbow-delimiters-depth-4">(</span>backward-char 2<span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">(</span>insert <span class="org-string">"\n"</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">(</span>incf end<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-comment-delimiter">;; </span><span class="org-comment">split &lt;foo/&gt;&lt;/foo&gt; and &lt;/foo&gt;&lt;/foo&gt;</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>goto-char begin<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-4">(</span>search-forward-regexp <span class="org-string">"&lt;.*?/.*?&gt;[ \t]*&lt;"</span> end t<span class="org-rainbow-delimiters-depth-4">)</span>
-      <span class="org-rainbow-delimiters-depth-4">(</span>backward-char<span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">(</span>insert <span class="org-string">"\n"</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">(</span>incf end<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>indent-region begin end nil<span class="org-rainbow-delimiters-depth-3">)</span>
-    <span class="org-rainbow-delimiters-depth-3">(</span>normal-mode<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"All indented!"</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<pre class="src src-emacs-lisp">(defun pretty-print-xml-region (begin end)
+  "Pretty format XML markup in region. You need to have nxml-mode
+http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
+this.  The function inserts linebreaks to separate tags that have
+nothing but whitespace between them.  It then indents the markup
+by using nxml's indentation rules."
+  (interactive "r")
+  (save-excursion
+    (nxml-mode)
+    (goto-char begin)
+    ;; split &lt;foo&gt;&lt;foo&gt; or &lt;/foo&gt;&lt;foo&gt;, but not &lt;foo&gt;&lt;/foo&gt;
+    (while (search-forward-regexp "&gt;[ \t]*&lt;[^/]" end t)
+      (backward-char 2) (insert "\n") (incf end))
+    ;; split &lt;foo/&gt;&lt;/foo&gt; and &lt;/foo&gt;&lt;/foo&gt;
+    (goto-char begin)
+    (while (search-forward-regexp "&lt;.*?/.*?&gt;[ \t]*&lt;" end t)
+      (backward-char) (insert "\n") (incf end))
+    (indent-region begin end nil)
+    (normal-mode))
+  (message "All indented!"))
 </pre>
 </div>
 </div>
@@ -2883,12 +2884,12 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-setup</span><span class="org-rainbow-delimiters-depth-2">()</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span>add-to-list 'package-archives
-               '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-string">"MELPA"</span> . <span class="org-string">"http://melpa.milkbox.net/packages/"</span><span class="org-rainbow-delimiters-depth-3">)</span> t<span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">unless</span> package-archive-contents
-    <span class="org-rainbow-delimiters-depth-3">(</span>package-refresh-contents<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">dolist</span> <span class="org-rainbow-delimiters-depth-3">(</span>package '<span class="org-rainbow-delimiters-depth-4">(</span>ac-capf
+<pre class="src src-emacs-lisp">(defun my-setup()
+  (add-to-list 'package-archives
+               '("MELPA" . "http://melpa.milkbox.net/packages/") t)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (dolist (package '(ac-capf
                      ac-helm
                      auto-complete-config
                      bm
@@ -2918,11 +2919,11 @@ Finalement, pour simplifier la configuration d'Emacs sur une nouvelle machine, l
                      unfill
                        unicode-fonts
                      uniquify
-                     whitespace<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span>message <span class="org-string">"---&gt; %s"</span> package<span class="org-rainbow-delimiters-depth-3">)</span>
-      <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">unless</span> <span class="org-rainbow-delimiters-depth-4">(</span>package-installed-p package<span class="org-rainbow-delimiters-depth-4">)</span>
-        <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">ignore-errors</span>
-          <span class="org-rainbow-delimiters-depth-5">(</span>package-install package<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+                     whitespace))
+      (message "---&gt; %s" package)
+      (unless (package-installed-p package)
+        (ignore-errors
+          (package-install package)))))
 </pre>
 </div>
 
