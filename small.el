@@ -1,13 +1,18 @@
 ;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
 
-;; Comme suggéré dans la doc de Helm, pour compiler les packages dans
-;; de bonnes conditions (avec les dépendances dans le bon ordre).
-;; https://github.com/emacs-helm/helm/wiki#upgrade-or-recompile
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;					  Prérequis et compilation
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Compile les packages dans le bon ordre (dépendances). Recommandé par Helm.
+;; https://github.com/emacs-helm/helm/wiki#upgrade-or-recompile
 (setq async-bytecomp-allowed-packages '(all))
 
 
-;; D'après la doc de use-package, réduit les temps de chargement.
+;; Réduit les temps de chargement (recommandé par la doc de use-package).
 (eval-when-compile
   (require 'use-package))
 (require 'bind-key)
@@ -16,57 +21,88 @@
 (setq use-package-always-ensure t)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							   Généralités
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Désactive l'écran d'accueil ; Emacs s'ouvre avec le buffer *scratch*.
 (setq inhibit-startup-screen t)
 
+;; Affiche le nom du fichier dans la barre de titre.
 (setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b"))
 
+;; En mode terminal, pas de barre de menus.
 (unless window-system (menu-bar-mode -1))
 
+;; En mode graphique, cache la barre d'outils.
 (when window-system (tool-bar-mode -1))
 
+;; En mode graphique, barre de défilement à droite.
 (when window-system (set-scroll-bar-mode 'right))
 
+;; Un buffer sans mode majeur s'ouvre en mode texte.
 (setq-default major-mode 'text-mode)
 
+;; Largeur de ligne à 80 colonnes (affecte fill-paragraph, whitespace-mode…).
 (setq default-fill-column 80)
 
+;; Indentation avec des tabulations de 4 caractères.
 (setq-default c-basic-offset 4
-		tab-width 4
-		indent-tabs-mode t)
+	      tab-width 4
+	      indent-tabs-mode t)
 
+;; En fin de buffer, les touches fléchées ne créent pas de nouvelle ligne.
 (setq-default next-line-add-newlines nil)
 
+;; Affiche la ligne et la colonne du curseur dans la mode line.
 (line-number-mode t)
 (column-number-mode t)
 
+;; Active le raccourci clavier pour narrow-to-region.
 (put 'narrow-to-region 'disabled nil)
 
+;; Désactive la transient mark : la région est toujours active mais non
+;; surlignée (ancien comportement d'Emacs).
 (setq transient-mark-mode nil)
 
+;; En mode graphique, lance Emacs en mode serveur (accès via emacsclient).
 (when window-system (server-start))
 
-;; Pour que require trouve les modules dans ce répertoire
+;; Pour que require trouve les modules dans ce répertoire.
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 
 
 ;; Place les backups et les sauvegardes auto dans un répertoire temporaire
+;; (/tmp sous Linux, %TEMP% sous Windows, /var/folders/… sous Mac).
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
+;; Met en évidence la ligne courante dans Dired.
 (add-hook 'dired-mode-hook 'hl-line-mode)
 
 
-;; Sur Mac, Dired utilise GNU ls si disponible
+;; Sur Mac, Dired utilise GNU ls si disponible.
 (when (eq system-type 'darwin)
   (if (file-executable-p "/usr/local/bin/gls")
 	(setq insert-directory-program "/usr/local/bin/gls")))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							  Raccourcis Fn
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; F1  : view-mode (lecture seule). C/S-F1 : revert-buffer.
 ;; À la place de view-order-manuals qui est normalement sur f1
 (global-set-key (kbd "<f1>")	'view-mode)
 (global-set-key (kbd "C-<f1>")	'revert-buffer)
 (global-set-key (kbd "S-<f1>")	'revert-buffer)
 
+;; F2 : bm-toggle. C-F2 / S-F2 : bm-next / bm-previous.
+;; En mode terminal, S-F2 ouvre helm-bm (C-F2 ne fonctionne pas).
 (global-set-key (kbd "<f2>")	'bm-toggle)
 (global-set-key (kbd "C-<f2>")	'bm-next)
 (global-set-key (kbd "S-<f2>")	'bm-previous)
@@ -74,29 +110,50 @@
 (unless window-system
   (global-set-key (kbd "S-<f2>")	'helm-bm))
 
+;; F3 : hl-line-mode (surlignage de la ligne courante).
 (global-set-key (kbd "<f3>")	'hl-line-mode)
 
+;; F4 : projectile-grep (recherche dans les fichiers du projet).
 (global-set-key (kbd "<f4>")	'projectile-grep)
 
+;; F5 : run-compilation. C/S-F5 : end-compilation.
 (global-set-key (kbd "<f5>")	'run-compilation)
 (global-set-key (kbd "C-<f5>")	'end-compilation)
 (global-set-key (kbd "S-<f5>")	'end-compilation)
 
+;; F6 : projectile-multi-occur. C/S-F6 : helm-occur.
 (global-set-key (kbd "<f6>")	'projectile-multi-occur)
 (global-set-key (kbd "C-<f6>")	'helm-occur)
 (global-set-key (kbd "S-<f6>")	'helm-occur)
 
+;; F8 : display-fill-column-indicator-mode. C/S-F8 : whitespace-mode.
 (global-set-key (kbd "<f8>")	'display-fill-column-indicator-mode)
 (global-set-key (kbd "C-<f8>")	'whitespace-mode)
 (global-set-key (kbd "S-<f8>")	'whitespace-mode)
 
+;; F9 : switch-theme (itère sur les thèmes préconfigurés, voir plus bas).
 (global-set-key (kbd "<f9>")	'switch-theme)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   UTF-8
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Paramétrage satisfaisant pour activer UTF-8 à peu près partout.
+;; https://stackoverflow.com/a/2903256
 (set-language-environment 'utf-8)
 
 
-;; Saute les buffers automatiques (compilation, dired, helm, etc)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;					  Navigation dans les buffers
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Saute les buffers automatiques (*compilation*, *dired*, *helm*…).
+;; navigate-nostar-buffer cherche le prochain buffer ne commençant pas par *.
 (defun navigate-nostar-buffer (&optional previous)
   "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
   (let ((start-buffer (buffer-name)))
@@ -117,33 +174,59 @@
   (interactive)
   (navigate-nostar-buffer t))
 
+;; Remplace les raccourcis C-x ← et C-x → par les variantes ci-dessus.
 (global-set-key [remap next-buffer] 'navigate-next-nostar-buffer)
 (global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							  Copier / coller
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Le bouton du milieu colle au niveau du point, sans déplacer le curseur.
 (setq mouse-yank-at-point t)
 
 ;; Le texte du presse-papier est ajouté au kill ring avant d'être remplacé.
 (setq save-interprogram-paste-before-kill t)
 
-;; Le texte surligné est automatiquement copié dans le kill ring
+;; Le texte surligné est automatiquement copié dans le kill ring.
 (setq mouse-drag-copy-region t)
 
-;; Met en évidence les paires de parenthèses, accolades, crochets...
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						  Parenthèses et compagnie
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Met en évidence les paires de parenthèses, accolades, crochets…
 (show-paren-mode 1)
 (set-face-background 'show-paren-match "#b5d5ff")
 
-;; Ajustements à l'OS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							 Ajustements à l'OS
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Ajustements selon la plateforme : police et raccourcis clavier.
 (cond
  ((string-match "linux" system-configuration)
   (progn
 	(message "Tweak Emacs for Linux")
+	;; Police du terminal Xfce.
 	(set-face-font 'default "-UKWN-Adwaita Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 	))
  ((string-match "apple" system-configuration)
   (progn
 	(message "Tweak Emacs for Mac")
 
+	;; Cmd → Meta, Alt → accès aux caractères spéciaux (|, ~, etc.).
+	;; set-mac-keys / unset-mac-keys permettent de basculer entre un clavier
+	;; Mac et un clavier PC.
 	(defun set-mac-keys()
 	  (interactive)
 	  (setq mac-command-key-is-meta t)
@@ -170,7 +253,13 @@
 	(set-mac-keys))))
 
 
-;; Charge le gestionnaire de paquets avec les dépots Melpa et Org.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						  Gestionnaire de paquets
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Charge le gestionnaire de paquets avec les dépôts MELPA et Org.
 (use-package package
   :config (add-to-list 'package-archives
 					   '("MELPA" . "http://melpa.org/packages/") t)
@@ -179,6 +268,14 @@
   :config (package-initialize))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							   Tree Sitter
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Sources des grammaires Tree Sitter (parseurs compilés par langage).
+;; Lancer my-ts-languages-setup une fois pour les installer.
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
         (c "https://github.com/tree-sitter/tree-sitter-c")
@@ -210,6 +307,7 @@
         (message "`%s' parser was installed." lang)
         (sit-for 0.75)))))
 
+;; Active Tree Sitter dans tous les modes supportés.
 (setq major-mode-remap-alist
 '((bash-mode . bash-ts-mode)
   (c-mode . c-ts-mode)
@@ -226,7 +324,14 @@
   (toml-mode . toml-ts-mode)))
 
 
-;; Gestion des marque-pages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Bookmarks
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Marque-pages à la Visual Studio : ligne surlignée, navigation entre marques.
+;; bm-cycle-all-buffers étend la navigation à tous les buffers ouverts.
 (use-package bm
   :config
   (setq bm-cycle-all-buffers t)
@@ -234,13 +339,27 @@
    '(bm-face ((t (:background "#ffafff"))))))
 
 
-;; Accolades ouvrantes alignées sous le mot clé
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   C & C++
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Accolades ouvrantes alignées sous le mot-clé.
 (c-set-offset (quote substatement-open) 0)
 
-;; Ouvre les .h comme du C++, et non comme du C
-(setq auto-mode-alist (append '(("\.h$" . c++-mode)) auto-mode-alist))
+;; Ouvre les .h comme du C++, et non comme du C.
+(setq auto-mode-alist (append '(("\\.h$" . c++-mode)) auto-mode-alist))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   CMake
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Mode majeur pour les fichiers CMake. Désactive l'indentation automatique
+;; (electric-indent-mode) qui gêne dans ce contexte.
 (use-package cmake-mode
   :config (setq auto-mode-alist
 				(append '(("CMakeLists\\.txt\\'" . cmake-mode))
@@ -251,6 +370,14 @@
   :config (add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Corfu
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Complétion automatique en pop-up. Navigation avec Tab/S-Tab, insertion avec
+;; RET. kind-icon ajoute des icônes dans le pop-up de complétion.
 ;; À tester et à terminer
 (use-package corfu
   ;; :init
@@ -272,17 +399,38 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-;; Ediff compare les fichiers cote à cote (et non l'un en dessous de l'autre).
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Ediff
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Compare les fichiers côte à côte (et non l'un en dessous de l'autre).
 (setq ediff-split-window-function 'split-window-horizontally)
-;; Reste dans la fenêtre courrante (n'ouvre pas de nouvelle fenêtre).
+;; Reste dans la fenêtre courante (n'ouvre pas de nouvelle fenêtre).
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Graphviz
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Mode majeur pour les fichiers .dot. C-c v pour prévisualiser le rendu.
 (use-package graphviz-dot-mode
   :config
   (define-key graphviz-dot-mode-map (kbd "C-c v") 'graphviz-dot-preview))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								    Helm
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Framework de sélection interactive. Remplace M-x, C-x C-f, C-x b, etc.
+;; Préfixe C-c h pour les commandes Helm (remplace C-x c).
 (use-package helm
   :init
   (global-set-key (kbd "C-c h") 'helm-command-prefix)
@@ -304,29 +452,65 @@
   (helm-mode 1))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Htmlize
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Exporte un buffer en HTML en respectant la mise en évidence syntaxique.
 (use-package htmlize)
 
 
-;; Surligne toutes les occurrences du mot se trouvant sous le curseur.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						   Idle Highlight Mode
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Surligne toutes les occurrences du mot sous le curseur après un temps
+;; d'inactivité. Activé dans tous les modes de développement.
 (use-package idle-highlight-mode
   :hook
   (prog-mode . idle-highlight-mode))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;									Lisp
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Affiche les infos disponibles sur les fonctions/variables dans la zone
+;; d'écho (eldoc-mode) pour les contextes Lisp.
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'eldoc-mode)
 (add-hook 'ielm-mode-hook 'eldoc-mode)
 
 
-;; On ne charge magit que si git est trouvé pour contourner un bug qui paralyse
-;; Emacs au démarrage.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Magit
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; On ne charge Magit que si git est trouvé, pour contourner un bug qui
+;; paralyse Emacs au démarrage en l'absence de git.
 (if (executable-find "git")
     (use-package magit
       :bind
       ("C-x g" . magit-status)))
 
 
-;; Pour avoir le mode shell dans un here-document en mode texte.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								 MMM Mode
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Fait cohabiter plusieurs modes majeurs dans un même buffer.
+;; Ici : active shell-script-mode entre <<EOF et ^EOF (here documents)
+;; dans les buffers text-mode.
 (use-package mmm-mode
   :config
   (setq mmm-parse-when-idle t)
@@ -339,20 +523,42 @@
   (mmm-add-mode-ext-class 'text-mode nil 'here-doc))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								    Org
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; On ne troncature pas les lignes ; indentation selon la profondeur.
 (setq org-startup-truncated nil)
 (setq org-startup-indented t)
+
+;; Dans les blocs de code : coloration syntaxique, Tab pour indenter.
 (setq org-src-fontify-natively t)
 (setq org-src-tab-acts-natively t)
+
+;; Évalue les blocs de code et les liens shell/Lisp sans confirmation.
 (setq org-confirm-babel-evaluate nil)
 (setq org-confirm-shell-link-function nil)
 (setq org-confirm-elisp-link-function nil)
+
+;; À l'export : langue française, pas de numéros de section, titres sur 3
+;; niveaux max, pas d'auteur.
 (setq org-export-default-language "fr")
 (setq org-export-with-section-numbers nil)
 (setq org-export-headline-levels 3)
 (setq org-export-with-author nil)
 
 
-;; Enjolive certaines séquences avec ce que certains appellent des "ligatures"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						   Prettify Symbols
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Remplace certaines séquences par un caractère composé à l'affichage
+;; (≠, ≤, →, ⇒…). Les remplacements s'appliquent à tous les modes dérivés
+;; de prog-mode. Les chaînes et commentaires ne sont pas affectés.
 (add-hook 'prog-mode-hook
 	    (lambda ()
 	      (push '("/=" . ?≠) prettify-symbols-alist)
@@ -375,6 +581,14 @@
 (global-prettify-symbols-mode t)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								 Projectile
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Regroupe les fichiers d'un même projet (détection via .git, etc.).
+;; C-t pour basculer entre fichiers associés (foo.h ↔ foo.c).
 (use-package projectile
   :config
   (projectile-mode +1)
@@ -388,24 +602,50 @@
   (helm-projectile-on))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						   Rainbow Delimiters
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Colorie les parenthèses, accolades et crochets par paires imbriquées.
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
 
-;; Les chaines représentant une couleur sont surlignées avec cette couleur
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							   Rainbow Mode
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Les chaînes représentant une couleur sont surlignées avec cette couleur.
 (use-package rainbow-mode
   :hook
   (prog-mode . rainbow-mode))
 
 
-;; Pour naviguer facilement parmis les buffers qui vont ensemble
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Related
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Navigue facilement parmi les buffers qui vont ensemble (même base de nom).
+;; Ex. : foo.h → foo.c → foo.org avec C-x <end>.
 (use-package related
   :config
   (related-mode)
   :bind
   ("C-x <end>" . related-switch-buffer))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;							  Shell scripts
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Les fichiers en .sh s'ouvrent avec shell-script-mode, indépendamment de leur
 ;; shebang.
@@ -415,15 +655,25 @@
 (add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Souris
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; La molette défile de 2 lignes à la fois, à vitesse constante.
 (setq mouse-wheel-scroll-amount '(2))
 (setq mouse-wheel-progressive-speed nil)
 
 
-;; Change le comportement de la touche Tab
-;; - Tab ne sert plus à indenter la ligne, mais aligne le texte sur le prochain
-;;   arrêt de tabulation
-;; - Shift-Tab remplit la fonction opposée, et aligne le texte sur l'arrêt de
-;;   tabulation précédent
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;						   TabTab Minor Mode
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Tab aligne sur l'arrêt de tabulation suivant ; S-Tab sur le précédent.
+;; Activé initialement pour cmake-mode.
 (defun prev-tab-to-tab-stop ()
   "Remove spaces or tabs to next defined tab-stop column."
   (interactive)
@@ -444,14 +694,28 @@
 (add-hook 'cmake-mode-hook 'tab-tab-mode)
 
 
-(setq auto-mode-alist (append '(("\.tm$" . tcl-mode)) auto-mode-alist))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;									Tcl
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Ouvre les .tm comme des modules Tcl.
+(setq auto-mode-alist (append '(("\\.tm$" . tcl-mode)) auto-mode-alist))
 
 
-;; Le thème par défaut n'en est pas un à proprement parler. Il gagne à être
-;; remplacé par un vrai thème d'apparence similaire.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Thèmes
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; standard-themes donne une vraie structure au thème par défaut d'Emacs, ce
+;; qui évite des problèmes lors des changements de thème.
 (use-package standard-themes
   :config (load-theme 'standard-light t))
 
+;; Itère sur standard-light → standard-dark → leuven → nord (touche F9).
 (defun switch-theme ()
   "Itereate over some predefined themes"
   (interactive)
@@ -466,35 +730,66 @@
     (load-theme 'standard-light t))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Tramp
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Utilise SSH pour les transferts de fichiers distants.
 (setq tramp-default-method "ssh")
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								   Unfill
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; La fonction fill permet de découper correctement les lignes trop longues, et
-;; le paquet unfill fournit la fonction inverse, celle qui recolle les lignes...
-;; Et même mieux, il fournit également unfill-toggle, qui passe d'un état à
-;; l'autre.
+;; unfill-toggle (M-q) bascule entre fill et unfill sur la région ou le
+;; paragraphe.
 (use-package unfill
   :bind
   ("M-q" . unfill-toggle))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								  Uniquify
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Génère des libellés plus pertinents pour les buffers de mêmes noms.
+;; Ex. : foo.txt|xxx/yyy et foo.txt|zzz/ttt plutôt que deux fois foo.txt.
+;; Package built-in, d'où :ensure nil.
 (use-package uniquify
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'post-forward))
 
 
-;; Nettoie les espaces, mais pas activé par défaut pour éviter les diffs
-;; malheureux. Éventuellement, remplacer par ws-buttler ?
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;								 Whitespace
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Visualise les espaces superflus : fins de ligne, lignes vides en début/fin
+;; de fichier, lignes trop longues. Non activé par défaut pour éviter les diffs
+;; malheureux.
 (use-package whitespace
   :config
   (setq whitespace-style '(face trailing lines empty)))
 
 
-;; Une fonction pour remettre en forme du XML. Prise sur le site de B Ferrari :
-;; http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;									XML
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Remet en forme du XML dans une région. Requiert nxml-mode.
+;; Source : http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html
 (defun pretty-print-xml-region (begin end)
   "Pretty format XML markup in region. You need to have nxml-mode
 http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
@@ -517,6 +812,14 @@ by using nxml's indentation rules."
   (message "All indented!"))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;					   Installation automatique
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Installe tous les packages listés ci-dessous si nécessaire. À lancer une
+;; fois sur une nouvelle machine.
 (defun my-package-setup()
   (interactive)
   
