@@ -1,11 +1,9 @@
 ;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
 
+;;;; Configuration Emacs 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;					  Prérequis et compilation
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Prérequis et compilation
 
 ;; Compile les packages dans le bon ordre (dépendances). Recommandé par Helm.
 ;; https://github.com/emacs-helm/helm/wiki#upgrade-or-recompile
@@ -21,11 +19,7 @@
 (setq use-package-always-ensure t)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							   Généralités
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Généralités
 
 ;; Désactive l'écran d'accueil ; Emacs s'ouvre avec le buffer *scratch*.
 (setq inhibit-startup-screen t)
@@ -67,35 +61,28 @@
 ;; surlignée (ancien comportement d'Emacs).
 (setq transient-mark-mode nil)
 
+;; Met en évidence les paires de parenthèses, accolades, crochets…
+(show-paren-mode 1)
+(set-face-background 'show-paren-match "#b5d5ff")
+
+;; Active UTF-8 à peu près partout. Voir discussion sur SO :
+;; https://stackoverflow.com/a/2903256
+(set-language-environment 'utf-8)
+
 ;; En mode graphique, lance Emacs en mode serveur (accès via emacsclient).
 (when window-system (server-start))
 
 ;; Pour que require trouve les modules dans ce répertoire.
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 
-
 ;; Place les backups et les sauvegardes auto dans un répertoire temporaire
 ;; (/tmp sous Linux, %TEMP% sous Windows, /var/folders/… sous Mac).
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;; Met en évidence la ligne courante dans Dired.
-(add-hook 'dired-mode-hook 'hl-line-mode)
+;;; Raccourcis Fn
 
-
-;; Sur Mac, Dired utilise GNU ls si disponible.
-(when (eq system-type 'darwin)
-  (if (file-executable-p "/usr/local/bin/gls")
-	(setq insert-directory-program "/usr/local/bin/gls")))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							  Raccourcis Fn
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; F1  : view-mode (lecture seule). C/S-F1 : revert-buffer.
+;; F1 : view-mode (lecture seule). C/S-F1 : revert-buffer.
 ;; À la place de view-order-manuals qui est normalement sur f1
 (global-set-key (kbd "<f1>")	'view-mode)
 (global-set-key (kbd "C-<f1>")	'revert-buffer)
@@ -135,34 +122,19 @@
 (global-set-key (kbd "<f9>")	'switch-theme)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   UTF-8
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Paramétrage satisfaisant pour activer UTF-8 à peu près partout.
-;; https://stackoverflow.com/a/2903256
-(set-language-environment 'utf-8)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;					  Navigation dans les buffers
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Navigation dans les buffers
 
 ;; Saute les buffers automatiques (*compilation*, *dired*, *helm*…).
 ;; navigate-nostar-buffer cherche le prochain buffer ne commençant pas par *.
 (defun navigate-nostar-buffer (&optional previous)
   "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
-  (let ((start-buffer (buffer-name)))
-    (cl-flet ((next-f () (if previous (next-buffer) (previous-buffer))))
-	(next-f)
-	(while
-	    (and (string-match-p "^\*" (buffer-name))
-		 (not (equal start-buffer (buffer-name))))
-	  (next-f)))))
+  (let ((start-buffer (buffer-name))
+	(step (if previous #'previous-buffer #'next-buffer)))
+    (funcall step)
+    (while
+	(and (string-match-p "^\*" (buffer-name))
+	     (not (equal start-buffer (buffer-name))))
+      (funcall step))))
 
 (defun navigate-next-nostar-buffer ()
   "Navigate to next \"no star\" buffer."
@@ -179,11 +151,7 @@
 (global-set-key [remap previous-buffer] 'navigate-previous-nostar-buffer)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							  Copier / coller
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Copier / coller
 
 ;; Le bouton du milieu colle au niveau du point, sans déplacer le curseur.
 (setq mouse-yank-at-point t)
@@ -195,22 +163,7 @@
 (setq mouse-drag-copy-region t)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						  Parenthèses et compagnie
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Met en évidence les paires de parenthèses, accolades, crochets…
-(show-paren-mode 1)
-(set-face-background 'show-paren-match "#b5d5ff")
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							 Ajustements à l'OS
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Ajustements à l'OS
 
 ;; Ajustements selon la plateforme : police et raccourcis clavier.
 (cond
@@ -218,7 +171,9 @@
   (progn
 	(message "Tweak Emacs for Linux")
 	;; Police du terminal Xfce.
-	(set-face-font 'default "-UKWN-Adwaita Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+	(set-face-font
+	 'default
+	 "-UKWN-Adwaita Mono-regular-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 	))
  ((string-match "apple" system-configuration)
   (progn
@@ -253,26 +208,17 @@
 	(set-mac-keys))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						  Gestionnaire de paquets
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Gestionnaire de paquets
 
 ;; Charge le gestionnaire de paquets avec les dépôts MELPA et Org.
 (use-package package
-  :config (add-to-list 'package-archives
-					   '("MELPA" . "http://melpa.org/packages/") t)
-  :config (add-to-list 'package-archives
-					   '("Org" . "https://orgmode.org/elpa/") t)
-  :config (package-initialize))
+  :config
+  (add-to-list 'package-archives '("MELPA" . "http://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("Org" . "https://orgmode.org/elpa/") t)
+  (package-initialize))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							   Tree Sitter
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Tree Sitter
 
 ;; Sources des grammaires Tree Sitter (parseurs compilés par langage).
 ;; Lancer my-ts-languages-setup une fois pour les installer.
@@ -283,17 +229,21 @@
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (html "https://github.com/tree-sitter/tree-sitter-html")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript"
+					"master" "src")
         (json "https://github.com/tree-sitter/tree-sitter-json")
         (lua "https://github.com/Azganoth/tree-sitter-lua")
         (make "https://github.com/alemuller/tree-sitter-make")
         (python "https://github.com/tree-sitter/tree-sitter-python")
-        (php "https://github.com/tree-sitter/tree-sitter-php" "master" "php/src")
+        (php "https://github.com/tree-sitter/tree-sitter-php"
+			 "master" "php/src")
         (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
         (rust "https://github.com/tree-sitter/tree-sitter-rust")
         (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript"
+			 "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+					"master" "typescript/src")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")
         (zig "https://github.com/maxxnino/tree-sitter-zig")))
 
@@ -324,11 +274,7 @@
   (toml-mode . toml-ts-mode)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Bookmarks
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Bookmarks
 
 ;; Marque-pages à la Visual Studio : ligne surlignée, navigation entre marques.
 ;; bm-cycle-all-buffers étend la navigation à tous les buffers ouverts.
@@ -339,11 +285,7 @@
    '(bm-face ((t (:background "#ffafff"))))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   C & C++
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; C & C++
 
 ;; Accolades ouvrantes alignées sous le mot-clé.
 (c-set-offset (quote substatement-open) 0)
@@ -352,11 +294,7 @@
 (setq auto-mode-alist (append '(("\\.h$" . c++-mode)) auto-mode-alist))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   CMake
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; CMake
 
 ;; Mode majeur pour les fichiers CMake. Désactive l'indentation automatique
 ;; (electric-indent-mode) qui gêne dans ce contexte.
@@ -370,11 +308,7 @@
   :config (add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Corfu
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Corfu
 
 ;; Complétion automatique en pop-up. Navigation avec Tab/S-Tab, insertion avec
 ;; RET. kind-icon ajoute des icônes dans le pop-up de complétion.
@@ -399,11 +333,18 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Ediff
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dired
+
+;; Met en évidence la ligne courante dans Dired.
+(add-hook 'dired-mode-hook 'hl-line-mode)
+
+;; Sur Mac, Dired utilise GNU ls si disponible.
+(when (eq system-type 'darwin)
+  (if (file-executable-p "/usr/local/bin/gls")
+	(setq insert-directory-program "/usr/local/bin/gls")))
+
+
+;;; Ediff
 
 ;; Compare les fichiers côte à côte (et non l'un en dessous de l'autre).
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -411,11 +352,7 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Graphviz
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Graphviz
 
 ;; Mode majeur pour les fichiers .dot. C-c v pour prévisualiser le rendu.
 (use-package graphviz-dot-mode
@@ -423,11 +360,7 @@
   (define-key graphviz-dot-mode-map (kbd "C-c v") 'graphviz-dot-preview))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								    Helm
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Helm
 
 ;; Framework de sélection interactive. Remplace M-x, C-x C-f, C-x b, etc.
 ;; Préfixe C-c h pour les commandes Helm (remplace C-x c).
@@ -452,21 +385,13 @@
   (helm-mode 1))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Htmlize
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Htmlize
 
 ;; Exporte un buffer en HTML en respectant la mise en évidence syntaxique.
 (use-package htmlize)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						   Idle Highlight Mode
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Idle Highlight Mode
 
 ;; Surligne toutes les occurrences du mot sous le curseur après un temps
 ;; d'inactivité. Activé dans tous les modes de développement.
@@ -475,11 +400,7 @@
   (prog-mode . idle-highlight-mode))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;									Lisp
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Lisp
 
 ;; Affiche les infos disponibles sur les fonctions/variables dans la zone
 ;; d'écho (eldoc-mode) pour les contextes Lisp.
@@ -488,11 +409,7 @@
 (add-hook 'ielm-mode-hook 'eldoc-mode)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Magit
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Magit
 
 ;; On ne charge Magit que si git est trouvé, pour contourner un bug qui
 ;; paralyse Emacs au démarrage en l'absence de git.
@@ -502,11 +419,7 @@
       ("C-x g" . magit-status)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								 MMM Mode
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; MMM Mode
 
 ;; Fait cohabiter plusieurs modes majeurs dans un même buffer.
 ;; Ici : active shell-script-mode entre <<EOF et ^EOF (here documents)
@@ -523,13 +436,9 @@
   (mmm-add-mode-ext-class 'text-mode nil 'here-doc))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								    Org
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Org
 
-;; On ne troncature pas les lignes ; indentation selon la profondeur.
+;; On ne tronque pas les lignes ; indentation selon la profondeur.
 (setq org-startup-truncated nil)
 (setq org-startup-indented t)
 
@@ -550,11 +459,7 @@
 (setq org-export-with-author nil)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						   Prettify Symbols
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Prettify Symbols
 
 ;; Remplace certaines séquences par un caractère composé à l'affichage
 ;; (≠, ≤, →, ⇒…). Les remplacements s'appliquent à tous les modes dérivés
@@ -581,11 +486,7 @@
 (global-prettify-symbols-mode t)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								 Projectile
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Projectile
 
 ;; Regroupe les fichiers d'un même projet (détection via .git, etc.).
 ;; C-t pour basculer entre fichiers associés (foo.h ↔ foo.c).
@@ -602,11 +503,7 @@
   (helm-projectile-on))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						   Rainbow Delimiters
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rainbow Delimiters
 
 ;; Colorie les parenthèses, accolades et crochets par paires imbriquées.
 (use-package rainbow-delimiters
@@ -614,11 +511,7 @@
   (prog-mode . rainbow-delimiters-mode))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							   Rainbow Mode
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rainbow Mode
 
 ;; Les chaînes représentant une couleur sont surlignées avec cette couleur.
 (use-package rainbow-mode
@@ -626,11 +519,7 @@
   (prog-mode . rainbow-mode))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Related
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Related
 
 ;; Navigue facilement parmi les buffers qui vont ensemble (même base de nom).
 ;; Ex. : foo.h → foo.c → foo.org avec C-x <end>.
@@ -641,36 +530,20 @@
   ("C-x <end>" . related-switch-buffer))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;							  Shell scripts
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Shell scripts
 
 ;; Les fichiers en .sh s'ouvrent avec shell-script-mode, indépendamment de leur
-;; shebang.
-;; TODO :
-;; Cette ligne ne fonctionne pas quand elle se trouve au début de ce fichier ?
-
 (add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-mode))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Souris
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Souris
 
 ;; La molette défile de 2 lignes à la fois, à vitesse constante.
 (setq mouse-wheel-scroll-amount '(2))
 (setq mouse-wheel-progressive-speed nil)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;						   TabTab Minor Mode
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; TabTab Minor Mode
 
 ;; Tab aligne sur l'arrêt de tabulation suivant ; S-Tab sur le précédent.
 ;; Activé initialement pour cmake-mode.
@@ -694,26 +567,22 @@
 (add-hook 'cmake-mode-hook 'tab-tab-mode)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;									Tcl
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Tcl
 
 ;; Ouvre les .tm comme des modules Tcl.
 (setq auto-mode-alist (append '(("\\.tm$" . tcl-mode)) auto-mode-alist))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Thèmes
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Thèmes
 
 ;; standard-themes donne une vraie structure au thème par défaut d'Emacs, ce
 ;; qui évite des problèmes lors des changements de thème.
 (use-package standard-themes
   :config (load-theme 'standard-light t))
+
+;; Installés pour switch-theme, mais non chargés au démarrage (:defer t).
+(use-package leuven-theme :defer t)
+(use-package nord-theme   :defer t)
 
 ;; Itère sur standard-light → standard-dark → leuven → nord (touche F9).
 (defun switch-theme ()
@@ -730,21 +599,13 @@
     (load-theme 'standard-light t))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Tramp
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Tramp
 
 ;; Utilise SSH pour les transferts de fichiers distants.
 (setq tramp-default-method "ssh")
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								   Unfill
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Unfill
 
 ;; unfill-toggle (M-q) bascule entre fill et unfill sur la région ou le
 ;; paragraphe.
@@ -753,26 +614,16 @@
   ("M-q" . unfill-toggle))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								  Uniquify
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Uniquify
 
 ;; Génère des libellés plus pertinents pour les buffers de mêmes noms.
-;; Ex. : foo.txt|xxx/yyy et foo.txt|zzz/ttt plutôt que deux fois foo.txt.
-;; Package built-in, d'où :ensure nil.
 (use-package uniquify
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'post-forward))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;								 Whitespace
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Whitespace
 
 ;; Visualise les espaces superflus : fins de ligne, lignes vides en début/fin
 ;; de fichier, lignes trop longues. Non activé par défaut pour éviter les diffs
@@ -782,14 +633,19 @@
   (setq whitespace-style '(face trailing lines empty)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;									XML
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Which Key
 
-;; Remet en forme du XML dans une région. Requiert nxml-mode.
-;; Source : http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html
+;; Affiche les raccourcis disponibles après une touche de préfixe.
+(use-package which-key
+  :ensure nil
+  :config
+  (which-key-mode))
+
+
+;;; XML
+
+;; Remet en forme du XML. Fonction prise sur le site de Benjamin Ferrari :
+;; http://blog.bookworm.at/2007/03/pretty-print-xml-with-emacs.html
 (defun pretty-print-xml-region (begin end)
   "Pretty format XML markup in region. You need to have nxml-mode
 http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
@@ -802,60 +658,12 @@ by using nxml's indentation rules."
     (goto-char begin)
     ;; split <foo><foo> or </foo><foo>, but not <foo></foo>
     (while (search-forward-regexp ">[ \t]*<[^/]" end t)
-	(backward-char 2) (insert "\n") (incf end))
+	(backward-char 2) (insert "\n") (setq end (1+ end)))
     ;; split <foo/></foo> and </foo></foo>
     (goto-char begin)
     (while (search-forward-regexp "<.*?/.*?>[ \t]*<" end t)
-	(backward-char) (insert "\n") (incf end))
+	(backward-char) (insert "\n") (setq end (1+ end)))
     (indent-region begin end nil)
     (normal-mode))
   (message "All indented!"))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;					   Installation automatique
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Installe tous les packages listés ci-dessous si nécessaire. À lancer une
-;; fois sur une nouvelle machine.
-(defun my-package-setup()
-  (interactive)
-  
-  (add-to-list 'package-archives
-			   '("MELPA" . "http://melpa.org/packages/") t)
-  (unless package-archive-contents
-    (package-refresh-contents))
-  (dolist (package '(ac-capf
-					 ac-helm
-					 auto-complete-config
-					 bm
-					 cmake-mode
-					 corfu
-					 epa-file
-					 fuzzy
-					 graphviz-dot-mode
-					 helm
-					 helm-projectile
-					 htmlize
-					 idle-highlight-mode
-					 kind-icon
-					 leuven-theme
-					 nord-theme
-					 magit
-					 mmm-mode
-					 projectile
-					 rainbow-delimiters
-					 rainbow-mode
-					 related
-					 standard-themes
-					 unfill
-					 uniquify
-					 whitespace
-					 ws-butler
-					 ))
-    (message "---> %s" package)
-    (unless (package-installed-p package)
-	  (ignore-errors
-		(package-install package)))))
