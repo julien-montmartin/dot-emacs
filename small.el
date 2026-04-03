@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp ; fill-column: 80 ; indent-tabs-mode: t -*-
 
-;;;; Configuration Emacs 
+;;;; Configuration Emacs
 
 
 ;;; Prérequis et compilation
@@ -186,25 +186,25 @@
 	  (interactive)
 	  (setq mac-command-key-is-meta t)
 	  (setq mac-command-modifier 'meta)
-	  
+
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-option-modifier nil)
-	  
+
 	  (global-set-key (kbd "M-c") 'kill-ring-save)
 	  (global-set-key (kbd "M-v") 'yank))
-	
+
 	(defun unset-mac-keys()
 	  (interactive)
-	  
+
 	  (setq mac-command-key-is-meta nil)
 	  (setq mac-command-modifier 'super)
-	  
+
 	  (setq mac-option-key-is-meta nil)
 	  (setq mac-option-modifier 'meta)
-	  
+
 	  (global-set-key (kbd "S-c") 'kill-ring-save)
 	  (global-set-key (kbd "S-v") 'yank))
-	
+
 	(set-mac-keys))))
 
 
@@ -417,6 +417,13 @@
     (use-package magit
       :bind
       ("C-x g" . magit-status)))
+
+
+;;; Markdown
+
+(use-package mark-graf
+  :config
+  (setq auto-mode-alist (append '(("\\.md$" . mark-graf-mode)) auto-mode-alist)))
 
 
 ;;; MMM Mode
@@ -666,4 +673,3 @@ by using nxml's indentation rules."
     (indent-region begin end nil)
     (normal-mode))
   (message "All indented!"))
-
