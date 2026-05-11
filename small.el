@@ -44,8 +44,8 @@
 
 ;; Indentation avec des tabulations de 4 caractères.
 (setq-default c-basic-offset 4
-	      tab-width 4
-	      indent-tabs-mode t)
+		  tab-width 4
+		  indent-tabs-mode t)
 
 ;; En fin de buffer, les touches fléchées ne créent pas de nouvelle ligne.
 (setq-default next-line-add-newlines nil)
@@ -130,11 +130,11 @@
   "Navigate to next \"no star\" buffer, or previous one if PREVIOUS is t."
   (let ((start-buffer (buffer-name))
 	(step (if previous #'previous-buffer #'next-buffer)))
-    (funcall step)
-    (while
+	(funcall step)
+	(while
 	(and (string-match-p "^\*" (buffer-name))
-	     (not (equal start-buffer (buffer-name))))
-      (funcall step))))
+		 (not (equal start-buffer (buffer-name))))
+	  (funcall step))))
 
 (defun navigate-next-nostar-buffer ()
   "Navigate to next \"no star\" buffer."
@@ -223,39 +223,39 @@
 ;; Sources des grammaires Tree Sitter (parseurs compilés par langage).
 ;; Lancer my-ts-languages-setup une fois pour les installer.
 (setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (c "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (go "https://github.com/tree-sitter/tree-sitter-go")
-        (html "https://github.com/tree-sitter/tree-sitter-html")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript"
+	  '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+		(c "https://github.com/tree-sitter/tree-sitter-c")
+		(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+		(css "https://github.com/tree-sitter/tree-sitter-css")
+		(go "https://github.com/tree-sitter/tree-sitter-go")
+		(html "https://github.com/tree-sitter/tree-sitter-html")
+		(javascript "https://github.com/tree-sitter/tree-sitter-javascript"
 					"master" "src")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (lua "https://github.com/Azganoth/tree-sitter-lua")
-        (make "https://github.com/alemuller/tree-sitter-make")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (php "https://github.com/tree-sitter/tree-sitter-php"
+		(json "https://github.com/tree-sitter/tree-sitter-json")
+		(lua "https://github.com/Azganoth/tree-sitter-lua")
+		(make "https://github.com/alemuller/tree-sitter-make")
+		(python "https://github.com/tree-sitter/tree-sitter-python")
+		(php "https://github.com/tree-sitter/tree-sitter-php"
 			 "master" "php/src")
-        (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust")
-        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript"
+		(ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+		(rust "https://github.com/tree-sitter/tree-sitter-rust")
+		(toml "https://github.com/tree-sitter/tree-sitter-toml")
+		(tsx "https://github.com/tree-sitter/tree-sitter-typescript"
 			 "master" "tsx/src")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+		(typescript "https://github.com/tree-sitter/tree-sitter-typescript"
 					"master" "typescript/src")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-        (zig "https://github.com/maxxnino/tree-sitter-zig")))
+		(yaml "https://github.com/ikatyang/tree-sitter-yaml")
+		(zig "https://github.com/maxxnino/tree-sitter-zig")))
 
 (defun my-ts-languages-setup ()
   "Install all languages specified by `treesit-language-source-alist'."
   (interactive)
   (let ((languages (mapcar 'car treesit-language-source-alist)))
-    (dolist (lang languages)
-      (unless (treesit-language-available-p lang)
-        (treesit-install-language-grammar lang)
-        (message "`%s' parser was installed." lang)
-        (sit-for 0.75)))))
+	(dolist (lang languages)
+	  (unless (treesit-language-available-p lang)
+		(treesit-install-language-grammar lang)
+		(message "`%s' parser was installed." lang)
+		(sit-for 0.75)))))
 
 ;; Active Tree Sitter dans tous les modes supportés.
 (setq major-mode-remap-alist
@@ -323,9 +323,9 @@
   (setq corfu-cycle t)
   (setq corfu-preview-current t)
   :bind (:map corfu-map
-              ("TAB" . corfu-next)
-              ("S-TAB" . corfu-previous)
-              ("RET" . corfu-insert)))
+			  ("TAB" . corfu-next)
+			  ("S-TAB" . corfu-previous)
+			  ("RET" . corfu-insert)))
 
 (use-package kind-icon
   :after corfu
@@ -414,16 +414,21 @@
 ;; On ne charge Magit que si git est trouvé, pour contourner un bug qui
 ;; paralyse Emacs au démarrage en l'absence de git.
 (if (executable-find "git")
-    (use-package magit
-      :bind
-      ("C-x g" . magit-status)))
+	(use-package magit
+	  :bind
+	  ("C-x g" . magit-status)))
 
 
-;;; Markdown
+;;; Mark Graf
 
+;; Pas de plit view pour le markdown, on édite le rendu directement.
+;; https://github.com/hyperZphere/mark-graf
 (use-package mark-graf
-  :config
-  (setq auto-mode-alist (append '(("\\.md$" . mark-graf-mode)) auto-mode-alist)))
+  :ensure t
+  ;; Configuration idiomatique suggérée par la doc, mais il y a un pb
+  ;; d'initialisation et de définition de mark-graph-mode...
+  ;; :mode ("\\.md\\'" "\\.markdown\\'"))
+  :config (add-to-list 'auto-mode-alist '("\\.md\\'" . mark-graf-mode)))
 
 
 ;;; MMM Mode
@@ -472,23 +477,23 @@
 ;; (≠, ≤, →, ⇒…). Les remplacements s'appliquent à tous les modes dérivés
 ;; de prog-mode. Les chaînes et commentaires ne sont pas affectés.
 (add-hook 'prog-mode-hook
-	    (lambda ()
-	      (push '("/=" . ?≠) prettify-symbols-alist)
-	      (push '("!=" . ?≠) prettify-symbols-alist)
-	      (push '("==" . ?⩵) prettify-symbols-alist)
-	      (push '("&&" . ?∧) prettify-symbols-alist)
-	      (push '("||" . ?∨) prettify-symbols-alist)
-	      (push '("<=" . ?≤) prettify-symbols-alist)
-	      (push '(">=" . ?≥) prettify-symbols-alist)
-	      (push '("<<" . ?≪) prettify-symbols-alist)
-	      (push '(">>" . ?≫) prettify-symbols-alist)
-	      (push '("::" . ?∷) prettify-symbols-alist)
-	      (push '("->" . ?→) prettify-symbols-alist)
-	      (push '("=>" . ?⇒) prettify-symbols-alist)
-	      (push '("and" . ?∧) prettify-symbols-alist)
-	      (push '("not" . ?¬) prettify-symbols-alist)
-	      (push '("or" . ?∨) prettify-symbols-alist)
-	      ))
+		(lambda ()
+		  (push '("/=" . ?≠) prettify-symbols-alist)
+		  (push '("!=" . ?≠) prettify-symbols-alist)
+		  (push '("==" . ?⩵) prettify-symbols-alist)
+		  (push '("&&" . ?∧) prettify-symbols-alist)
+		  (push '("||" . ?∨) prettify-symbols-alist)
+		  (push '("<=" . ?≤) prettify-symbols-alist)
+		  (push '(">=" . ?≥) prettify-symbols-alist)
+		  (push '("<<" . ?≪) prettify-symbols-alist)
+		  (push '(">>" . ?≫) prettify-symbols-alist)
+		  (push '("::" . ?∷) prettify-symbols-alist)
+		  (push '("->" . ?→) prettify-symbols-alist)
+		  (push '("=>" . ?⇒) prettify-symbols-alist)
+		  (push '("and" . ?∧) prettify-symbols-alist)
+		  (push '("not" . ?¬) prettify-symbols-alist)
+		  (push '("or" . ?∨) prettify-symbols-alist)
+		  ))
 
 (global-prettify-symbols-mode t)
 
@@ -560,16 +565,16 @@
   (and abbrev-mode (= (char-syntax (preceding-char)) ?w)
 	 (expand-abbrev))
   (let ((nexttab (indent-next-tab-stop (current-column) t)))
-    (delete-horizontal-space t)
-    (indent-to nexttab)))
+	(delete-horizontal-space t)
+	(indent-to nexttab)))
 
 (define-minor-mode tab-tab-mode
   "Tab-to-tab in both directions"
   :lighter " TTm"
   :keymap (let ((map (make-sparse-keymap)))
-	      (define-key map (kbd "<tab>") 'tab-to-tab-stop)
-	      (define-key map (kbd "S-<tab>") 'prev-tab-to-tab-stop)
-	      map))
+		  (define-key map (kbd "<tab>") 'tab-to-tab-stop)
+		  (define-key map (kbd "S-<tab>") 'prev-tab-to-tab-stop)
+		  map))
 
 (add-hook 'cmake-mode-hook 'tab-tab-mode)
 
@@ -597,13 +602,13 @@
   (interactive)
   (cond
    ((eq 'standard-light (car custom-enabled-themes))
-    (load-theme 'standard-dark t))
+	(load-theme 'standard-dark t))
    ((eq 'standard-dark (car custom-enabled-themes))
-    (load-theme 'leuven t))
+	(load-theme 'leuven t))
    ((eq 'leuven (car custom-enabled-themes))
-    (load-theme 'nord t))
+	(load-theme 'nord t))
    (t
-    (load-theme 'standard-light t))))
+	(load-theme 'standard-light t))))
 
 
 ;;; Tramp
@@ -661,15 +666,15 @@ nothing but whitespace between them.  It then indents the markup
 by using nxml's indentation rules."
   (interactive "r")
   (save-excursion
-    (nxml-mode)
-    (goto-char begin)
-    ;; split <foo><foo> or </foo><foo>, but not <foo></foo>
-    (while (search-forward-regexp ">[ \t]*<[^/]" end t)
+	(nxml-mode)
+	(goto-char begin)
+	;; split <foo><foo> or </foo><foo>, but not <foo></foo>
+	(while (search-forward-regexp ">[ \t]*<[^/]" end t)
 	(backward-char 2) (insert "\n") (setq end (1+ end)))
-    ;; split <foo/></foo> and </foo></foo>
-    (goto-char begin)
-    (while (search-forward-regexp "<.*?/.*?>[ \t]*<" end t)
+	;; split <foo/></foo> and </foo></foo>
+	(goto-char begin)
+	(while (search-forward-regexp "<.*?/.*?>[ \t]*<" end t)
 	(backward-char) (insert "\n") (setq end (1+ end)))
-    (indent-region begin end nil)
-    (normal-mode))
+	(indent-region begin end nil)
+	(normal-mode))
   (message "All indented!"))
