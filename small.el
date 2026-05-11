@@ -213,7 +213,8 @@
 ;; Charge le gestionnaire de paquets avec les dépôts MELPA et Org.
 (use-package package
   :config
-  (add-to-list 'package-archives '("MELPA" . "http://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+  (add-to-list 'package-archives '("MELPA" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("Org" . "https://orgmode.org/elpa/") t)
   (package-initialize))
 
@@ -412,8 +413,8 @@
 ;; paralyse Emacs au démarrage en l'absence de git.
 (if (executable-find "git")
 	(use-package magit
-	  :bind
-	  ("C-x g" . magit-status)))
+	  :pin MELPA
+	  :bind ("C-x g" . magit-status)))
 
 
 ;;; Mark Graf
