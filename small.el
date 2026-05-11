@@ -291,7 +291,7 @@
 (c-set-offset (quote substatement-open) 0)
 
 ;; Ouvre les .h comme du C++, et non comme du C.
-(setq auto-mode-alist (append '(("\\.h$" . c++-mode)) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 
 ;;; CMake
@@ -299,11 +299,8 @@
 ;; Mode majeur pour les fichiers CMake. Désactive l'indentation automatique
 ;; (electric-indent-mode) qui gêne dans ce contexte.
 (use-package cmake-mode
-  :config (setq auto-mode-alist
-				(append '(("CMakeLists\\.txt\\'" . cmake-mode))
-						'(("\\.cmake\\'" . cmake-mode))
-						auto-mode-alist))
-
+  :ensure t
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
   ;; Pas d'indentation automatique, en particulier après Enter
   :config (add-hook 'cmake-mode-hook (lambda () (electric-indent-mode -1))))
 
@@ -582,7 +579,7 @@
 ;;; Tcl
 
 ;; Ouvre les .tm comme des modules Tcl.
-(setq auto-mode-alist (append '(("\\.tm$" . tcl-mode)) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.tm\\'" . tcl-mode))
 
 
 ;;; Thèmes
